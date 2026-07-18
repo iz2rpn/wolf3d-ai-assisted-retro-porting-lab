@@ -437,8 +437,62 @@ def parse_size_output(output: str) -> dict[str, int]:
     return sections
 
 
+def parse_device_metrics(path: Path) -> dict[str, Any]:
+    """Parse key=value samples emitted by the Z6S frame presenter."""
+    records: list[dict[str, Any]] = []
+    for number, line in enumerate(read_text(path).splitlines(), start=1):
+        values: dict[str, Any] = {"line": number}
+        for token in line.split():
+            if "=" not in token:
+                continue
+            key, value = token.split("=", 1)
+            values[key] = int(value) if re.fullmatch(r"-?\d+", value) else value
+        if values.get("metric"):
+            records.append(values)
+
+    first = next(
+        (item for item in records if item.get("metric") == "sdl_first_present"),
+        None,
+    )
+    windows = [item for item in records if item.get("metric") == "present_window"]
+    fps_values = [item["fps_milli"] / 1000.0 for item in windows if "fps_milli" in item]
+    interval_values = [
+        item["avg_present_interval_us"] / 1000.0
+        for item in windows
+        if "avg_present_interval_us" in item
+    ]
+    rss_values = [item["maxrss_kb"] * 1024 for item in windows if item.get("maxrss_kb", -1) >= 0]
+
+    def summary(values: Sequence[float]) -> dict[str, float | int] | None:
+        if not values:
+            return None
+        return {
+            "samples": len(values),
+            "mean": sum(values) / len(values),
+            "min": min(values),
+            "max": max(values),
+        }
+
+    return {
+        "source": str(path),
+        "raw_samples": records,
+        "sdl_first_present_ms": first.get("elapsed_ms") if first else None,
+        "present_fps": summary(fps_values),
+        "average_present_interval_ms": summary(interval_values),
+        "peak_resident_memory_bytes": max(rss_values) if rss_values else None,
+        "window_samples": len(windows),
+        "interpretation": (
+            "Presentation frequency measures completed VL_Z6SPresent calls. "
+            "It is not a GPU counter and should be reported with the target configuration."
+        ),
+    }
+
+
 def capture_benchmark(
-    root: Path, config: dict[str, Any], binaries: Sequence[str]
+    root: Path,
+    config: dict[str, Any],
+    binaries: Sequence[str],
+    device_log: Path | None = None,
 ) -> dict[str, Any]:
     profiles: dict[str, Any] = {}
     size_tool = next(
@@ -473,6 +527,12 @@ def capture_benchmark(
         name: None for name in config.get("benchmark", {}).get("physical_metrics", ())
     }
     physical["reason"] = "Physical metrics require an instrumented target run."
+    device_metrics = None
+    if device_log is not None:
+        resolved_log = device_log if device_log.is_absolute() else root / device_log
+        if not resolved_log.is_file():
+            raise RetroPortError(f"device metrics log does not exist: {resolved_log}")
+        device_metrics = parse_device_metrics(resolved_log)
     return {
         "schema_version": SCHEMA_VERSION,
         "captured_at": utc_now(),
@@ -481,6 +541,7 @@ def capture_benchmark(
         "size_tool": size_tool,
         "profiles": profiles,
         "physical_metrics": physical,
+        "device_metrics": device_metrics,
     }
 
 
@@ -522,6 +583,7 @@ def build_parser() -> argparse.ArgumentParser:
 
     benchmark_parser = subparsers.add_parser("benchmark", help="capture reproducible binary facts")
     benchmark_parser.add_argument("--binary", action="append", default=[], metavar="LABEL=PATH")
+    benchmark_parser.add_argument("--device-log", type=Path, help="Z6S performance.log to import")
     benchmark_parser.add_argument("--output", type=Path, required=True)
 
     compare_parser = subparsers.add_parser("compare", help="compare numeric fields in two benchmark files")
@@ -562,7 +624,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             )
             return 0 if result["passed"] else 1
         if args.command == "benchmark":
-            report = capture_benchmark(root, config, args.binary)
+            report = capture_benchmark(root, config, args.binary, args.device_log)
             write_json(resolve_output(root, args.output), report)
             print(f"Wrote benchmark: {args.output}")
             return 0
@@ -588,4 +650,3 @@ def main(argv: Sequence[str] | None = None) -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

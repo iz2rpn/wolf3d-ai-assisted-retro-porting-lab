@@ -1,0 +1,77 @@
+{
+  "captured_at": "2026-07-18T19:59:43Z",
+  "device_metrics": null,
+  "git_revision": "fc456c3de37c88c76efc7bf6778a7dcca9f7f2fc",
+  "host": {
+    "platform": "Linux-6.18.33.2-microsoft-standard-WSL2-x86_64-with-glibc2.43",
+    "python": "3.14.4"
+  },
+  "physical_metrics": {
+    "dropped_frames": null,
+    "fps": null,
+    "frame_time_ms": null,
+    "reason": "Physical metrics require an instrumented target run.",
+    "resident_memory_bytes": null,
+    "startup_time_ms": null,
+    "touch_latency_ms": null
+  },
+  "qualitative_device_validation": {
+    "captured_at": "2026-07-18",
+    "evidence": "https://www.youtube.com/shorts/TgmA7cbyw-s",
+    "reported_by": "device owner and project author",
+    "result": "correct, smooth operation on the physical LCD",
+    "scope_note": "Qualitative validation; it does not replace numerical telemetry."
+  },
+  "profiles": {
+    "wl1": {
+      "file_bytes": 1000384,
+      "path": "dist/z6s/wl1/wolf3d-z6s",
+      "sections": {
+        ".ARM.attributes": 43,
+        ".ARM.exidx": 1672,
+        ".ARM.extab": 708,
+        ".bss": 275968,
+        ".comment": 38,
+        ".data": 81264,
+        ".data.rel.ro": 7968,
+        ".eh_frame": 4,
+        ".fini": 8,
+        ".fini_array": 4,
+        ".got": 556,
+        ".init": 12,
+        ".init_array": 12,
+        ".rodata": 161650,
+        ".tbss": 12,
+        ".tdata": 28,
+        ".text": 735628
+      },
+      "sha256": "91bdb50fbb28cc89dc32d7ac81eda3de35dd20820abcf1553328a9a3e6879ee5"
+    },
+    "wl6": {
+      "file_bytes": 1000632,
+      "path": "dist/z6s/wl6/wolf3d-z6s",
+      "sections": {
+        ".ARM.attributes": 43,
+        ".ARM.exidx": 1672,
+        ".ARM.extab": 708,
+        ".bss": 275872,
+        ".comment": 38,
+        ".data": 81512,
+        ".data.rel.ro": 7968,
+        ".eh_frame": 4,
+        ".fini": 8,
+        ".fini_array": 4,
+        ".got": 556,
+        ".init": 12,
+        ".init_array": 12,
+        ".rodata": 161666,
+        ".tbss": 12,
+        ".tdata": 28,
+        ".text": 736156
+      },
+      "sha256": "8e6c2448e4249d031717fc1f8ee73322e97b29c6f7de5d5eda1e7c9e57132c0a"
+    }
+  },
+  "schema_version": 1,
+  "size_tool": "arm-linux-gnueabi-size"
+}

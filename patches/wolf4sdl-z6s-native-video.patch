@@ -67,7 +67,14 @@ diff --git a/id_vh.cpp b/id_vh.cpp
 diff --git a/id_vl.cpp b/id_vl.cpp
 --- a/id_vl.cpp
 +++ b/id_vl.cpp
-@@ -87,6 +87,14 @@
+@@ -3,3 +3,6 @@
+ #include <string.h>
+ #include "wl_def.h"
++#ifdef Z6S_TARGET
++#include <sys/resource.h>
++#endif
+ #pragma hdrstop
+@@ -87,6 +90,64 @@
  
  
  #ifdef Z6S_TARGET
@@ -78,11 +85,61 @@ diff --git a/id_vl.cpp b/id_vl.cpp
 +static int z6sMapHeight;
 +static int z6sSourceWidth;
 +static int z6sSourceHeight;
++static int z6sMetricsInitialized;
++static Uint32 z6sMetricsStart;
++static unsigned long z6sMetricsFrames;
++
++/* Emit one compact sample per window. This measures completed presentations,
++   not renderer internals, and stays disabled unless the launcher sets a path. */
++static void VL_Z6SRecordMetrics(SDL_Surface *source, int width, int height)
++{
++    const char *path = getenv("Z6S_METRICS_LOG");
++    if(!path || !*path)
++        return;
++
++    const Uint32 now = SDL_GetTicks();
++    if(!z6sMetricsInitialized)
++    {
++        z6sMetricsInitialized = 1;
++        z6sMetricsStart = now;
++        z6sMetricsFrames = 0;
++        FILE *fp = fopen(path, "a");
++        if(fp)
++        {
++            fprintf(fp, "metric=sdl_first_present elapsed_ms=%lu logical=%dx%d native=%dx%d\n",
++                    (unsigned long) now, source->w, source->h, width, height);
++            fclose(fp);
++        }
++    }
++
++    ++z6sMetricsFrames;
++    const Uint32 elapsed = now - z6sMetricsStart;
++    if(elapsed < 5000 || !z6sMetricsFrames)
++        return;
++
++    struct rusage usage;
++    long maxrss = getrusage(RUSAGE_SELF, &usage) == 0 ? usage.ru_maxrss : -1;
++    const unsigned long fpsMilli =
++        z6sMetricsFrames * 1000000UL / (unsigned long) elapsed;
++    const unsigned long intervalUs =
++        (unsigned long) elapsed * 1000UL / z6sMetricsFrames;
++    FILE *fp = fopen(path, "a");
++    if(fp)
++    {
++        fprintf(fp, "metric=present_window window_ms=%lu frames=%lu "
++                    "fps_milli=%lu avg_present_interval_us=%lu maxrss_kb=%ld\n",
++                (unsigned long) elapsed, z6sMetricsFrames, fpsMilli,
++                intervalUs, maxrss);
++        fclose(fp);
++    }
++    z6sMetricsStart = now;
++    z6sMetricsFrames = 0;
++}
 +
  /* The Z6S scanout interprets the unused high byte of each 32-bit pixel as
     alpha. SDL 1.2's palette blitter leaves it at zero, producing a black LCD
     even though a framebuffer dump contains the correct RGB image. */
-@@ -112,6 +120,86 @@
+@@ -112,6 +173,87 @@
      if(SDL_MUSTLOCK(screen))
          SDL_UnlockSurface(screen);
  }
@@ -164,12 +221,13 @@ diff --git a/id_vl.cpp b/id_vl.cpp
 +               z6sFrame + y * dstWidth, dstWidth * sizeof(Uint32));
 +    if(SDL_MUSTLOCK(screen))
 +        SDL_UnlockSurface(screen);
++    VL_Z6SRecordMetrics(source, dstWidth, dstHeight);
 +    SDL_Flip(screen);
 +}
  #endif
  
  /*
-@@ -136,10 +223,31 @@
+@@ -136,10 +277,31 @@
          screenBits = vidInfo->vfmt->BitsPerPixel;
      }
  
@@ -201,7 +259,7 @@ diff --git a/id_vl.cpp b/id_vl.cpp
      if(!screen)
      {
          printf("Unable to set %ix%ix%i video mode: %s\n", screenWidth,
-@@ -175,6 +283,11 @@
+@@ -175,6 +337,11 @@
      CHECKMALLOCRESULT(pixelangle);
      wallheight = (int *) malloc(screenWidth * sizeof(int));
      CHECKMALLOCRESULT(wallheight);
@@ -213,7 +271,7 @@ diff --git a/id_vl.cpp b/id_vl.cpp
  }
  
  /*
-@@ -248,11 +361,12 @@
+@@ -248,11 +415,12 @@
      else
      {
          SDL_SetPalette(curSurface, SDL_LOGPAL, &col, color, 1);
@@ -229,7 +287,7 @@ diff --git a/id_vl.cpp b/id_vl.cpp
      }
  }
  
-@@ -295,11 +409,12 @@
+@@ -295,11 +463,12 @@
          SDL_SetPalette(curSurface, SDL_LOGPAL, palette, 0, 256);
          if(forceupdate)
          {

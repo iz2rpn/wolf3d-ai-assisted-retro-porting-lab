@@ -70,6 +70,7 @@ cleanup()
 echo "Z6S Wolf3D launcher" > "$LOG"
 : > "$ROOT/audio.log"
 : > "$ROOT/input.log"
+: > "$ROOT/performance.log"
 date >> "$LOG" 2>/dev/null || true
 trap cleanup EXIT INT TERM HUP
 
@@ -114,6 +115,7 @@ export SDL_MOUSEDRV=dummy
 export Z6S_FORCE_OPAQUE=1
 export Z6S_NATIVE_WIDTH=480
 export Z6S_NATIVE_HEIGHT=272
+export Z6S_METRICS_LOG=$ROOT/performance.log
 export Z6S_FORCE_AUDIO=1
 export Z6S_ALSA_PCM=/dev/snd/pcmC0D0p
 export Z6S_TOUCH_INPUT=${Z6S_TOUCH_INPUT:-1}

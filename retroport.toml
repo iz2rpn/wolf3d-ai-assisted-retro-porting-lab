@@ -126,7 +126,7 @@ id = "fixed-render-dimensions"
 title = "Fixed logical or native dimensions"
 category = "rendering"
 severity = "low"
-regex = '(?:320\s*[x×, ]\s*200|480\s*[x×, ]\s*272|Z6S_NATIVE_(?:WIDTH|HEIGHT))'
+regex = '(?:320\s*[xX, ]\s*200|480\s*[xX, ]\s*272|Z6S_NATIVE_(?:WIDTH|HEIGHT))'
 message = "Treat logical and native dimensions as separate target constraints."
 
 [[rules]]
@@ -156,6 +156,7 @@ fast = [
 ]
 target = [
   "scripts/fetch_sources.sh",
+  "scripts/verify_patches.sh",
   "scripts/build_z6s.sh wl1",
   "scripts/build_z6s.sh wl6",
   "scripts/test_qemu.sh",

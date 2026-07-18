@@ -91,6 +91,22 @@ class RetroPortTests(unittest.TestCase):
         self.assertEqual(report["profiles"]["demo"]["sha256"], retroport.sha256_file(binary))
         self.assertIsNone(report["physical_metrics"]["fps"])
 
+    def test_device_metrics_are_parsed_without_relabeling_present_fps(self) -> None:
+        metrics = self.root / "performance.log"
+        metrics.write_text(
+            "metric=sdl_first_present elapsed_ms=240 logical=320x200 native=480x272\n"
+            "metric=present_window window_ms=5000 frames=250 fps_milli=50000 "
+            "avg_present_interval_us=20000 maxrss_kb=4096\n"
+            "metric=present_window window_ms=5000 frames=240 fps_milli=48000 "
+            "avg_present_interval_us=20833 maxrss_kb=4200\n",
+            encoding="utf-8",
+        )
+        result = retroport.parse_device_metrics(metrics)
+        self.assertEqual(result["sdl_first_present_ms"], 240)
+        self.assertEqual(result["present_fps"]["mean"], 49.0)
+        self.assertEqual(result["peak_resident_memory_bytes"], 4200 * 1024)
+        self.assertIn("VL_Z6SPresent", result["interpretation"])
+
     def test_numeric_comparison_never_fabricates_missing_values(self) -> None:
         delta = retroport.numeric_deltas(
             {"size": 10, "fps": None}, {"size": 8, "fps": None}
