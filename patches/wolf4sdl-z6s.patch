@@ -1,0 +1,364 @@
+diff --git a/id_in.cpp b/id_in.cpp
+index 95f6d6e..98546dd 100644
+--- a/id_in.cpp
++++ b/id_in.cpp
+@@ -18,6 +18,10 @@
+ //
+ 
+ #include "wl_def.h"
++#ifdef Z6S_TARGET
++#include "z6s_input.h"
++#include <SDL_mixer.h>
++#endif
+ 
+ 
+ /*
+@@ -361,18 +365,43 @@ static void processEvent(SDL_Event *event)
+ void IN_WaitAndProcessEvents()
+ {
+     SDL_Event event;
++#ifdef Z6S_TARGET
++    /* Direct evdev input cannot wake SDL_WaitEvent.  Short polling also keeps
++       the threadless ALSA mixer progressing on menu and wait screens. */
++    for(;;)
++    {
++        Z6S_InputPump();
++        Mix_Z6S_Pump();
++        if(SDL_PollEvent(&event))
++        {
++            do
++            {
++                processEvent(&event);
++            }
++            while(SDL_PollEvent(&event));
++            return;
++        }
++        SDL_Delay(5);
++    }
++#else
+     if(!SDL_WaitEvent(&event)) return;
+     do
+     {
+         processEvent(&event);
+     }
+     while(SDL_PollEvent(&event));
++#endif
+ }
+ 
+ void IN_ProcessEvents()
+ {
+     SDL_Event event;
+ 
++#ifdef Z6S_TARGET
++    Z6S_InputPump();
++    Mix_Z6S_Pump();
++#endif
++
+     while (SDL_PollEvent(&event))
+     {
+         processEvent(&event);
+diff --git a/id_sd.cpp b/id_sd.cpp
+index fc118f9..5fe7d6a 100644
+--- a/id_sd.cpp
++++ b/id_sd.cpp
+@@ -1120,7 +1120,12 @@ SD_Startup(void)
+     if(Mix_OpenAudio(param_samplerate, AUDIO_S16, 2, param_audiobuffer))
+     {
+         printf("Unable to open audio: %s\n", Mix_GetError());
++#ifndef Z6S_TARGET
+         return;
++#else
++        /* Keep the game and data setup usable even if the speaker/PCM device
++           is absent. Mix_Z6S_Pump() becomes a no-op until audio is available. */
++#endif
+     }
+ 
+     Mix_ReserveChannels(2);  // reserve player and boss weapon channels
+diff --git a/id_vh.cpp b/id_vh.cpp
+index 6497ac7..3e01edc 100644
+--- a/id_vh.cpp
++++ b/id_vh.cpp
+@@ -120,5 +120,8 @@ void VH_UpdateScreen()
+ {
+ 	SDL_BlitSurface(screenBuffer, NULL, screen, NULL);
++#ifdef Z6S_TARGET
++    VL_Z6SForceOpaque();
++#endif
+ 	SDL_Flip(screen);
+ }
+ 
+@@ -376,6 +379,9 @@ boolean FizzleFade (SDL_Surface *source, int x1, int y1,
+         {
+             VL_UnlockSurface(source);
+             SDL_BlitSurface(source, NULL, screen, NULL);
++#ifdef Z6S_TARGET
++            VL_Z6SForceOpaque();
++#endif
+             SDL_Flip(screen);
+             return true;
+         }
+@@ -441,6 +447,9 @@ boolean FizzleFade (SDL_Surface *source, int x1, int y1,
+             if(usedoublebuffering) first = 0;
+ 
+             VL_UnlockSurface(screen);
++#ifdef Z6S_TARGET
++            VL_Z6SForceOpaque();
++#endif
+             SDL_Flip(screen);
+         }
+         else
+@@ -465,6 +474,9 @@ finished:
+     VL_UnlockSurface(source);
+     VL_UnlockSurface(screen);
+     SDL_BlitSurface(source, NULL, screen, NULL);
++#ifdef Z6S_TARGET
++    VL_Z6SForceOpaque();
++#endif
+     SDL_Flip(screen);
+     return false;
+ }
+diff --git a/id_vl.cpp b/id_vl.cpp
+index 1e3e3d9..5d2347e 100644
+--- a/id_vl.cpp
++++ b/id_vl.cpp
+@@ -86,6 +86,34 @@ void	VL_Shutdown (void)
+ }
+ 
+ 
++#ifdef Z6S_TARGET
++/* The Z6S scanout interprets the unused high byte of each 32-bit pixel as
++   alpha. SDL 1.2's palette blitter leaves it at zero, producing a black LCD
++   even though a framebuffer dump contains the correct RGB image. */
++void VL_Z6SForceOpaque(void)
++{
++    static int enabled = -1;
++    if(enabled < 0)
++    {
++        const char *value = getenv("Z6S_FORCE_OPAQUE");
++        enabled = !value || strcmp(value, "0") != 0 ? 1 : 0;
++    }
++    if(!enabled || !screen || screen->format->BytesPerPixel != 4)
++        return;
++
++    if(SDL_MUSTLOCK(screen) && SDL_LockSurface(screen) < 0)
++        return;
++    for(int y = 0; y < screen->h; ++y)
++    {
++        Uint32 *row = (Uint32 *)((Uint8 *)screen->pixels + y * screen->pitch);
++        for(int x = 0; x < screen->w; ++x)
++            row[x] |= 0xff000000U;
++    }
++    if(SDL_MUSTLOCK(screen))
++        SDL_UnlockSurface(screen);
++}
++#endif
++
+ /*
+ =======================
+ =
+@@ -221,6 +249,9 @@ void VL_SetColor	(int color, int red, int green, int blue)
+     {
+         SDL_SetPalette(curSurface, SDL_LOGPAL, &col, color, 1);
+         SDL_BlitSurface(curSurface, NULL, screen, NULL);
++#ifdef Z6S_TARGET
++        VL_Z6SForceOpaque();
++#endif
+         SDL_Flip(screen);
+     }
+ }
+@@ -265,6 +296,9 @@ void VL_SetPalette (SDL_Color *palette, bool forceupdate)
+         if(forceupdate)
+         {
+             SDL_BlitSurface(curSurface, NULL, screen, NULL);
++#ifdef Z6S_TARGET
++            VL_Z6SForceOpaque();
++#endif
+             SDL_Flip(screen);
+         }
+     }
+diff --git a/id_vl.h b/id_vl.h
+index 55b7b84..4ba3d37 100644
+--- a/id_vl.h
++++ b/id_vl.h
+@@ -33,6 +33,9 @@ extern SDL_Color gamepal[256];
+ void VL_SetVGAPlaneMode (void);
+ void VL_SetTextMode (void);
+ void VL_Shutdown (void);
++#ifdef Z6S_TARGET
++void VL_Z6SForceOpaque(void);
++#endif
+ 
+ void VL_ConvertPalette(byte *srcpal, SDL_Color *destpal, int numColors);
+ void VL_FillPalette (int red, int green, int blue);
+diff --git a/wl_main.cpp b/wl_main.cpp
+index 60b5192..a6a3156 100644
+--- a/wl_main.cpp
++++ b/wl_main.cpp
+@@ -236,6 +236,18 @@ noconfig:
+         mouseadjustment=5;
+     }
+ 
++#ifdef Z6S_TARGET
++    /* The SD launcher may deliberately override a stale saved configuration.
++       This is opt-in so desktop builds retain the original behaviour. */
++    const char *z6sForceAudio = getenv("Z6S_FORCE_AUDIO");
++    if(z6sForceAudio && strcmp(z6sForceAudio, "0") != 0)
++    {
++        sd = sdm_AdLib;
++        sm = smm_AdLib;
++        sds = sds_SoundBlaster;
++    }
++#endif
++
+     SD_SetMusicMode (sm);
+     SD_SetSoundMode (sd);
+     SD_SetDigiDevice (sds);
+@@ -869,7 +881,15 @@ void FinishSignon (void)
+     VH_UpdateScreen();
+ 
+     if (!param_nowait)
+-        IN_Ack ();
++    {
++#ifdef Z6S_TARGET
++        const char *demoMode = getenv("Z6S_DEMO_MODE");
++        if(demoMode && strcmp(demoMode, "0") != 0)
++            IN_UserInput(TickBase * 3);
++        else
++#endif
++            IN_Ack ();
++    }
+ 
+     #ifndef JAPAN
+     VW_Bar (0,189,300,11,VL_GetPixel(0,0));
+@@ -1211,7 +1231,12 @@ static void InitGame()
+ #if defined _WIN32
+     putenv("SDL_VIDEODRIVER=directx");
+ #endif
++#ifdef Z6S_TARGET
++    /* ALSA and evdev are handled by the small Z6S backends. */
++    if(SDL_Init(SDL_INIT_VIDEO) < 0)
++#else
+     if(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_JOYSTICK) < 0)
++#endif
+     {
+         printf("Unable to init SDL: %s\n", SDL_GetError());
+         exit(1);
+@@ -1580,6 +1605,47 @@ static void DemoLoop()
+ 
+     while (1)
+     {
++#ifdef Z6S_TARGET
++        /* On the printer LCD there may be no keyboard at boot.  In that
++           case show the real main menu briefly, then continue the attract
++           loop with a demo.  Any key/touch during the preview opens the
++           interactive control panel, and evdev hot-plug keeps working. */
++        boolean z6sOpenMenu = false;
++        const char *z6sDemoMode = getenv("Z6S_DEMO_MODE");
++        if (!param_nowait && z6sDemoMode && strcmp(z6sDemoMode, "0") != 0)
++        {
++            SetupControlPanel();
++            StartCPMusic(MENUSONG);
++            DrawMainMenu();
++            MenuFadeIn();
++            z6sOpenMenu = IN_UserInput(TickBase * 5);
++            MenuFadeOut();
++            CleanupControlPanel();
++
++            if (!z6sOpenMenu)
++            {
++                StartCPMusic(INTROSONG);
++#ifndef SPEARDEMO
++                PlayDemo(LastDemo++ % 4);
++#else
++                PlayDemo(0);
++#endif
++                if (playstate == ex_abort)
++                    z6sOpenMenu = true;
++
++                VW_FadeOut();
++                if (screenHeight % 200 != 0)
++                    VL_ClearScreen(0);
++                StartCPMusic(INTROSONG);
++                if (!z6sOpenMenu)
++                    continue;
++            }
++        }
++#endif
++
++#ifdef Z6S_TARGET
++        if (!z6sOpenMenu)
++#endif
+         while (!param_nowait)
+         {
+ //
+diff --git a/wl_menu.cpp b/wl_menu.cpp
+index b52b1b7..13ec11d 100644
+--- a/wl_menu.cpp
++++ b/wl_menu.cpp
+@@ -15,6 +15,9 @@
+ #endif
+ 
+ #include "wl_def.h"
++#ifdef Z6S_TARGET
++#include "z6s_input.h"
++#endif
+ #pragma hdrstop
+ 
+ extern int lastgamemusicoffset;
+@@ -3259,6 +3262,9 @@ HandleMenu (CP_iteminfo * item_i, CP_itemtype * items, void (*routine) (int w))
+     exit = 0;
+     lastBlinkTime = GetTimeCount ();
+     IN_ClearKeysDown ();
++#ifdef Z6S_TARGET
++    Z6S_InputSetMode(Z6S_INPUT_MENU);
++#endif
+ 
+ 
+     do
+@@ -3331,6 +3337,35 @@ HandleMenu (CP_iteminfo * item_i, CP_itemtype * items, void (*routine) (int w))
+         // GET INPUT
+         //
+         ReadAnyControl (&ci);
++#ifdef Z6S_TARGET
++        /* A stable touch release selects a menu row directly.  No synthetic
++           arrows are generated, so Goodix jitter cannot move on its own. */
++        {
++            int tapx, tapy;
++            if(Z6S_InputTakeMenuTap(&tapx, &tapy))
++            {
++                if(tapx < 48 && tapy > 174)
++                {
++                    exit = 2;
++                }
++                else
++                {
++                    int tapped = (tapy - item_i->y + 6) / 13;
++                    if(tapped >= 0 && tapped < item_i->amount &&
++                       (items + tapped)->active)
++                    {
++                        if(tapped != which)
++                        {
++                            EraseGun(item_i, items, x, y, which);
++                            which = tapped;
++                            DrawGun(item_i, items, x, &y, which, basey, routine);
++                        }
++                        exit = 1;
++                    }
++                }
++            }
++        }
++#endif
+         switch (ci.dir)
+         {
+                 ////////////////////////////////////////////////
+@@ -3435,6 +3470,10 @@ HandleMenu (CP_iteminfo * item_i, CP_itemtype * items, void (*routine) (int w))
+ 
+     item_i->curpos = which;
+ 
++#ifdef Z6S_TARGET
++    Z6S_InputSetMode(Z6S_INPUT_GAME);
++#endif
++
+     lastitem = which;
+     switch (exit)
+     {

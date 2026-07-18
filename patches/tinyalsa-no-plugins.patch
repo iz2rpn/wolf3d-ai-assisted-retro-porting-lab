@@ -1,0 +1,17 @@
+diff --git a/src/pcm.c b/src/pcm.c
+index 6dc4d18..1b3764c 100644
+--- a/src/pcm.c
++++ b/src/pcm.c
+@@ -992,7 +992,11 @@ int pcm_close(struct pcm *pcm)
+         pcm->ops->munmap(pcm->data, pcm->mmap_buffer, pcm_frames_to_bytes(pcm, pcm->buffer_size));
+     }
+ 
+-    snd_utils_close_dev_node(pcm->snd_node);
++    /* Z6S minimal build does not link tinyalsa plugin helpers. */
++#ifdef TINYALSA_USES_PLUGINS
++    if (pcm->snd_node)
++        snd_utils_close_dev_node(pcm->snd_node);
++#endif
+     pcm->ops->close(pcm->data);
+     pcm->buffer_size = 0;
+     pcm->fd = -1;

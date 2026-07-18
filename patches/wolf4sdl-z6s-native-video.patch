@@ -1,0 +1,274 @@
+diff --git a/id_vh.cpp b/id_vh.cpp
+--- a/id_vh.cpp
++++ b/id_vh.cpp
+@@ -118,11 +118,12 @@
+ 
+ void VH_UpdateScreen()
+ {
+-	SDL_BlitSurface(screenBuffer, NULL, screen, NULL);
+ #ifdef Z6S_TARGET
+-    VL_Z6SForceOpaque();
+-#endif
++    VL_Z6SPresent(screenBuffer);
++#else
++	SDL_BlitSurface(screenBuffer, NULL, screen, NULL);
+ 	SDL_Flip(screen);
++#endif
+ }
+ 
+ 
+@@ -358,6 +359,15 @@
+ boolean FizzleFade (SDL_Surface *source, int x1, int y1,
+     unsigned width, unsigned height, unsigned frames, boolean abortable)
+ {
++#ifdef Z6S_TARGET
++    /* The native scaler owns the physical framebuffer.  Avoid drawing a
++       logical-size fizzle directly into it, which caused black/partial frames
++       and visible mode-like transitions on the Z6S. */
++    (void) x1; (void) y1; (void) width; (void) height;
++    (void) frames; (void) abortable;
++    VL_Z6SPresent(source);
++    return false;
++#else
+     unsigned x, y, frame, pixperframe;
+     int32_t  rndval, lastrndval;
+     int      first = 1;
+@@ -379,9 +389,6 @@
+         {
+             VL_UnlockSurface(source);
+             SDL_BlitSurface(source, NULL, screen, NULL);
+-#ifdef Z6S_TARGET
+-            VL_Z6SForceOpaque();
+-#endif
+             SDL_Flip(screen);
+             return true;
+         }
+@@ -447,9 +454,6 @@
+             if(usedoublebuffering) first = 0;
+ 
+             VL_UnlockSurface(screen);
+-#ifdef Z6S_TARGET
+-            VL_Z6SForceOpaque();
+-#endif
+             SDL_Flip(screen);
+         }
+         else
+@@ -474,9 +478,7 @@
+     VL_UnlockSurface(source);
+     VL_UnlockSurface(screen);
+     SDL_BlitSurface(source, NULL, screen, NULL);
+-#ifdef Z6S_TARGET
+-    VL_Z6SForceOpaque();
+-#endif
+     SDL_Flip(screen);
+     return false;
++#endif
+ }
+diff --git a/id_vl.cpp b/id_vl.cpp
+--- a/id_vl.cpp
++++ b/id_vl.cpp
+@@ -87,6 +87,14 @@
+ 
+ 
+ #ifdef Z6S_TARGET
++static Uint16 *z6sXMap;
++static Uint16 *z6sYMap;
++static Uint32 *z6sFrame;
++static int z6sMapWidth;
++static int z6sMapHeight;
++static int z6sSourceWidth;
++static int z6sSourceHeight;
++
+ /* The Z6S scanout interprets the unused high byte of each 32-bit pixel as
+    alpha. SDL 1.2's palette blitter leaves it at zero, producing a black LCD
+    even though a framebuffer dump contains the correct RGB image. */
+@@ -112,6 +120,86 @@
+     if(SDL_MUSTLOCK(screen))
+         SDL_UnlockSurface(screen);
+ }
++
++/* Keep the LCD in its native mode and scale the lightweight 8-bit game
++   surface into one complete opaque 32-bit frame.  Coordinate maps are built
++   only when a size changes, avoiding divisions in the per-pixel hot path. */
++void VL_Z6SPresent(SDL_Surface *source)
++{
++    if(!source || !screen)
++        return;
++
++    const int dstWidth = screen->w;
++    const int dstHeight = screen->h;
++    if(source->format->BytesPerPixel != 1 ||
++       screen->format->BytesPerPixel != 4 ||
++       dstWidth <= 0 || dstHeight <= 0)
++    {
++        SDL_BlitSurface(source, NULL, screen, NULL);
++        VL_Z6SForceOpaque();
++        SDL_Flip(screen);
++        return;
++    }
++
++    if(z6sMapWidth != dstWidth || z6sMapHeight != dstHeight ||
++       z6sSourceWidth != source->w || z6sSourceHeight != source->h)
++    {
++        Uint16 *newX = (Uint16 *) realloc(z6sXMap,
++                                          dstWidth * sizeof(Uint16));
++        if(!newX) return;
++        z6sXMap = newX;
++
++        Uint16 *newY = (Uint16 *) realloc(z6sYMap,
++                                          dstHeight * sizeof(Uint16));
++        if(!newY) return;
++        z6sYMap = newY;
++
++        Uint32 *newFrame = (Uint32 *) realloc(z6sFrame,
++                              dstWidth * dstHeight * sizeof(Uint32));
++        if(!newFrame) return;
++        z6sFrame = newFrame;
++
++        for(int x = 0; x < dstWidth; ++x)
++            z6sXMap[x] = (Uint16) ((x * source->w) / dstWidth);
++        for(int y = 0; y < dstHeight; ++y)
++            z6sYMap[y] = (Uint16) ((y * source->h) / dstHeight);
++
++        z6sMapWidth = dstWidth;
++        z6sMapHeight = dstHeight;
++        z6sSourceWidth = source->w;
++        z6sSourceHeight = source->h;
++        printf("Z6S video scaler: %dx%d logical -> %dx%dx32 native\n",
++               source->w, source->h, dstWidth, dstHeight);
++        fflush(stdout);
++    }
++
++    Uint32 palette[256];
++    for(int i = 0; i < 256; ++i)
++        palette[i] = SDL_MapRGB(screen->format, curpal[i].r, curpal[i].g,
++                               curpal[i].b) | 0xff000000U;
++
++    if(SDL_MUSTLOCK(source) && SDL_LockSurface(source) < 0)
++        return;
++    for(int y = 0; y < dstHeight; ++y)
++    {
++        const Uint8 *src = (const Uint8 *) source->pixels +
++                           z6sYMap[y] * source->pitch;
++        Uint32 *dst = z6sFrame + y * dstWidth;
++        for(int x = 0; x < dstWidth; ++x)
++            dst[x] = palette[src[z6sXMap[x]]];
++    }
++    if(SDL_MUSTLOCK(source))
++        SDL_UnlockSurface(source);
++
++    if(SDL_MUSTLOCK(screen) && SDL_LockSurface(screen) < 0)
++        return;
++    for(int y = 0; y < dstHeight; ++y)
++        memcpy((Uint8 *) screen->pixels + y * screen->pitch,
++               z6sFrame + y * dstWidth, dstWidth * sizeof(Uint32));
++    if(SDL_MUSTLOCK(screen))
++        SDL_UnlockSurface(screen);
++    SDL_Flip(screen);
++}
+ #endif
+ 
+ /*
+@@ -136,10 +223,31 @@
+         screenBits = vidInfo->vfmt->BitsPerPixel;
+     }
+ 
++#ifdef Z6S_TARGET
++    const SDL_VideoInfo *z6sInfo = SDL_GetVideoInfo();
++    unsigned z6sNativeWidth = z6sInfo && z6sInfo->current_w > 0
++                            ? (unsigned) z6sInfo->current_w : 480;
++    unsigned z6sNativeHeight = z6sInfo && z6sInfo->current_h > 0
++                             ? (unsigned) z6sInfo->current_h : 272;
++    const char *z6sWidthEnv = getenv("Z6S_NATIVE_WIDTH");
++    const char *z6sHeightEnv = getenv("Z6S_NATIVE_HEIGHT");
++    if(z6sWidthEnv && atoi(z6sWidthEnv) >= 320)
++        z6sNativeWidth = (unsigned) atoi(z6sWidthEnv);
++    if(z6sHeightEnv && atoi(z6sHeightEnv) >= 200)
++        z6sNativeHeight = (unsigned) atoi(z6sHeightEnv);
++
++    /* fbcon double buffering changes yres_virtual and can make the vendor LCD
++       rescan.  Always use its existing 32-bit native mode. */
++    usedoublebuffering = false;
++    screenBits = 32;
++    screen = SDL_SetVideoMode(z6sNativeWidth, z6sNativeHeight, screenBits,
++                              SDL_HWSURFACE | SDL_FULLSCREEN);
++#else
+     screen = SDL_SetVideoMode(screenWidth, screenHeight, screenBits,
+           (usedoublebuffering ? SDL_HWSURFACE | SDL_DOUBLEBUF : 0)
+         | (screenBits == 8 ? SDL_HWPALETTE : 0)
+         | (fullscreen ? SDL_FULLSCREEN : 0));
++#endif
+     if(!screen)
+     {
+         printf("Unable to set %ix%ix%i video mode: %s\n", screenWidth,
+@@ -175,6 +283,11 @@
+     CHECKMALLOCRESULT(pixelangle);
+     wallheight = (int *) malloc(screenWidth * sizeof(int));
+     CHECKMALLOCRESULT(wallheight);
++
++#ifdef Z6S_TARGET
++    SDL_FillRect(screenBuffer, NULL, 0);
++    VL_Z6SPresent(screenBuffer);
++#endif
+ }
+ 
+ /*
+@@ -248,11 +361,12 @@
+     else
+     {
+         SDL_SetPalette(curSurface, SDL_LOGPAL, &col, color, 1);
+-        SDL_BlitSurface(curSurface, NULL, screen, NULL);
+ #ifdef Z6S_TARGET
+-        VL_Z6SForceOpaque();
+-#endif
++        VL_Z6SPresent(curSurface);
++#else
++        SDL_BlitSurface(curSurface, NULL, screen, NULL);
+         SDL_Flip(screen);
++#endif
+     }
+ }
+ 
+@@ -295,11 +409,12 @@
+         SDL_SetPalette(curSurface, SDL_LOGPAL, palette, 0, 256);
+         if(forceupdate)
+         {
+-            SDL_BlitSurface(curSurface, NULL, screen, NULL);
+ #ifdef Z6S_TARGET
+-            VL_Z6SForceOpaque();
+-#endif
++            VL_Z6SPresent(curSurface);
++#else
++            SDL_BlitSurface(curSurface, NULL, screen, NULL);
+             SDL_Flip(screen);
++#endif
+         }
+     }
+ }
+diff --git a/id_vl.h b/id_vl.h
+--- a/id_vl.h
++++ b/id_vl.h
+@@ -35,6 +35,7 @@
+ void VL_Shutdown (void);
+ #ifdef Z6S_TARGET
+ void VL_Z6SForceOpaque(void);
++void VL_Z6SPresent(SDL_Surface *source);
+ #endif
+ 
+ void VL_ConvertPalette(byte *srcpal, SDL_Color *destpal, int numColors);
+diff --git a/wl_draw.cpp b/wl_draw.cpp
+--- a/wl_draw.cpp
++++ b/wl_draw.cpp
+@@ -1628,8 +1628,12 @@
+             US_Print(" fps");
+         }
+ #endif
++#ifdef Z6S_TARGET
++        VL_Z6SPresent(screenBuffer);
++#else
+         SDL_BlitSurface(screenBuffer, NULL, screen, NULL);
+         SDL_Flip(screen);
++#endif
+     }
+ 
+ #ifndef REMDEBUG

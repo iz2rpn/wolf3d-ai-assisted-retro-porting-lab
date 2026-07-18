@@ -1,0 +1,38 @@
+# Generated build output
+/build/
+/dist/
+/third_party/
+
+# Owner-provided commercial game installation
+/WOLF3D/
+*.WL1
+*.WL6
+WOLF3D.EXE
+CONFIG.WL?
+
+# Recovered firmware and deployment-only binaries/assets
+/sdcard/busybox
+/sdcard/EasyUI.cfg
+/sdcard/gzui/
+/sdcard/wolf3d/data/
+/sdcard/wolf3d/libwolf_autostart.so
+/sdcard/wolf3d/wolf3d-z6s*
+/sdcard/wolf3d/MANIFEST.sha256
+/sdcard/wolf3d/*.log
+/sdcard/wolf3d/governors.before
+/sdcard/wolf3d/stop
+
+# Generated reports and local benchmark runs
+/reports/generated/
+/benchmarks/runs/
+
+# Python/editor/OS noise
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
