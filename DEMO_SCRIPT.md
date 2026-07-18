@@ -9,7 +9,7 @@ captions because the device audio may be quiet.
 
 | Time | Visual | Voiceover | On-screen text |
 |---:|---|---|---|
-| 0:00-0:12 | Working Z6S LCD; close-up of SD and board | “This tiny ARMv5 display outlived its original project. RetroPort AI turns a recovered legacy port into reproducible, measurable engineering.” | `RetroPort AI — evidence-first legacy modernization` |
+| 0:00-0:12 | Working Z6S LCD; close-up of SD and board | “This tiny ARMv5 display outlived its original project. WOLF3D – AI-Assisted Retro Porting Lab turns a recovered legacy port into reproducible, measurable engineering.” | `WOLF3D – AI-Assisted Retro Porting Lab` |
 | 0:12-0:28 | Repository tree; briefly show ignored private directories | “The local tree had more than two thousand files, including commercial game data and vendor binaries. The public history contains only legal source, pins, patches, tests, and documentation.” | `Legal boundary enforced before publish` |
 | 0:28-0:43 | Terminal: run `retroport.py analyze`; open the report | “A deterministic scanner extracts the target contract, dependency pins, platform seams, patch footprint, and exact line evidence. Unknowns stay unknown.” | `Facts first • JSON + Markdown` |
 | 0:43-1:08 | Codex with GPT-5.6 selected; invoke `$retroport-ai`; scroll facts/inferences/proposal | “In Codex, GPT-5.6 reasons over that evidence. The repository skill separates facts, inferences, proposals, and tests, then waits for human approval. This is the core product—not a chatbot pasted onto the demo.” | `GPT-5.6 + Codex • human-gated patch` |
@@ -17,8 +17,8 @@ captions because the device audio may be quiet.
 | 1:25-1:52 | Power-on LCD with no keyboard; hold on original logo, menu, then demo | “With no keyboard, the original logo appears, the menu remains visible, and demo mode starts automatically. Logo, menu, and gameplay use the same 480 by 272 presentation path—no mode switch and no black demo.” | `320x200 logical → 480x272x32 native` |
 | 1:52-2:08 | Show keyboard or touch control; optionally show audio log | “A keyboard can hot-plug through evdev, while touch remains available. The minimal audio path degrades safely if hardware is missing.” | `Keyboard + touch + demo fallback` |
 | 2:08-2:27 | Remove SD after power-off; show normal UI or recovery diagram | “The installation is reversible: no internal firmware replacement. Remove the SD after power-off and the original appliance remains intact.” | `Reversible SD deployment` |
-| 2:27-2:42 | Benchmark JSON/table with captured device values | “RetroPort AI parses first-present time, five-second presentation windows, and peak memory. Every number keeps its source and definition.” | `Measured, never guessed` |
-| 2:42-2:50 | Title card and repository URL | “RetroPort AI helps developers port, verify, and learn from legacy software—one evidence-backed change at a time.” | `GitHub URL • Developer Tools` |
+| 2:27-2:42 | Benchmark JSON/table with captured device values | “The WOLF3D lab parses first-present time, five-second presentation windows, and peak memory. Every number keeps its source and definition.” | `Measured, never guessed` |
+| 2:42-2:50 | Title card and repository URL | “WOLF3D – AI-Assisted Retro Porting Lab helps developers port, verify, and learn from legacy software—one evidence-backed change at a time.” | `GitHub URL • Developer Tools` |
 
 ## Exact terminal actions
 

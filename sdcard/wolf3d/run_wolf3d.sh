@@ -83,7 +83,7 @@ if [ -f "$DATA/AUDIOHED.WL6" ] && [ -f "$DATA/AUDIOT.WL6" ] &&
    [ -f "$DATA/VGADICT.WL6" ] && [ -f "$DATA/VGAGRAPH.WL6" ] &&
    [ -f "$DATA/VGAHEAD.WL6" ] && [ -f "$DATA/VSWAP.WL6" ]; then
   BIN=$ROOT/wolf3d-z6s-wl6
-  EDITION="WL6 completa"
+  EDITION="WL6 registered"
 elif [ -f "$DATA/VSWAP.WL1" ]; then
   BIN=$ROOT/wolf3d-z6s-wl1
   EDITION="WL1 shareware"

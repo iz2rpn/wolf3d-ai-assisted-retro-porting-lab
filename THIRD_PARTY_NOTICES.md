@@ -1,7 +1,12 @@
 # Third-party notices and asset policy
 
-RetroPort AI analyzes and patches upstream projects but does not relicense
+WOLF3D – AI-Assisted Retro Porting Lab analyzes and patches upstream projects but does not relicense
 them. The source-fetch script pins each dependency to a specific commit.
+
+Original WOLF3D lab work is dedicated under CC0-1.0. That dedication applies
+only to rights held by the project author and contributors; it cannot remove the
+licenses, notices, trademarks, or asset rights listed below. See `LICENSE` for
+the path-level mapping and `LICENSES/` for included legal texts.
 
 | Component | Upstream | License evidence in the fetched tree | Repository policy |
 |---|---|---|---|
@@ -24,7 +29,7 @@ the project owner's original copy; those files remain local and private.
 ## Trademarks
 
 Wolfenstein 3D and related names and marks belong to their respective owners.
-RetroPort AI is an independent interoperability and software-modernization
+WOLF3D – AI-Assisted Retro Porting Lab is an independent interoperability and software-modernization
 project and is not endorsed by id Software, Bethesda, OpenAI, or NOVA3D.
 
 ## Release rule
@@ -37,4 +42,3 @@ python tools/retroport.py check-release --root .
 
 The command is intentionally conservative. A clean result is necessary but is
 not a substitute for legal review.
-

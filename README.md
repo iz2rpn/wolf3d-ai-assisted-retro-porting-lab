@@ -1,4 +1,4 @@
-# RetroPort AI
+# WOLF3D – AI-Assisted Retro Porting Lab
 
 **Human-led, evidence-first AI-assisted modernization for constrained legacy
 hardware.**
@@ -8,7 +8,14 @@ product, recovered and tested the hardware, supplied lawful local inputs, and
 made the final engineering decisions. Codex and GPT-5.6 served as technical
 collaborators for analysis, alternatives, automation, and documentation.
 
-RetroPort AI grew from hands-on recovery work by the device owner: preserving
+Public source:
+[github.com/iz2rpn/wolf3d-ai-assisted-retro-porting-lab](https://github.com/iz2rpn/wolf3d-ai-assisted-retro-porting-lab)
+
+This is an **educational study project**: its purpose is to document the
+reasoning, tools, mistakes, measurements, and recovery methods so other
+developers can learn how to modernize open-source legacy software.
+
+WOLF3D – AI-Assisted Retro Porting Lab grew from hands-on recovery work by the device owner: preserving
 the SD, choosing a focused Wolf3D product instead of a general emulator image,
 supplying legally owned data, testing builds on the LCD, and deciding which
 trade-offs to accept. Codex and GPT-5.6 are engineering allies in that process,
@@ -31,14 +38,14 @@ changing code.
 
 [Watch the YouTube Short](https://www.youtube.com/shorts/TgmA7cbyw-s) showing
 Wolf3D running on the physical LCD. This is real-device evidence, not an emulator
-capture. The submission video will add the RetroPort AI/Codex workflow and
+capture. The submission video will add the lab's Codex workflow and
 instrumented measurements around this working result.
 
 ## Why it exists
 
 Legacy porting usually starts with incomplete evidence: unknown ABI details,
 old build systems, hardware-specific patches, and performance claims that are
-hard to reproduce. RetroPort AI provides a small, inspectable workflow:
+hard to reproduce. The lab provides a small, inspectable workflow:
 
 1. `tools/retroport.py` scans source and configuration deterministically.
 2. It produces line-level evidence, dependency pins, patch statistics, binary
@@ -121,10 +128,11 @@ deferred suggestions.
 
 Both instrumented profiles cross-build and survive the repeatable 20-second
 QEMU no-keyboard smoke test. The post-telemetry files are 1,000,384 bytes (WL1)
-and 1,000,632 bytes (WL6). The project author confirmed correct, smooth operation
-on the physical LCD and published the hardware demo above. Physical FPS,
-resident memory, touch latency, audio, and USB-host behavior remain separate
-quantitative checks until a new device run supplies `performance.log`.
+and 1,000,632 bytes (WL6). A physical no-keyboard run recorded 79 ms of SDL
+elapsed time at the first present, 426 completed presentations over 33.691
+seconds (12.644/s aggregate), and 7,320 KiB peak RSS. The final two five-second
+windows were stable at 17.498 and 17.501 presentations/s. ALSA opened at 11,025
+Hz, Goodix touch was discovered, and the native path remained 480x272x32.
 
 See [BENCHMARKS.md](BENCHMARKS.md) for definitions and limitations. No number in
 this repository is presented as a physical-device result unless its capture
@@ -146,7 +154,6 @@ method and source log are available.
 
 ## Limits
 
-- The corrected full-screen build still needs a fresh physical-panel capture.
 - ADB proves USB device/gadget mode, not keyboard host/OTG capability.
 - Speaker impedance and amplifier limits are not documented by recovered
   evidence; follow the hardware safety notes before connecting a speaker.
@@ -156,14 +163,17 @@ method and source log are available.
 
 ## License and legal boundary
 
-Project-authored code and patches are offered under GPL-2.0-only; individual
-upstreams retain their own licenses. Wolfenstein 3D names and game assets remain
-the property of their respective owners and are not included. Read
+Original WOLF3D lab work is dedicated to the public domain under CC0-1.0 so
+anyone may use it for any purpose. The small upstream-derived patch set retains
+the mandatory Wolf4SDL GPL, SDL LGPL, and tinyalsa BSD terms; those third-party
+rights cannot be waived by this project. Wolfenstein 3D names and game assets
+remain the property of their respective owners and are not included. Read
+[LICENSE](LICENSE) and
 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) before distributing a build.
 
 ## OpenAI Build Week
 
-RetroPort AI targets the **Developer Tools** track. It is a human engineering
+WOLF3D – AI-Assisted Retro Porting Lab targets the **Developer Tools** track. It is a human engineering
 project strengthened by AI-assisted analysis and review. Submission materials
 are kept in the repository so claims can be audited. Before submission, the author
 must add a public device demo, verify the primary Codex session used GPT-5.6,

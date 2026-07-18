@@ -1,8 +1,13 @@
 # Roadmap
 
+## Completed for the submission
+
+- Captured and parsed the instrumented physical Z6S `performance.log`.
+- Published a real-device YouTube Short.
+- Verified legal/public boundary and English-only public documentation.
+
 ## Submission-critical
 
-- Capture the instrumented `performance.log` on the physical Z6S.
 - Record a public, narrated demonstration of Codex, the evidence report, the
   patch workflow, and the working LCD in no more than three minutes.
 - Run the repository-local skill in a primary GPT-5.6 Codex task and save the
@@ -12,7 +17,7 @@
 ## Next engineering iteration
 
 - Add a defined late-presentation counter instead of implying dropped frames.
-- Add a small fixture project for demonstrating RetroPort AI without requiring
+- Add a small fixture project for demonstrating the WOLF3D lab workflow without requiring
   copyrighted game data or an ARM toolchain.
 - Export a Markdown comparison report alongside JSON.
 - Add machine-readable SPDX metadata and dependency license verification.

@@ -4,7 +4,7 @@
 
 The supported build host is Linux or WSL. The tested reconstruction environment
 uses Ubuntu 26.04, GCC cross 15.2.0, binutils 2.46, and the
-`arm-linux-gnueabi` target. Python 3.11+ runs RetroPort AI and its tests.
+`arm-linux-gnueabi` target. Python 3.11+ runs the WOLF3D lab tooling and tests.
 
 On Ubuntu:
 

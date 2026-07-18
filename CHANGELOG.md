@@ -4,20 +4,23 @@ All notable public changes are documented here.
 
 ## Unreleased
 
-- Awaiting a fresh instrumented device log and public demonstration video.
+- Awaiting the final narrated Build Week demonstration video.
 - Awaiting the Build Week primary GPT-5.6 Codex session feedback ID.
 
 ## 0.2.0 - 2026-07-18
 
 ### Added
 
-- RetroPort AI deterministic scanner, benchmark parser, comparison tool, and
+- WOLF3D lab deterministic scanner, benchmark parser, comparison tool, and
   legal-release guard.
 - Repository-local GPT-5.6/Codex skill with an evidence-first human gate.
 - Five unit tests and reproducible patch verification.
 - Low-rate Z6S presentation and memory telemetry.
+- A raw and parsed physical-device telemetry run.
 - English public documentation, Build Week submission draft, and demo script.
 - Public/private asset boundary and third-party notices.
+- CC0-1.0 dedication for original project work with path-specific upstream
+  license preservation.
 
 ### Verified
 

@@ -104,6 +104,9 @@ class RetroPortTests(unittest.TestCase):
         result = retroport.parse_device_metrics(metrics)
         self.assertEqual(result["sdl_first_present_ms"], 240)
         self.assertEqual(result["present_fps"]["mean"], 49.0)
+        self.assertEqual(result["aggregate_present_fps"], 49.0)
+        self.assertEqual(result["total_presentations"], 490)
+        self.assertEqual(result["total_window_ms"], 10000)
         self.assertEqual(result["peak_resident_memory_bytes"], 4200 * 1024)
         self.assertIn("VL_Z6SPresent", result["interpretation"])
 

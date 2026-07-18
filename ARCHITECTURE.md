@@ -2,7 +2,7 @@
 
 ## Product boundary
 
-RetroPort AI has two cooperating layers:
+The WOLF3D lab has two cooperating layers:
 
 - a deterministic local tool that collects evidence and enforces release rules;
 - a repository-local Codex skill that guides GPT-5.6 through evidence review,

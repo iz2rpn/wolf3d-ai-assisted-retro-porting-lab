@@ -9,7 +9,7 @@ access; it does not prove that the same connector can host a keyboard.
 **ARMv5TE** — The instruction-set level supported by the ARM926EJ-S CPU.
 
 **Codex skill** — Repository-local instructions that define a repeatable Codex
-workflow. RetroPort AI uses one to structure GPT-5.6 reasoning and approval.
+workflow. The WOLF3D lab uses one to structure GPT-5.6 reasoning and approval.
 
 **Evidence report** — Deterministic JSON or Markdown containing file locations,
 rules, dependency pins, binary facts, and clearly labeled unknowns.

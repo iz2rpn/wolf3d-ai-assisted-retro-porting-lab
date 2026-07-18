@@ -1,7 +1,7 @@
 schema_version = 1
 
 [project]
-name = "RetroPort AI"
+name = "WOLF3D – AI-Assisted Retro Porting Lab"
 case_study = "Wolfenstein 3D on NOVA3D Z6S"
 target = "Linux ARMv5TE soft-float embedded framebuffer device"
 source_roots = [

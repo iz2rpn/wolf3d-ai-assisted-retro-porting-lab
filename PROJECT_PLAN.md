@@ -1,4 +1,4 @@
-# RetroPort AI — Project Plan
+# WOLF3D – AI-Assisted Retro Porting Lab — Project Plan
 
 Status date: 2026-07-18  
 Target event: OpenAI Build Week, Developer Tools track  
@@ -7,7 +7,7 @@ Product status: working prototype built around one real case study
 
 ## Executive decision
 
-RetroPort AI will be presented as an evidence-driven, AI-assisted workflow for
+The WOLF3D lab will be presented as an evidence-driven, AI-assisted workflow for
 understanding, porting, and modernizing legacy software. Wolfenstein 3D on the
 NOVA3D Z6S is the first case study, not the product itself.
 
@@ -149,7 +149,7 @@ This section is an engineering release gate, not legal advice.
 | `libzkgui.so` and firmware UI | Vendor binary/resources; no redistributable license was found | Exclude from Git and all public releases. |
 | WL6 data and `WOLF3D.EXE` | Owner-provided commercial copy | Exclude from Git, screenshots that expose files, archives, and releases. Explain how users provide their own legally obtained data. |
 | WL1 data | Copyrighted game data even when distributed as shareware | Exclude by default; link to a lawful acquisition path rather than bundling it. |
-| RetroPort AI tooling and original Z6S glue | Original project work, subject to linked/derived-code obligations | Add an explicit root license and third-party notices before publication. |
+| WOLF3D lab tooling and original Z6S glue | Original project work, subject to linked/derived-code obligations | Dedicate original work under CC0-1.0; retain GPL/LGPL/BSD terms only for upstream-derived paths and combined distributions. |
 
 ## Competitive MVP
 
@@ -234,7 +234,7 @@ refactor has occurred before it.
 Create the public/private boundary, root license/notices, `.gitignore`, Git
 baseline, deterministic release audit, and machine-readable pre-change facts.
 
-### Phase 3 — RetroPort AI MVP
+### Phase 3 — WOLF3D lab MVP
 
 Implement the scanner, target profile, fixtures, tests, and Codex skill. Keep
 the model output downstream of deterministic evidence. Never let a model claim
@@ -274,7 +274,7 @@ The developer must still:
 
 ## Definition of done
 
-RetroPort AI is ready for submission when:
+The WOLF3D lab is ready for submission when:
 
 - the public tree contains no commercial data, firmware assets, recovered
   vendor binaries, BusyBox binary, generated binaries, or private paths;

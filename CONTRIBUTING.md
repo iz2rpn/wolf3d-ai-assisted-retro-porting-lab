@@ -3,6 +3,11 @@
 Contributions are welcome when they preserve the project's evidence-first and
 legal-release boundaries.
 
+Unless a file is necessarily derived from an upstream component, contributions
+to original WOLF3D lab material are accepted under CC0-1.0. By contributing,
+you confirm that you have the right to make that dedication. Upstream-derived
+changes must retain the upstream license identified in `LICENSE`.
+
 ## Before opening a change
 
 - Do not add game data, ROMs, WADs, recovered firmware, vendor assets, compiled

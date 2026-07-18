@@ -352,7 +352,7 @@ def analyze(root: Path, config: dict[str, Any]) -> dict[str, Any]:
 def markdown_report(report: dict[str, Any]) -> str:
     metrics = report["source_metrics"]
     lines = [
-        "# RetroPort AI evidence report",
+        "# WOLF3D – AI-Assisted Retro Porting Lab evidence report",
         "",
         f"Generated: `{report['generated_at']}`",
         f"Target: {report['project'].get('target') or 'not specified'}",
@@ -462,6 +462,15 @@ def parse_device_metrics(path: Path) -> dict[str, Any]:
         if "avg_present_interval_us" in item
     ]
     rss_values = [item["maxrss_kb"] * 1024 for item in windows if item.get("maxrss_kb", -1) >= 0]
+    counted_windows = [
+        item
+        for item in windows
+        if isinstance(item.get("frames"), int)
+        and isinstance(item.get("window_ms"), int)
+        and item["window_ms"] > 0
+    ]
+    total_presentations = sum(item["frames"] for item in counted_windows)
+    total_window_ms = sum(item["window_ms"] for item in counted_windows)
 
     def summary(values: Sequence[float]) -> dict[str, float | int] | None:
         if not values:
@@ -478,6 +487,13 @@ def parse_device_metrics(path: Path) -> dict[str, Any]:
         "raw_samples": records,
         "sdl_first_present_ms": first.get("elapsed_ms") if first else None,
         "present_fps": summary(fps_values),
+        "aggregate_present_fps": (
+            total_presentations * 1000.0 / total_window_ms
+            if total_window_ms
+            else None
+        ),
+        "total_presentations": total_presentations,
+        "total_window_ms": total_window_ms,
         "average_present_interval_ms": summary(interval_values),
         "peak_resident_memory_bytes": max(rss_values) if rss_values else None,
         "window_samples": len(windows),
@@ -533,6 +549,11 @@ def capture_benchmark(
         if not resolved_log.is_file():
             raise RetroPortError(f"device metrics log does not exist: {resolved_log}")
         device_metrics = parse_device_metrics(resolved_log)
+        device_metrics["source"] = relative_path(resolved_log, root)
+        physical["reason"] = (
+            "Generic physical fields remain null; use device_metrics for the "
+            "precisely defined presentation and resident-memory observations."
+        )
     return {
         "schema_version": SCHEMA_VERSION,
         "captured_at": utc_now(),

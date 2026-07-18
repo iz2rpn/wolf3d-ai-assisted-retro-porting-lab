@@ -1,19 +1,48 @@
-RetroPort AI
-Copyright (C) 2026 RetroPort AI contributors
+# WOLF3D – AI-Assisted Retro Porting Lab licensing
 
-The original RetroPort AI tooling, documentation, Z6S integration code, and
-patches in this repository are distributed under the GNU General Public
-License, version 2 only (GPL-2.0-only).
+## Original project work: CC0-1.0
 
-The full license text is included in `COPYING` and is also available from the
-Free Software Foundation at:
-https://www.gnu.org/licenses/old-licenses/gpl-2.0.txt
+To the extent that [@iz2rpn](https://github.com/iz2rpn) and WOLF3D lab
+contributors own the copyright and related rights, the original work created
+for this project is dedicated to the public domain under **CC0 1.0 Universal**.
 
-This license does not grant rights to Wolfenstein 3D game data, trademarks,
-firmware files, vendor binaries, or other third-party material. Third-party
-components remain under their respective licenses as documented in
-THIRD_PARTY_NOTICES.md.
+You may copy, modify, distribute, study, teach from, and use that original work
+for any purpose, including commercial purposes, without asking permission.
 
-This program is distributed in the hope that it will be useful, but WITHOUT
-ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
-FOR A PARTICULAR PURPOSE. See the GNU General Public License for details.
+This dedication covers the original WOLF3D lab tooling, tests, Codex skill,
+configuration, scripts, reports, benchmarks, documentation, and Z6S adapter
+code, except where a file or the path rules below identify upstream-derived or
+third-party material.
+
+The complete CC0 legal text is in `LICENSES/CC0-1.0.txt`; the canonical source
+is https://creativecommons.org/publicdomain/zero/1.0/.
+
+## Upstream-derived paths
+
+The author cannot waive rights owned by other people. These narrow paths retain
+the license of the source they modify:
+
+| Path | Governing license |
+|---|---|
+| `patches/wolf4sdl-z6s.patch` | GPL-2.0-only path selected from Wolf4SDL's included licensing options |
+| `patches/wolf4sdl-z6s-native-video.patch` | GPL-2.0-only path selected from Wolf4SDL's included licensing options |
+| `patches/sdl12-z6s.patch` | LGPL-2.1-or-later, matching SDL 1.2 |
+| `patches/tinyalsa-no-plugins.patch` | BSD-3-Clause, matching tinyalsa |
+
+Corresponding license texts are stored under `LICENSES/`. Upstream source is
+not vendored; `scripts/fetch_sources.sh` obtains exact commits with their own
+notices.
+
+The original Z6S adapter source is offered under CC0 as a standalone
+contribution. A compiled binary that combines it with GPL-covered Wolf4SDL must
+still comply with the GPL and all other linked-component obligations.
+
+## Excluded rights and assets
+
+CC0 does not grant rights to Wolfenstein 3D game data, trademarks, id Software
+code under its historical license, vendor firmware/UI files, recovered
+binaries, personal device data, or any other third-party work. Those materials
+are not included in the public repository.
+
+See `THIRD_PARTY_NOTICES.md` for the dependency and asset boundary. This mapping
+documents the repository policy; it is not legal advice.

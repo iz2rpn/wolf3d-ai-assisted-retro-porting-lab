@@ -5,7 +5,7 @@ identifier. They are intentionally not fabricated.
 
 ## Project title
 
-RetroPort AI
+WOLF3D – AI-Assisted Retro Porting Lab
 
 ## Tagline
 
@@ -18,7 +18,7 @@ Developer Tools
 
 ## Elevator pitch
 
-RetroPort AI is a human-built developer workflow that uses AI as an engineering
+WOLF3D – AI-Assisted Retro Porting Lab is a human-built developer workflow that uses AI as an engineering
 ally. It helps modernize undocumented legacy ports without confusing model
 confidence with engineering evidence. A deterministic scanner maps
 the target ABI, dependencies, platform seams, patch surface, binary footprint,
@@ -28,6 +28,10 @@ results remain distinct. The real case study reconstructs Wolf4SDL for an
 ARMv5 NOVA3D Z6S display, fixes its full-screen presentation path, supports
 keyboard/touch/demo operation, and adds low-overhead device telemetry while
 keeping commercial data and vendor artifacts private.
+
+It is also an educational study project: every decision, rejected alternative,
+test boundary, and measurement definition is published so the work teaches a
+repeatable method rather than presenting only a finished binary.
 
 ## Inspiration
 
@@ -126,6 +130,8 @@ Primary Codex `/feedback` Session ID: **TODO**
 - Patch reconstruction and five unit tests pass.
 - Both profiles survive 20-second QEMU no-keyboard demo smoke tests.
 - The device owner physically validated correct, smooth LCD operation.
+- The instrumented device run captured 79 ms to first SDL present, 426 completed
+  presentations over 33.691 seconds, and 7,320 KiB peak RSS.
 - Instrumentation costs about 1.2 KiB of loaded code/read-only data and 16 bytes
   of BSS while leaving stripped file sizes unchanged.
 - The public Git history excludes commercial game data, vendor assets, firmware,
@@ -151,13 +157,15 @@ claims; both can be valuable when labeled correctly.
 | tracked commercial/vendor artifacts | 0 after release gate |
 | telemetry footprint | +1,008 to +1,024 B `.text`, +184 B `.rodata`, +16 B BSS |
 | physical LCD operation | owner-reported pass |
-| physical presentation rate/RAM | **TODO: parse fresh device log** |
+| physical presentation evidence | 426 calls / 33.691 s = 12.644/s aggregate |
+| final two presentation windows | 17.498/s and 17.501/s |
+| physical peak RSS | 7,320 KiB (7.148 MiB) |
 
 ## Potential impact
 
 Small industrial panels, kiosks, educational devices, abandoned appliances, and
 archival software often remain useful long after their original toolchains
-disappear. RetroPort AI offers maintainers a repeatable path from “mystery tree”
+disappear. The lab offers maintainers a repeatable path from “mystery tree”
 to a target contract, legal release boundary, bounded patch, and auditable
 result. The same workflow can teach newcomers why a port works instead of only
 handing them generated code.
@@ -195,13 +203,15 @@ or vendor firmware is included.
 
 ## Links
 
-- Source repository: **TODO: public GitHub URL**
+- Source repository:
+  [github.com/iz2rpn/wolf3d-ai-assisted-retro-porting-lab](https://github.com/iz2rpn/wolf3d-ai-assisted-retro-porting-lab)
 - Physical hardware proof (YouTube Short):
   [Wolf3D on the NOVA3D Z6S](https://www.youtube.com/shorts/TgmA7cbyw-s)
 - Final narrated submission demo (public YouTube, no more than three minutes):
   **TODO**
 - Project page: **TODO: Devpost URL**
-- License: `GPL-2.0-only`; see `LICENSE` and `THIRD_PARTY_NOTICES.md`
+- License: original WOLF3D lab work is `CC0-1.0`; upstream-derived patches
+  retain GPL/LGPL/BSD terms as mapped in `LICENSE` and `THIRD_PARTY_NOTICES.md`
 
 ## Final event checklist
 

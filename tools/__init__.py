@@ -1,2 +1,1 @@
-"""RetroPort AI deterministic tooling."""
-
+"""WOLF3D AI-assisted retro-porting lab tooling."""
