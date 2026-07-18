@@ -184,8 +184,9 @@ second fully libre case study.
 - id Software for releasing the historical Wolfenstein 3D source.
 - The Wolf4SDL maintainers for the portable engine base.
 - SDL 1.2 and tinyalsa contributors.
-- The project author/device owner for the idea, requirements, legal media,
-  hands-on debugging, physical validation, and final decisions.
+- [@iz2rpn](https://github.com/iz2rpn), project author and device owner, for the
+  idea, requirements, legal media, hands-on debugging, physical validation, and
+  final decisions.
 - OpenAI Codex and GPT-5.6 as engineering allies for the evidence-guided audit,
   alternative analysis, automation, and documentation workflow.
 

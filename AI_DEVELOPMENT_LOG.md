@@ -1,7 +1,8 @@
 # AI development log
 
 This log separates pre-existing work from the new Build Week contribution and
-records a human-led collaboration. The device owner originated the project,
+records a human-led collaboration. [@iz2rpn](https://github.com/iz2rpn), the
+device owner and project author, originated the project,
 preserved and inspected the hardware, supplied lawful test inputs, set product
 requirements, made final technical decisions, performed the physical tests, and
 approved or rejected changes. Codex helped as an engineering ally with audit,

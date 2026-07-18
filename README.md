@@ -3,6 +3,11 @@
 **Human-led, evidence-first AI-assisted modernization for constrained legacy
 hardware.**
 
+Created and led by [@iz2rpn](https://github.com/iz2rpn). The author defined the
+product, recovered and tested the hardware, supplied lawful local inputs, and
+made the final engineering decisions. Codex and GPT-5.6 served as technical
+collaborators for analysis, alternatives, automation, and documentation.
+
 RetroPort AI grew from hands-on recovery work by the device owner: preserving
 the SD, choosing a focused Wolf3D product instead of a general emulator image,
 supplying legally owned data, testing builds on the LCD, and deciding which
@@ -116,7 +121,7 @@ deferred suggestions.
 
 Both instrumented profiles cross-build and survive the repeatable 20-second
 QEMU no-keyboard smoke test. The post-telemetry files are 1,000,384 bytes (WL1)
-and 1,000,632 bytes (WL6). The device owner confirmed correct, smooth operation
+and 1,000,632 bytes (WL6). The project author confirmed correct, smooth operation
 on the physical LCD and published the hardware demo above. Physical FPS,
 resident memory, touch latency, audio, and USB-host behavior remain separate
 quantitative checks until a new device run supplies `performance.log`.
