@@ -4,6 +4,7 @@
 
 - Captured and parsed the instrumented physical Z6S `performance.log`.
 - Published a real-device YouTube Short.
+- Published the legal-only public source repository.
 - Verified legal/public boundary and English-only public documentation.
 
 ## Submission-critical
@@ -12,7 +13,7 @@
   patch workflow, and the working LCD in no more than three minutes.
 - Run the repository-local skill in a primary GPT-5.6 Codex task and save the
   event `/feedback` session ID.
-- Publish the legal-only repository and complete the Devpost links.
+- Complete the final Devpost links and submission.
 
 ## Next engineering iteration
 

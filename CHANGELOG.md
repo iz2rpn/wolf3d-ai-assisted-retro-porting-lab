@@ -21,6 +21,7 @@ All notable public changes are documented here.
 - Public/private asset boundary and third-party notices.
 - CC0-1.0 dedication for original project work with path-specific upstream
   license preservation.
+- Public source repository with the physical hardware demonstration link.
 
 ### Verified
 

@@ -184,8 +184,9 @@ handing them generated code.
 
 We will add a copyright-free fixture case, explicit late-frame measurement,
 SPDX verification, more target-contract adapters, and an optional review UI.
-The immediate next step is to capture the instrumented LCD log and publish a
-second fully libre case study.
+The physical LCD telemetry and legal-only source repository are now public.
+The immediate submission steps are the final narrated demonstration, the
+primary GPT-5.6 Codex `/feedback` session ID, and the Devpost project URL.
 
 ## Credits and acknowledgments
 
@@ -215,7 +216,7 @@ or vendor firmware is included.
 
 ## Final event checklist
 
-- [ ] Public repository or approved private access configured.
+- [x] Public repository or approved private access configured.
 - [ ] Primary Codex task uses GPT-5.6 and `/feedback` ID is recorded.
 - [ ] Narrated public YouTube demo is no longer than three minutes.
 - [ ] Video explicitly explains both Codex and GPT-5.6.

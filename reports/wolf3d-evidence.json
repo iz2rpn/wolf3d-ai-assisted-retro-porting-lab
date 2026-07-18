@@ -1945,7 +1945,7 @@
       "title": "Fixed mount layout"
     }
   ],
-  "generated_at": "2026-07-18T20:38:49Z",
+  "generated_at": "2026-07-18T20:40:37Z",
   "generator": "tools/retroport.py",
   "interpretation_contract": {
     "ai_role": "Explain, prioritize, and propose changes with citations.",
