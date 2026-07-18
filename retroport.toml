@@ -148,3 +148,15 @@ physical_metrics = [
   "dropped_frames",
 ]
 
+[verification]
+fast = [
+  "python -m unittest -v tests.test_retroport",
+  "python -m py_compile tools/retroport.py tests/test_retroport.py",
+  "python tools/retroport.py --root . check-release",
+]
+target = [
+  "scripts/fetch_sources.sh",
+  "scripts/build_z6s.sh wl1",
+  "scripts/build_z6s.sh wl6",
+  "scripts/test_qemu.sh",
+]

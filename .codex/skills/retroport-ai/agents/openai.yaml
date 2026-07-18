@@ -1,0 +1,4 @@
+interface:
+  display_name: "RetroPort AI"
+  short_description: "Evidence-driven legacy porting workflow"
+  default_prompt: "Use $retroport-ai to analyze this legacy codebase, rank portability risks, and propose one verified migration patch."
