@@ -171,10 +171,28 @@ remain the property of their respective owners and are not included. Read
 [LICENSE](LICENSE) and
 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) before distributing a build.
 
-## OpenAI Build Week
+## Sources used to create this project
 
-WOLF3D – AI-Assisted Retro Porting Lab targets the **Developer Tools** track. It is a human engineering
-project strengthened by AI-assisted analysis and review. Submission materials
-are kept in the repository so claims can be audited. Before submission, the author
-must add a public device demo, verify the primary Codex session used GPT-5.6,
-and record the session feedback ID required by the event rules.
+The project was reconstructed from public upstream source code and evidence
+collected by the device owner. Exact revisions are recorded in
+[`scripts/fetch_sources.sh`](scripts/fetch_sources.sh), so the source baseline
+can be reproduced instead of relying on an undocumented copy.
+
+| Source | Pinned revision | Role in this project | License boundary |
+|---|---|---|---|
+| [id Software — Wolfenstein 3D historical source](https://github.com/id-Software/wolf3d) | [`05167784`](https://github.com/id-Software/wolf3d/commit/05167784ef009d0d0daefe8d012b027f39dc8541) | Historical DOS source used to study the original engine and data structures. It is reference material, not the engine compiled for the Z6S. | The historical `WOLFSRC/README/LICENSE.DOC` applies; this source is not permission to redistribute commercial game data. |
+| [Wolf4SDL](https://github.com/lazd/wolf4sdl) | [`3d41ccce`](https://github.com/lazd/wolf4sdl/commit/3d41ccce8f8fecbed83aa9d8d42734c2c7e62374) | Portable engine actually patched and cross-compiled for ARMv5. | This port follows Wolf4SDL's GPL v2 licensing path and preserves its notices. |
+| [SDL 1.2](https://github.com/libsdl-org/SDL-1.2) | [`457d4e55`](https://github.com/libsdl-org/SDL-1.2/commit/457d4e55ffe1b6ad4c4fa4559dbda8360bf8253d) | Linux framebuffer, timing, and input substrate adapted for the fixed 480x272 target. | LGPL-2.1-or-later obligations are preserved for the derived patch. |
+| [tinyalsa](https://github.com/tinyalsa/tinyalsa) | [`e43025bb`](https://github.com/tinyalsa/tinyalsa/commit/e43025bbf702eb7dd8edd48c1eb50530c60f1de8) | Minimal direct PCM output used by the threadless audio path. | The upstream BSD notice and disclaimer are preserved. |
+
+The author's legally owned Wolfenstein 3D data was used only for local WL6
+testing and is not included. The recovered NOVA3D Z6S SD card and the physical
+LCD supplied the hardware evidence; only sanitized measurements such as
+[`benchmarks/device/z6s-2026-07-18-performance.log`](benchmarks/device/z6s-2026-07-18-performance.log)
+are published. The working-device proof is available in the
+[YouTube Short](https://www.youtube.com/shorts/TgmA7cbyw-s).
+
+See [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md) for complete attribution
+and [`LICENSE`](LICENSE) for the path-level license mapping. Original lab work
+is dedicated under CC0-1.0 only where the project contributors own the relevant
+rights; upstream and third-party terms remain in force.

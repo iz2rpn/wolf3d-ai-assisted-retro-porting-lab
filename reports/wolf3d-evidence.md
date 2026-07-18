@@ -1,6 +1,6 @@
 # WOLF3D – AI-Assisted Retro Porting Lab evidence report
 
-Generated: `2026-07-18T20:40:37Z`
+Generated: `2026-07-18T20:55:42Z`
 Target: Linux ARMv5TE soft-float embedded framebuffer device
 
 ## Deterministic scope
