@@ -1,0 +1,120 @@
+{
+  "captured_at": "2026-07-18T20:38:49Z",
+  "device_metrics": {
+    "aggregate_present_fps": 12.644326377964441,
+    "average_present_interval_ms": {
+      "max": 238.19,
+      "mean": 114.91233333333334,
+      "min": 36.201,
+      "samples": 6
+    },
+    "interpretation": "Presentation frequency measures completed VL_Z6SPresent calls. It is not a GPU counter and should be reported with the target configuration.",
+    "peak_resident_memory_bytes": 7495680,
+    "present_fps": {
+      "max": 27.623,
+      "mean": 13.378166666666667,
+      "min": 4.198,
+      "samples": 6
+    },
+    "raw_samples": [
+      {
+        "elapsed_ms": 79,
+        "line": 1,
+        "logical": "320x200",
+        "metric": "sdl_first_present",
+        "native": "480x272"
+      },
+      {
+        "avg_present_interval_us": 238190,
+        "fps_milli": 4198,
+        "frames": 21,
+        "line": 2,
+        "maxrss_kb": 7124,
+        "metric": "present_window",
+        "window_ms": 5002
+      },
+      {
+        "avg_present_interval_us": 166382,
+        "fps_milli": 6010,
+        "frames": 47,
+        "line": 3,
+        "maxrss_kb": 7124,
+        "metric": "present_window",
+        "window_ms": 7820
+      },
+      {
+        "avg_present_interval_us": 134418,
+        "fps_milli": 7439,
+        "frames": 43,
+        "line": 4,
+        "maxrss_kb": 7220,
+        "metric": "present_window",
+        "window_ms": 5780
+      },
+      {
+        "avg_present_interval_us": 36201,
+        "fps_milli": 27623,
+        "frames": 139,
+        "line": 5,
+        "maxrss_kb": 7320,
+        "metric": "present_window",
+        "window_ms": 5032
+      },
+      {
+        "avg_present_interval_us": 57147,
+        "fps_milli": 17498,
+        "frames": 88,
+        "line": 6,
+        "maxrss_kb": 7320,
+        "metric": "present_window",
+        "window_ms": 5029
+      },
+      {
+        "avg_present_interval_us": 57136,
+        "fps_milli": 17501,
+        "frames": 88,
+        "line": 7,
+        "maxrss_kb": 7320,
+        "metric": "present_window",
+        "window_ms": 5028
+      }
+    ],
+    "sdl_first_present_ms": 79,
+    "source": "benchmarks/device/z6s-2026-07-18-performance.log",
+    "total_presentations": 426,
+    "total_window_ms": 33691,
+    "window_samples": 6
+  },
+  "git_revision": "c2df29f8f92943a57634a0a88b0b8c94026e5950",
+  "host": {
+    "platform": "Windows-10-10.0.26200-SP0",
+    "python": "3.11.9"
+  },
+  "physical_metrics": {
+    "dropped_frames": null,
+    "fps": null,
+    "frame_time_ms": null,
+    "reason": "Generic physical fields remain null; use device_metrics for the precisely defined presentation and resident-memory observations.",
+    "resident_memory_bytes": null,
+    "startup_time_ms": null,
+    "touch_latency_ms": null
+  },
+  "profiles": {
+    "wl1": {
+      "file_bytes": 1000384,
+      "path": "dist/z6s/wl1/wolf3d-z6s",
+      "section_reason": "No configured GNU-compatible size tool was found.",
+      "sections": null,
+      "sha256": "91bdb50fbb28cc89dc32d7ac81eda3de35dd20820abcf1553328a9a3e6879ee5"
+    },
+    "wl6": {
+      "file_bytes": 1000632,
+      "path": "dist/z6s/wl6/wolf3d-z6s",
+      "section_reason": "No configured GNU-compatible size tool was found.",
+      "sections": null,
+      "sha256": "8e6c2448e4249d031717fc1f8ee73322e97b29c6f7de5d5eda1e7c9e57132c0a"
+    }
+  },
+  "schema_version": 1,
+  "size_tool": null
+}

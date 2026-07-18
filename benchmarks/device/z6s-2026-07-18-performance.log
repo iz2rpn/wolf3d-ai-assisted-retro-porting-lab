@@ -1,0 +1,7 @@
+metric=sdl_first_present elapsed_ms=79 logical=320x200 native=480x272
+metric=present_window window_ms=5002 frames=21 fps_milli=4198 avg_present_interval_us=238190 maxrss_kb=7124
+metric=present_window window_ms=7820 frames=47 fps_milli=6010 avg_present_interval_us=166382 maxrss_kb=7124
+metric=present_window window_ms=5780 frames=43 fps_milli=7439 avg_present_interval_us=134418 maxrss_kb=7220
+metric=present_window window_ms=5032 frames=139 fps_milli=27623 avg_present_interval_us=36201 maxrss_kb=7320
+metric=present_window window_ms=5029 frames=88 fps_milli=17498 avg_present_interval_us=57147 maxrss_kb=7320
+metric=present_window window_ms=5028 frames=88 fps_milli=17501 avg_present_interval_us=57136 maxrss_kb=7320

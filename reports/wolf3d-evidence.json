@@ -1945,7 +1945,7 @@
       "title": "Fixed mount layout"
     }
   ],
-  "generated_at": "2026-07-18T20:15:49Z",
+  "generated_at": "2026-07-18T20:38:49Z",
   "generator": "tools/retroport.py",
   "interpretation_contract": {
     "ai_role": "Explain, prioritize, and propose changes with citations.",
@@ -2009,18 +2009,18 @@
   ],
   "project": {
     "case_study": "Wolfenstein 3D on NOVA3D Z6S",
-    "name": "RetroPort AI",
+    "name": "WOLF3D \u2013 AI-Assisted Retro Porting Lab",
     "target": "Linux ARMv5TE soft-float embedded framebuffer device"
   },
   "release_check": {
-    "files_checked": 64,
+    "files_checked": 69,
     "mode": "git-tracked",
     "passed": true,
     "violations": []
   },
   "schema_version": 1,
   "source_metrics": {
-    "bytes": 70100,
+    "bytes": 70102,
     "files": 18,
     "files_by_extension": {
       ".c": 1,

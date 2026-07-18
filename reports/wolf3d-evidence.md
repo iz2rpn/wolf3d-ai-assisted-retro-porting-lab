@@ -1,11 +1,11 @@
-# RetroPort AI evidence report
+# WOLF3D – AI-Assisted Retro Porting Lab evidence report
 
-Generated: `2026-07-18T20:15:49Z`
+Generated: `2026-07-18T20:38:49Z`
 Target: Linux ARMv5TE soft-float embedded framebuffer device
 
 ## Deterministic scope
 
-- 18 files, 2381 lines, 70100 bytes scanned.
+- 18 files, 2381 lines, 70102 bytes scanned.
 - 158 portability evidence items.
 - 4 patch files and 4 pinned dependencies.
 - Release guard: PASS.
