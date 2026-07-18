@@ -1,60 +1,57 @@
-# 7. Audio e collegamento altoparlante
+# 7. Audio and speaker safety
 
-## Architettura
+## Runtime architecture
 
-SDL_mixer completo è sovradimensionato per questo target e il vecchio SDL non
-riusciva a creare un thread audio affidabile. Il port implementa soltanto le API
-usate da `id_sd.cpp`:
+Full SDL_mixer is unnecessary for this target, and the legacy SDL audio thread
+was unreliable on the recovered firmware. The Z6S adapter implements only the
+API used by `id_sd.cpp`:
 
-- caricamento WAV PCM S16;
-- otto canali di effetti con panning;
-- callback musica AdLib/OPL;
-- gruppi e canali riservati;
-- saturazione del mix a 16 bit.
+- PCM S16 WAV loading;
+- eight effect channels with panning;
+- the AdLib/OPL music callback;
+- groups and reserved channels;
+- saturated 16-bit mixing.
 
-`Mix_Z6S_Pump()` genera un periodo nel main loop. tinyalsa apre:
+`Mix_Z6S_Pump()` generates one period from the main loop. tinyalsa opens:
 
 ```text
 /dev/snd/pcmC0D0p
-11025 Hz
-stereo S16 little-endian
-128 frame per periodo
-4 periodi
+11,025 Hz
+stereo signed 16-bit little-endian
+128 frames per period
+4 periods
 ```
 
-Il buffer runtime è 512 byte: 128 frame × 2 canali × 2 byte. Questo mantiene
-bassa la latenza e limita memoria/CPU. Se il PCM manca, il gioco continua senza
-audio invece di arrestarsi.
+The runtime buffer is 512 bytes. This keeps latency, memory, and CPU demand low.
+If the PCM is absent, gameplay continues silently.
 
-La prima prova hardware ha mostrato che il driver Linux 3.10 lasciava il PCM
-nello stato `SETUP`: l’apertura riusciva, ma il primo `WRITEI` rispondeva
-`EBADFD`. Il backend ora esegue `pcm_prepare()` esplicitamente dopo l’apertura e
-tenta una singola preparazione di recupero dopo un errore di scrittura. Se
-anche il secondo tentativo fallisce, disabilita l’audio per quella sessione:
-così un driver guasto non può rallentare il rendering con errori continui.
+The first device test showed a PCM left in `SETUP`: open succeeded, but the
+first `WRITEI` returned `EBADFD`. The backend now calls `pcm_prepare()` after
+open and allows one preparation retry after a write failure. A second failure
+disables audio for the session, preventing repeated log I/O from harming video.
 
 Log: `/mnt/extsd/wolf3d/audio.log`.
 
-## Collegamento fisico sicuro
+## Physical speaker safety
 
-Usare **un altoparlante passivo** tra `SPK+` e `SPK-`, rispettando l’impedenza
-indicata sulla scheda o nella documentazione del modulo. Non collegare nessuno
-dei due pin a GND. Non collegare cuffie, ingresso AUX o la massa di un
-amplificatore esterno: un’uscita SPK+/SPK- è spesso a ponte e può danneggiarsi.
+Use a passive speaker between `SPK+` and `SPK-` only after confirming the load
+specified for the board or amplifier. Do not connect either pin to ground. Do
+not attach headphones, AUX input, or a ground-referenced external amplifier;
+`SPK+`/`SPK-` often indicates a bridged output that can be damaged by grounding
+one side.
 
-Poiché impedenza e potenza non sono ancora note, iniziare con il volume software
-basso e una prova breve. Se non esiste una marcatura affidabile, misurare o
-identificare prima il chip amplificatore.
+Because impedance and power are not established by current evidence, start with
+low software volume and a brief test. If reliable markings are unavailable,
+identify or measure the amplifier first.
 
-## Sequenza di test
+## Test sequence
 
-1. Avviare senza altoparlante e verificare `audio.log`.
-2. Cercare la riga `ALSA opened ... rate=11025 ... period_frames=128`.
-3. Spegnere completamente.
-4. Collegare l’altoparlante passivo a `SPK+`/`SPK-`.
-5. Riaccendere e provare prima un effetto breve, poi la musica.
+1. Boot without a speaker and inspect `audio.log`.
+2. Confirm an `ALSA opened` line with 11,025 Hz and 128 period frames.
+3. Power off completely.
+4. Connect the verified passive speaker across `SPK+`/`SPK-`.
+5. Power on and test a short effect before continuous music.
 
-Errori `pcm_writei` persistenti vengono registrati una sola volta per non
-consumare la SD.
-Click o musica spezzata indicano underrun: provare 1024 byte e 22050 Hz solo
-dopo aver misurato il carico, perché raddoppiano lavoro e latenza.
+Persistent `pcm_writei` failures are logged once. Clicking or broken music may
+indicate underruns; change buffer size or sample rate only after recording CPU
+load because those changes trade latency and work.

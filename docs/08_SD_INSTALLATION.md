@@ -1,87 +1,90 @@
-# 8. Installazione, aggiornamento e recupero
+# 8. SD installation and recovery
 
-## Preparazione
+## Public versus local package
 
-La cartella `sdcard` contiene il layout finale. Prima di copiare:
+The tracked `sdcard/` directory is a legal launcher/configuration skeleton. It
+does not include game data, generated ARM binaries, recovered vendor resources,
+or a BusyBox executable. A local deployable package is created only after the
+user supplies lawfully redistributable dependencies and their own compatible
+game data.
 
-1. formattare la nuova SD con FAT32;
-2. verificare che la lettera sia davvero `D:`;
-3. conservare il backup `sd_full_backup_20080411` sul PC;
-4. copiare **il contenuto** di `sdcard`, non la cartella contenitore.
+BusyBox is GPLv2 software: if you redistribute a binary, satisfy its exact
+license/source obligations. The recovered device binary is intentionally not
+part of this public repository.
 
-Da PowerShell:
+## Prepare a local card
+
+1. Preserve a verified backup of the existing card.
+2. Build both required profiles and populate the ignored local `sdcard/` tree.
+3. Check the destination drive identity and capacity; never assume a drive
+   letter from documentation.
+4. Use FAT32 if that is what the appliance firmware requires.
+5. Copy the *contents* of `sdcard/` to the card root.
+6. Re-read hashes from the destination before ejecting.
+
+Example PowerShell command after replacing placeholders:
 
 ```powershell
-robocopy "C:\Users\iz2rp\progetti folli\lcd nova3d\reconstructed_wolf3d\sdcard" "D:\" /E /COPY:DAT /DCOPY:DAT
+robocopy "<repository>\sdcard" "<sd-drive>\" /E /COPY:DAT /DCOPY:DAT
 ```
 
-Il layout atteso è:
+A complete private deployment typically contains:
 
 ```text
-D:\EasyUI.cfg
-D:\busybox
-D:\gzui\...
-D:\wolf3d\wolf3d-z6s-wl1
-D:\wolf3d\wolf3d-z6s-wl6
-D:\wolf3d\libwolf_autostart.so
-D:\wolf3d\data\VSWAP.WL1
-D:\wolf3d\data\VSWAP.WL6
+<sd-root>/EasyUI.cfg
+<sd-root>/busybox                         user-supplied licensed dependency
+<sd-root>/wolf3d/run_wolf3d.sh
+<sd-root>/wolf3d/wolf3d-z6s-wl1          generated locally
+<sd-root>/wolf3d/wolf3d-z6s-wl6          generated locally
+<sd-root>/wolf3d/libwolf_autostart.so     generated locally
+<sd-root>/wolf3d/data/...                 user-supplied legal game data
 ```
 
-## Primo avvio
+Do not add this completed private layout to Git.
 
-Inserire la SD a dispositivo spento. EasyUI inizializza il display; dopo circa
-otto secondi parte lo script. Tastiera e altoparlante possono essere testati
-separatamente. Consultare nell’ordine:
+## First boot
 
-Senza tastiera, non è necessario toccare nulla: il gioco mostra il logo,
-raggiunge il menu e dopo cinque secondi avvia la demo. Un tap durante quei
-cinque secondi apre invece il menu utilizzabile col touch.
+Insert the SD while the device is powered off. EasyUI initializes first; the
+launcher starts after approximately eight seconds. Without a keyboard, the game
+shows its original logo, reaches the menu, and enters demo mode after five
+seconds. A tap during the menu window switches to interactive touch operation.
 
-Poiché il set originale `.WL6` è completo, il launcher seleziona
-automaticamente l’edizione registrata con tutti e sei gli episodi. I file
-commerciali sulla scheda sono personali e non devono essere redistribuiti.
+Inspect these logs separately:
 
 ```text
 /mnt/extsd/wolf3d/autostart.log
 /mnt/extsd/wolf3d/wolf3d.log
 /mnt/extsd/wolf3d/input.log
 /mnt/extsd/wolf3d/audio.log
+/mnt/extsd/wolf3d/performance.log
 ```
 
-## Disattivazione via ADB
+## Disable or test once through ADB
 
 ```sh
 sh /mnt/extsd/wolf3d/disable_autostart.sh
 reboot
 ```
 
-Lo script crea `wolf3d/stop`, termina il gioco, riprende l’HMI e seleziona la
-libreria vendor per l’avvio successivo. Per riattivare:
+This creates `wolf3d/stop`, ends the game, resumes the HMI, and selects the safe
+configuration. To re-enable:
 
 ```sh
 sh /mnt/extsd/wolf3d/enable_autostart.sh
 reboot
 ```
 
-## Prova singola
-
-Con autostart disabilitato:
+With autostart disabled, use a one-shot run:
 
 ```sh
 sh /mnt/extsd/wolf3d/test_once.sh
 ```
 
-Il gioco non viene rilanciato dopo l’uscita e l’HMI viene ripresa.
+## Emergency recovery
 
-## Recupero d’emergenza
+Power off, remove the SD, and power on. The installation does not replace
+internal libraries. Never remove the card while it is mounted or being written.
 
-Spegnere, rimuovere la SD e riaccendere. La configurazione e la libreria
-interne non sono state modificate. Non rimuovere la SD mentre è in scrittura.
-
-## Aggiornare solo la build
-
-Ricompilare `wl1` e/o `wl6`, copiare sulla SD prima con nomi temporanei e poi,
-a display spento, sostituire `wolf3d-z6s-wl1`, `wolf3d-z6s-wl6` e, se è
-cambiato, `libwolf_autostart.so`. Conservare la versione precedente fino al
-completamento del test hardware.
+For an update, copy new files to temporary names, verify hashes, and replace the
+executables only while the device is powered off. Keep the previous known-good
+build until the hardware test completes.

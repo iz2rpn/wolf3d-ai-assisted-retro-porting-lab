@@ -1,17 +1,17 @@
-# 9. Debug e ottimizzazione
+# 9. Debugging and performance
 
-## Ordine corretto di diagnosi
+## Diagnostic order
 
-1. **Processo:** `pidof wolf3d-z6s-wl1 wolf3d-z6s-wl6`.
-2. **Log avvio:** proxy e launcher.
-3. **Dati:** estensione WL1/WL6 coerente con il profilo compilato.
-4. **Video:** framebuffer e alpha.
-5. **Input:** capability evdev e log dispositivi.
-6. **Audio:** apertura PCM e underrun.
+1. Process: is either game executable alive?
+2. Boot log: did the proxy and launcher run?
+3. Data: does the compiled WL1/WL6 profile match the supplied files?
+4. Video: are native mode, pitch, and alpha correct?
+5. Input: which evdev capabilities were discovered?
+6. Audio: did the PCM open, prepare, and write without repeated recovery?
 
-Cambiare un solo livello per volta rende le prove confrontabili.
+Change one layer per test so results remain comparable.
 
-## Comandi ADB utili
+## Useful device commands
 
 ```sh
 cat /proc/cpuinfo
@@ -24,42 +24,46 @@ ps
 dmesg | tail -100
 ```
 
-Dopo ogni avvio controllare anche `/mnt/extsd/wolf3d/wolf3d.log`: la build
-corretta deve riportare prima il framebuffer `480,272, 32bpp` e poi
-`Z6S video scaler: 320x200 logical -> 480x272x32 native`. `audio.log` e
-`input.log` vengono azzerati dal launcher, quindi descrivono soltanto l’ultima
-prova.
+The expected video message is:
 
-## Scelte di performance già applicate
-
-- 320×200 invece di 480×272 logici.
-- scalatura full-screen con mappe X/Y pre-calcolate e framebuffer sempre
-  480×272×32;
-- nessuna scansione delle modalità fbcon e nessun cambio di `yres_virtual`;
-- Sample rate 11025 Hz.
-- Mixer a otto canali e un periodo alla volta.
-- Nessun thread audio o input.
-- Polling input non bloccante e scansione hot-plug ogni due secondi.
-- `-Os`, ARMv5TE specifico e garbage collection delle sezioni.
-- SDL senza X11, OpenGL, audio generico e CD-ROM.
-- Governor `performance` soltanto mentre il gioco gira, poi ripristinato.
-
-## Misurare prima di ottimizzare ancora
-
-```sh
-top
-pid=$(pidof wolf3d-z6s-wl1 wolf3d-z6s-wl6)
-cat /proc/${pid%% *}/status
+```text
+Z6S video scaler: 320x200 logical -> 480x272x32 native
 ```
 
-Se il limite è CPU, ridurre effetti simultanei o mantenere 11025 Hz. Se il
-limite è I/O, non aumentare i log nel frame loop. Se l’audio scatta ma la CPU è
-libera, aumentare `--audiobuffer` a 1024; se il controllo diventa lento,
-ritornare a 512.
+The launcher truncates session-specific input, audio, and performance logs so a
+new run does not silently mix old and new evidence.
 
-## Warning di compilazione
+## Existing optimizations
 
-Wolf4SDL è codice storico e GCC moderno segnala molte letture/scritture con
-valore ignorato e formati datati. Non sono stati nascosti con `-w`: restano
-visibili per un futuro hardening. Il build non usa `-Werror`, perché warning
-preesistenti non devono impedire un port riproducibile.
+- 320x200 logical rendering with fixed 480x272x32 scanout;
+- precomputed X/Y scaling maps and no mode enumeration;
+- 11,025 Hz audio, eight channels, and one main-loop period at a time;
+- no audio/input worker threads;
+- non-blocking input with two-second hot-plug scans;
+- ARMv5TE-specific `-Os` build and section garbage collection;
+- SDL without X11, OpenGL, generic audio, or CD-ROM backends;
+- performance governor only while the game runs;
+- five-second integer telemetry windows instead of per-frame logging.
+
+## Measure before changing code
+
+```sh
+pid=$(pidof wolf3d-z6s-wl1 wolf3d-z6s-wl6)
+cat /proc/${pid%% *}/status
+cat /mnt/extsd/wolf3d/performance.log
+```
+
+Copy the raw log without editing it and parse it on the host with
+`tools/retroport.py benchmark --device-log ...`. A presentation-call rate is a
+regression signal, not automatically the display refresh rate.
+
+If CPU is limiting, measure the mixer and presenter before lowering quality. If
+audio underruns while CPU is free, compare a larger audio buffer. If control
+latency rises, restore the 512-byte default. Record every changed variable.
+
+## Compiler warnings
+
+Wolf4SDL is historical code and modern GCC reports ignored return values and old
+format patterns. The build does not hide them with `-w`, but it also does not use
+`-Werror` because pre-existing warnings must not block reproducibility. New
+project-authored code should remain warning-clean where practical.

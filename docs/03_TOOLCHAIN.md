@@ -1,37 +1,36 @@
-# 3. Toolchain riproducibile
+# 3. Reproducible toolchain
 
-## Perché WSL
+## Host environment
 
-La toolchain deve produrre ARM EABI soft-float e collegare staticamente glibc.
-Ubuntu fornisce direttamente `arm-linux-gnueabi`. WSL evita dipendenze dal PATH
-di Windows e rende gli stessi comandi riutilizzabili su una macchina Linux.
+Ubuntu supplies a complete ARM EABI soft-float cross-toolchain. Linux or WSL
+also keeps legacy Autoconf behavior independent of the Windows `PATH`.
 
-Ambiente usato nella ricostruzione:
+Environment used for the tracked builds:
 
 ```text
 WSL: Ubuntu 26.04 LTS
-GCC cross: 15.2.0
+Cross GCC: 15.2.0
 binutils: 2.46
-target: arm-linux-gnueabi
+Target: arm-linux-gnueabi
 ```
 
-## Installazione
+Install dependencies on Ubuntu:
 
-Da PowerShell amministrativo solo per la prima installazione:
+```bash
+sudo apt-get update
+sudo apt-get install -y \
+  gcc-arm-linux-gnueabi g++-arm-linux-gnueabi \
+  binutils-arm-linux-gnueabi libc6-dev-armel-cross \
+  make autoconf file patch git ca-certificates qemu-user
+```
+
+On Windows, first install the WSL distribution:
 
 ```powershell
 wsl --install -d Ubuntu-26.04 --no-launch
-wsl -d Ubuntu-26.04 -u root -- apt-get update
-wsl -d Ubuntu-26.04 -u root -- apt-get install -y gcc-arm-linux-gnueabi g++-arm-linux-gnueabi binutils-arm-linux-gnueabi libc6-dev-armel-cross make autoconf file patch git ca-certificates
 ```
 
-QEMU è facoltativo ma consigliato:
-
-```powershell
-wsl -d Ubuntu-26.04 -u root -- apt-get install -y qemu-user
-```
-
-## Flag fondamentali
+## Critical flags
 
 ```text
 -march=armv5te
@@ -43,24 +42,23 @@ wsl -d Ubuntu-26.04 -u root -- apt-get install -y qemu-user
 -static
 ```
 
-`-Os` riduce codice e pressione sulla cache. Le sezioni separate permettono al
-linker di eliminare funzioni non usate. Il link statico evita di dipendere dalle
-librerie musl presenti nel dispositivo.
+`-Os` reduces code and instruction-cache pressure. Separate sections allow the
+linker to remove unused code. Static linking avoids dependence on the firmware's
+musl libraries for the standalone game.
 
-## Nota sui percorsi con spazi
+## Paths containing spaces
 
-Il progetto si trova in `progetti folli/lcd nova3d`. Il vecchio libtool di SDL
-1.2 non sa configurarsi sotto un percorso con spazi. `build_z6s.sh` crea quindi
-un alias e la build SDL sotto `/var/tmp/z6s-wolf3d-UID`; sorgenti, oggetti Wolf e
-output restano nel progetto. Non è un workaround manuale da ripetere.
+SDL 1.2's old libtool cannot configure reliably below a path containing spaces.
+`build_z6s.sh` creates a temporary alias and SDL build directory below
+`/var/tmp/z6s-wolf3d-UID`. Source, Wolf objects, and final output remain in the
+project. This workaround is automatic.
 
-## Sorgenti puliti
-
-Per un nuovo clone, eseguire da WSL:
+## Clean reconstruction
 
 ```bash
 bash scripts/fetch_sources.sh
+bash scripts/verify_patches.sh
 ```
 
-Il clone viene effettuato con `core.autocrlf=false`. Il build normalizza inoltre
-gli script autoconf di SDL se provengono da un checkout Windows CRLF.
+The clone uses `core.autocrlf=false`; the build also normalizes legacy Autoconf
+scripts if a Windows checkout introduced CRLF endings.

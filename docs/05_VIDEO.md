@@ -1,17 +1,17 @@
-# 5. Video: framebuffer, scala e byte alpha
+# 5. Video: fixed scanout, scaling, and alpha
 
-## Scelta di risoluzione
+## Resolution strategy
 
-Il pannello è sempre 480×272×32, mentre Wolf3D continua a renderizzare a
-320×200 palettizzati. Calcolare direttamente la scena a 480×272 aumenterebbe i
-pixel del 104% senza aggiungere dettaglio alle texture originali.
+The panel remains at 480x272x32 while Wolf3D renders its palettized scene at
+320x200. Rendering the game directly at the panel resolution would process 104%
+more logical pixels without adding detail to the original textures.
 
-`VL_Z6SPresent()` converte e scala ogni fotogramma logico sull’intera superficie
-fisica. Le mappe X/Y vengono calcolate una volta; il ciclo per pixel esegue poi
-soltanto lookup di palette e copie. Un buffer intermedio da 522.240 byte evita
-che lo scanout osservi un fotogramma costruito riga per riga.
+`VL_Z6SPresent()` converts and scales every logical frame across the full native
+surface. X/Y maps are computed once; the hot loop uses palette lookups and
+copies. A 522,240-byte intermediate buffer prevents scanout from observing a
+frame while it is being assembled row by row.
 
-Opzioni runtime:
+Runtime contract:
 
 ```text
 --resf 320 200 --bits 32
@@ -23,43 +23,52 @@ Z6S_NATIVE_WIDTH=480
 Z6S_NATIVE_HEIGHT=272
 ```
 
-`SDL_FB_BROKEN_MODES=1` impedisce a SDL di provare risoluzioni alternative.
-Il doppio buffer fbcon è disabilitato perché modificherebbe `yres_virtual`.
-Logo, menu, dissolvenze e renderer 3D passano tutti dallo stesso presentatore;
-le vecchie dissolvenze casuali che scrivevano direttamente nel framebuffer
-logico sono sostituite da una presentazione completa immediata.
+`SDL_FB_BROKEN_MODES=1` prevents alternative mode probing. fbcon double
+buffering is disabled because it would alter `yres_virtual`. The logo, menu,
+fades, 3D renderer, and demos all use the same presenter.
 
-## Perché SDL fbcon è stato modificato
+## SDL fbcon adaptation
 
-SDL 1.2 prova normalmente ad aprire una virtual console e a impostare la
-tastiera in medium-raw mode. Il firmware non espone una VT Linux utilizzabile.
-Con `SDL_FBCON_NO_CONSOLE=1`, `SDL_fbevents.c` salta quelle operazioni; l’input
-arriva dal backend evdev indipendente.
+SDL 1.2 normally opens a Linux virtual console and selects medium-raw keyboard
+mode. This firmware exposes no usable VT. With `SDL_FBCON_NO_CONSOLE=1`, the
+patched backend skips console ownership; the independent evdev adapter supplies
+input.
 
-## Il problema dello schermo nero
+## Black-screen root cause
 
-I dump di `/dev/fb0` contenevano RGB corretti, ma il pannello restava nero. Nel
-formato vendor il byte alto del pixel a 32 bit viene interpretato come alpha;
-il blitter palettizzato SDL lo lasciava a zero.
-
-Ogni colore convertito dal nuovo presentatore applica direttamente:
+Early `/dev/fb0` dumps contained correct RGB values while the physical panel was
+black. On this vendor format, the high byte of each 32-bit pixel behaves as
+alpha; SDL's palettized blitter left it at zero. Every converted color now sets:
 
 ```c
 pixel |= 0xff000000U;
 ```
 
-La copia finale rispetta `screen->pitch`, non presume righe contigue. La vecchia
-`VL_Z6SForceOpaque()` resta solo come ripiego per formati video inattesi.
+The final copy honors `screen->pitch`. The earlier `VL_Z6SForceOpaque()` remains
+only as a fallback for unexpected video formats.
 
-## Diagnostica sul dispositivo
+## Low-overhead telemetry
 
-Se il gioco è nero ma il processo vive:
+When `Z6S_METRICS_LOG` is set, the presenter records:
+
+- one `sdl_first_present` event;
+- one `present_window` record every five seconds;
+- completed presentations, elapsed time, integer `fps_milli`, mean present
+  interval, and process `maxrss_kb`.
+
+No file output occurs per frame. `fps_milli` is a presentation-call rate, not a
+claim about panel refresh, GPU execution, or end-to-end latency.
+
+## Device diagnostics
+
+If the process is alive but the screen is black:
 
 ```sh
 /mnt/extsd/busybox pidof wolf3d-z6s-wl1 wolf3d-z6s-wl6
 /mnt/extsd/busybox tail -100 /mnt/extsd/wolf3d/wolf3d.log
-/mnt/extsd/busybox dd if=/dev/fb0 of=/mnt/extsd/wolf3d/fb-test.raw bs=522240 count=2
+/mnt/extsd/busybox dd if=/dev/fb0 of=/mnt/extsd/wolf3d/fb-test.raw \
+  bs=522240 count=2
 ```
 
-Conservare il dump prima di cambiare codice: distingue un problema di rendering
-da un problema di scanout/alpha.
+Preserve the dump before changing code. It separates rendering failure from
+pixel-format or scanout failure.

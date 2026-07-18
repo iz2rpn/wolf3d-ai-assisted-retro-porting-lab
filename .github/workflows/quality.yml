@@ -1,0 +1,28 @@
+name: quality
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  public-source-checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Compile Python sources
+        run: python -m py_compile tools/retroport.py tests/test_retroport.py
+      - name: Run unit tests
+        run: python -m unittest -v
+      - name: Check shell syntax
+        run: |
+          for file in scripts/*.sh sdcard/wolf3d/*.sh; do
+            bash -n "$file"
+          done
+      - name: Enforce legal public boundary
+        run: python tools/retroport.py --root . check-release

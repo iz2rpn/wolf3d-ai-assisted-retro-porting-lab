@@ -1,0 +1,2041 @@
+{
+  "dependencies": [
+    {
+      "commit": "3d41ccce8f8fecbed83aa9d8d42734c2c7e62374",
+      "name": "wolf4sdl",
+      "url": "https://github.com/lazd/wolf4sdl.git"
+    },
+    {
+      "commit": "05167784ef009d0d0daefe8d012b027f39dc8541",
+      "name": "id-wolf3d",
+      "url": "https://github.com/id-Software/wolf3d.git"
+    },
+    {
+      "commit": "457d4e55ffe1b6ad4c4fa4559dbda8360bf8253d",
+      "name": "SDL-1.2.15",
+      "url": "https://github.com/libsdl-org/SDL-1.2.git"
+    },
+    {
+      "commit": "e43025bbf702eb7dd8edd48c1eb50530c60f1de8",
+      "name": "tinyalsa",
+      "url": "https://github.com/tinyalsa/tinyalsa.git"
+    }
+  ],
+  "entry_points": [
+    {
+      "excerpt": "+        Mix_Z6S_Pump();",
+      "kind": "audio-pump",
+      "line": 26,
+      "path": "patches/wolf4sdl-z6s.patch"
+    },
+    {
+      "excerpt": "+    Mix_Z6S_Pump();",
+      "kind": "audio-pump",
+      "line": 54,
+      "path": "patches/wolf4sdl-z6s.patch"
+    },
+    {
+      "excerpt": "+           is absent. Mix_Z6S_Pump() becomes a no-op until audio is available. */",
+      "kind": "audio-pump",
+      "line": 72,
+      "path": "patches/wolf4sdl-z6s.patch"
+    },
+    {
+      "excerpt": "void Mix_Z6S_Pump(void);",
+      "kind": "audio-pump",
+      "line": 55,
+      "path": "port/z6s/include/SDL_mixer.h"
+    },
+    {
+      "excerpt": "extern \"C\" void Mix_Z6S_Pump(void)",
+      "kind": "audio-pump",
+      "line": 457,
+      "path": "port/z6s/src/sdl_mixer_z6s.cpp"
+    },
+    {
+      "excerpt": "+    VL_Z6SPresent(screenBuffer);",
+      "kind": "frame-presenter",
+      "line": 12,
+      "path": "patches/wolf4sdl-z6s-native-video.patch"
+    },
+    {
+      "excerpt": "+    VL_Z6SPresent(source);",
+      "kind": "frame-presenter",
+      "line": 30,
+      "path": "patches/wolf4sdl-z6s-native-video.patch"
+    },
+    {
+      "excerpt": "+void VL_Z6SPresent(SDL_Surface *source)",
+      "kind": "frame-presenter",
+      "line": 150,
+      "path": "patches/wolf4sdl-z6s-native-video.patch"
+    },
+    {
+      "excerpt": "+    VL_Z6SPresent(screenBuffer);",
+      "kind": "frame-presenter",
+      "line": 269,
+      "path": "patches/wolf4sdl-z6s-native-video.patch"
+    },
+    {
+      "excerpt": "+        VL_Z6SPresent(curSurface);",
+      "kind": "frame-presenter",
+      "line": 282,
+      "path": "patches/wolf4sdl-z6s-native-video.patch"
+    },
+    {
+      "excerpt": "+            VL_Z6SPresent(curSurface);",
+      "kind": "frame-presenter",
+      "line": 298,
+      "path": "patches/wolf4sdl-z6s-native-video.patch"
+    },
+    {
+      "excerpt": "+void VL_Z6SPresent(SDL_Surface *source);",
+      "kind": "frame-presenter",
+      "line": 313,
+      "path": "patches/wolf4sdl-z6s-native-video.patch"
+    },
+    {
+      "excerpt": "+        VL_Z6SPresent(screenBuffer);",
+      "kind": "frame-presenter",
+      "line": 325,
+      "path": "patches/wolf4sdl-z6s-native-video.patch"
+    },
+    {
+      "excerpt": "+        Z6S_InputPump();",
+      "kind": "input-pump",
+      "line": 25,
+      "path": "patches/wolf4sdl-z6s.patch"
+    },
+    {
+      "excerpt": "+    Z6S_InputPump();",
+      "kind": "input-pump",
+      "line": 53,
+      "path": "patches/wolf4sdl-z6s.patch"
+    },
+    {
+      "excerpt": "void Z6S_InputPump(void);",
+      "kind": "input-pump",
+      "line": 10,
+      "path": "port/z6s/include/z6s_input.h"
+    },
+    {
+      "excerpt": "void Z6S_InputPump(void)",
+      "kind": "input-pump",
+      "line": 365,
+      "path": "port/z6s/src/z6s_input.cpp"
+    },
+    {
+      "excerpt": "int onEasyUIInit(void *a0, void *a1, void *a2, void *a3)",
+      "kind": "shared-library-hook",
+      "line": 146,
+      "path": "port/z6s/autostart/libwolf_autostart.c"
+    },
+    {
+      "excerpt": "#!/usr/bin/env bash",
+      "kind": "shell-entry",
+      "line": 1,
+      "path": "scripts/build_z6s.sh"
+    },
+    {
+      "excerpt": "#!/usr/bin/env bash",
+      "kind": "shell-entry",
+      "line": 1,
+      "path": "scripts/clean_z6s.sh"
+    },
+    {
+      "excerpt": "#!/usr/bin/env bash",
+      "kind": "shell-entry",
+      "line": 1,
+      "path": "scripts/fetch_sources.sh"
+    },
+    {
+      "excerpt": "#!/usr/bin/env bash",
+      "kind": "shell-entry",
+      "line": 1,
+      "path": "scripts/test_qemu.sh"
+    },
+    {
+      "excerpt": "#!/usr/bin/env bash",
+      "kind": "shell-entry",
+      "line": 1,
+      "path": "scripts/verify_patches.sh"
+    },
+    {
+      "excerpt": "#!/bin/sh",
+      "kind": "shell-entry",
+      "line": 1,
+      "path": "sdcard/wolf3d/disable_autostart.sh"
+    },
+    {
+      "excerpt": "#!/bin/sh",
+      "kind": "shell-entry",
+      "line": 1,
+      "path": "sdcard/wolf3d/enable_autostart.sh"
+    },
+    {
+      "excerpt": "#!/bin/sh",
+      "kind": "shell-entry",
+      "line": 1,
+      "path": "sdcard/wolf3d/run_wolf3d.sh"
+    },
+    {
+      "excerpt": "#!/bin/sh",
+      "kind": "shell-entry",
+      "line": 1,
+      "path": "sdcard/wolf3d/test_once.sh"
+    }
+  ],
+  "finding_summary": {
+    "by_category": {
+      "abi": 26,
+      "audio": 10,
+      "build": 3,
+      "configuration": 22,
+      "filesystem": 18,
+      "hardware-boundary": 23,
+      "input": 13,
+      "rendering": 40,
+      "runtime-integration": 3
+    },
+    "by_severity": {
+      "critical": 26,
+      "high": 49,
+      "low": 29,
+      "medium": 54
+    },
+    "total": 158
+  },
+  "findings": [
+    {
+      "category": "configuration",
+      "excerpt": "+    if ( SDL_getenv(\"SDL_FBCON_NO_CONSOLE\") != NULL ) {",
+      "guidance": "Record the variable in the target profile and user documentation.",
+      "line": 11,
+      "match": "getenv(",
+      "path": "patches/sdl12-z6s.patch",
+      "rule_id": "environment-configuration",
+      "severity": "low",
+      "title": "Environment-driven target switch"
+    },
+    {
+      "category": "configuration",
+      "excerpt": "+    if ( SDL_getenv(\"SDL_FBCON_NO_CONSOLE\") != NULL ) {",
+      "guidance": "Record the variable in the target profile and user documentation.",
+      "line": 22,
+      "match": "getenv(",
+      "path": "patches/sdl12-z6s.patch",
+      "rule_id": "environment-configuration",
+      "severity": "low",
+      "title": "Environment-driven target switch"
+    },
+    {
+      "category": "hardware-boundary",
+      "excerpt": "static const char * const tty0[] = { \"/dev/tty0\", \"/dev/vc/0\", NULL };",
+      "guidance": "Bind this path to a target profile or document why it is invariant.",
+      "line": 28,
+      "match": "/dev/tty0",
+      "path": "patches/sdl12-z6s.patch",
+      "rule_id": "absolute-kernel-path",
+      "severity": "high",
+      "title": "Absolute kernel interface path"
+    },
+    {
+      "category": "rendering",
+      "excerpt": "-\tSDL_BlitSurface(screenBuffer, NULL, screen, NULL);",
+      "guidance": "Legacy SDL video paths often require mode, pitch, and pixel-format checks.",
+      "line": 8,
+      "match": "SDL_BlitSurface",
+      "path": "patches/wolf4sdl-z6s-native-video.patch",
+      "rule_id": "sdl12-framebuffer-api",
+      "severity": "medium",
+      "title": "SDL 1.2 framebuffer presentation"
+    },
+    {
+      "category": "rendering",
+      "excerpt": "+\tSDL_BlitSurface(screenBuffer, NULL, screen, NULL);",
+      "guidance": "Legacy SDL video paths often require mode, pitch, and pixel-format checks.",
+      "line": 14,
+      "match": "SDL_BlitSurface",
+      "path": "patches/wolf4sdl-z6s-native-video.patch",
+      "rule_id": "sdl12-framebuffer-api",
+      "severity": "medium",
+      "title": "SDL 1.2 framebuffer presentation"
+    },
+    {
+      "category": "rendering",
+      "excerpt": "SDL_Flip(screen);",
+      "guidance": "Legacy SDL video paths often require mode, pitch, and pixel-format checks.",
+      "line": 15,
+      "match": "SDL_Flip",
+      "path": "patches/wolf4sdl-z6s-native-video.patch",
+      "rule_id": "sdl12-framebuffer-api",
+      "severity": "medium",
+      "title": "SDL 1.2 framebuffer presentation"
+    },
+    {
+      "category": "rendering",
+      "excerpt": "SDL_BlitSurface(source, NULL, screen, NULL);",
+      "guidance": "Legacy SDL video paths often require mode, pitch, and pixel-format checks.",
+      "line": 39,
+      "match": "SDL_BlitSurface",
+      "path": "patches/wolf4sdl-z6s-native-video.patch",
+      "rule_id": "sdl12-framebuffer-api",
+      "severity": "medium",
+      "title": "SDL 1.2 framebuffer presentation"
+    },
+    {
+      "category": "rendering",
+      "excerpt": "SDL_Flip(screen);",
+      "guidance": "Legacy SDL video paths often require mode, pitch, and pixel-format checks.",
+      "line": 43,
+      "match": "SDL_Flip",
+      "path": "patches/wolf4sdl-z6s-native-video.patch",
+      "rule_id": "sdl12-framebuffer-api",
+      "severity": "medium",
+      "title": "SDL 1.2 framebuffer presentation"
+    },
+    {
+      "category": "rendering",
+      "excerpt": "SDL_Flip(screen);",
+      "guidance": "Legacy SDL video paths often require mode, pitch, and pixel-format checks.",
+      "line": 53,
+      "match": "SDL_Flip",
+      "path": "patches/wolf4sdl-z6s-native-video.patch",
+      "rule_id": "sdl12-framebuffer-api",
+      "severity": "medium",
+      "title": "SDL 1.2 framebuffer presentation"
+    },
+    {
+      "category": "rendering",
+      "excerpt": "SDL_BlitSurface(source, NULL, screen, NULL);",
+      "guidance": "Legacy SDL video paths often require mode, pitch, and pixel-format checks.",
+      "line": 59,
+      "match": "SDL_BlitSurface",
+      "path": "patches/wolf4sdl-z6s-native-video.patch",
+      "rule_id": "sdl12-framebuffer-api",
+      "severity": "medium",
+      "title": "SDL 1.2 framebuffer presentation"
+    },
+    {
+      "category": "rendering",
+      "excerpt": "SDL_Flip(screen);",
+      "guidance": "Legacy SDL video paths often require mode, pitch, and pixel-format checks.",
+      "line": 63,
+      "match": "SDL_Flip",
+      "path": "patches/wolf4sdl-z6s-native-video.patch",
+      "rule_id": "sdl12-framebuffer-api",
+      "severity": "medium",
+      "title": "SDL 1.2 framebuffer presentation"
+    },
+    {
+      "category": "configuration",
+      "excerpt": "+    const char *path = getenv(\"Z6S_METRICS_LOG\");",
+      "guidance": "Record the variable in the target profile and user documentation.",
+      "line": 96,
+      "match": "getenv(",
+      "path": "patches/wolf4sdl-z6s-native-video.patch",
+      "rule_id": "environment-configuration",
+      "severity": "low",
+      "title": "Environment-driven target switch"
+    },
+    {
+      "category": "rendering",
+      "excerpt": "+        SDL_BlitSurface(source, NULL, screen, NULL);",
+      "guidance": "Legacy SDL video paths often require mode, pitch, and pixel-format checks.",
+      "line": 161,
+      "match": "SDL_BlitSurface",
+      "path": "patches/wolf4sdl-z6s-native-video.patch",
+      "rule_id": "sdl12-framebuffer-api",
+      "severity": "medium",
+      "title": "SDL 1.2 framebuffer presentation"
+    },
+    {
+      "category": "rendering",
+      "excerpt": "+        SDL_Flip(screen);",
+      "guidance": "Legacy SDL video paths often require mode, pitch, and pixel-format checks.",
+      "line": 163,
+      "match": "SDL_Flip",
+      "path": "patches/wolf4sdl-z6s-native-video.patch",
+      "rule_id": "sdl12-framebuffer-api",
+      "severity": "medium",
+      "title": "SDL 1.2 framebuffer presentation"
+    },
+    {
+      "category": "rendering",
+      "excerpt": "+    SDL_Flip(screen);",
+      "guidance": "Legacy SDL video paths often require mode, pitch, and pixel-format checks.",
+      "line": 225,
+      "match": "SDL_Flip",
+      "path": "patches/wolf4sdl-z6s-native-video.patch",
+      "rule_id": "sdl12-framebuffer-api",
+      "severity": "medium",
+      "title": "SDL 1.2 framebuffer presentation"
+    },
+    {
+      "category": "configuration",
+      "excerpt": "+    const char *z6sWidthEnv = getenv(\"Z6S_NATIVE_WIDTH\");",
+      "guidance": "Record the variable in the target profile and user documentation.",
+      "line": 240,
+      "match": "getenv(",
+      "path": "patches/wolf4sdl-z6s-native-video.patch",
+      "rule_id": "environment-configuration",
+      "severity": "low",
+      "title": "Environment-driven target switch"
+    },
+    {
+      "category": "rendering",
+      "excerpt": "+    const char *z6sWidthEnv = getenv(\"Z6S_NATIVE_WIDTH\");",
+      "guidance": "Treat logical and native dimensions as separate target constraints.",
+      "line": 240,
+      "match": "Z6S_NATIVE_WIDTH",
+      "path": "patches/wolf4sdl-z6s-native-video.patch",
+      "rule_id": "fixed-render-dimensions",
+      "severity": "low",
+      "title": "Fixed logical or native dimensions"
+    },
+    {
+      "category": "configuration",
+      "excerpt": "+    const char *z6sHeightEnv = getenv(\"Z6S_NATIVE_HEIGHT\");",
+      "guidance": "Record the variable in the target profile and user documentation.",
+      "line": 241,
+      "match": "getenv(",
+      "path": "patches/wolf4sdl-z6s-native-video.patch",
+      "rule_id": "environment-configuration",
+      "severity": "low",
+      "title": "Environment-driven target switch"
+    },
+    {
+      "category": "rendering",
+      "excerpt": "+    const char *z6sHeightEnv = getenv(\"Z6S_NATIVE_HEIGHT\");",
+      "guidance": "Treat logical and native dimensions as separate target constraints.",
+      "line": 241,
+      "match": "Z6S_NATIVE_HEIGHT",
+      "path": "patches/wolf4sdl-z6s-native-video.patch",
+      "rule_id": "fixed-render-dimensions",
+      "severity": "low",
+      "title": "Fixed logical or native dimensions"
+    },
+    {
+      "category": "rendering",
+      "excerpt": "+    screen = SDL_SetVideoMode(z6sNativeWidth, z6sNativeHeight, screenBits,",
+      "guidance": "Legacy SDL video paths often require mode, pitch, and pixel-format checks.",
+      "line": 251,
+      "match": "SDL_SetVideoMode",
+      "path": "patches/wolf4sdl-z6s-native-video.patch",
+      "rule_id": "sdl12-framebuffer-api",
+      "severity": "medium",
+      "title": "SDL 1.2 framebuffer presentation"
+    },
+    {
+      "category": "rendering",
+      "excerpt": "screen = SDL_SetVideoMode(screenWidth, screenHeight, screenBits,",
+      "guidance": "Legacy SDL video paths often require mode, pitch, and pixel-format checks.",
+      "line": 254,
+      "match": "SDL_SetVideoMode",
+      "path": "patches/wolf4sdl-z6s-native-video.patch",
+      "rule_id": "sdl12-framebuffer-api",
+      "severity": "medium",
+      "title": "SDL 1.2 framebuffer presentation"
+    },
+    {
+      "category": "rendering",
+      "excerpt": "-        SDL_BlitSurface(curSurface, NULL, screen, NULL);",
+      "guidance": "Legacy SDL video paths often require mode, pitch, and pixel-format checks.",
+      "line": 278,
+      "match": "SDL_BlitSurface",
+      "path": "patches/wolf4sdl-z6s-native-video.patch",
+      "rule_id": "sdl12-framebuffer-api",
+      "severity": "medium",
+      "title": "SDL 1.2 framebuffer presentation"
+    },
+    {
+      "category": "rendering",
+      "excerpt": "+        SDL_BlitSurface(curSurface, NULL, screen, NULL);",
+      "guidance": "Legacy SDL video paths often require mode, pitch, and pixel-format checks.",
+      "line": 284,
+      "match": "SDL_BlitSurface",
+      "path": "patches/wolf4sdl-z6s-native-video.patch",
+      "rule_id": "sdl12-framebuffer-api",
+      "severity": "medium",
+      "title": "SDL 1.2 framebuffer presentation"
+    },
+    {
+      "category": "rendering",
+      "excerpt": "SDL_Flip(screen);",
+      "guidance": "Legacy SDL video paths often require mode, pitch, and pixel-format checks.",
+      "line": 285,
+      "match": "SDL_Flip",
+      "path": "patches/wolf4sdl-z6s-native-video.patch",
+      "rule_id": "sdl12-framebuffer-api",
+      "severity": "medium",
+      "title": "SDL 1.2 framebuffer presentation"
+    },
+    {
+      "category": "rendering",
+      "excerpt": "-            SDL_BlitSurface(curSurface, NULL, screen, NULL);",
+      "guidance": "Legacy SDL video paths often require mode, pitch, and pixel-format checks.",
+      "line": 294,
+      "match": "SDL_BlitSurface",
+      "path": "patches/wolf4sdl-z6s-native-video.patch",
+      "rule_id": "sdl12-framebuffer-api",
+      "severity": "medium",
+      "title": "SDL 1.2 framebuffer presentation"
+    },
+    {
+      "category": "rendering",
+      "excerpt": "+            SDL_BlitSurface(curSurface, NULL, screen, NULL);",
+      "guidance": "Legacy SDL video paths often require mode, pitch, and pixel-format checks.",
+      "line": 300,
+      "match": "SDL_BlitSurface",
+      "path": "patches/wolf4sdl-z6s-native-video.patch",
+      "rule_id": "sdl12-framebuffer-api",
+      "severity": "medium",
+      "title": "SDL 1.2 framebuffer presentation"
+    },
+    {
+      "category": "rendering",
+      "excerpt": "SDL_Flip(screen);",
+      "guidance": "Legacy SDL video paths often require mode, pitch, and pixel-format checks.",
+      "line": 301,
+      "match": "SDL_Flip",
+      "path": "patches/wolf4sdl-z6s-native-video.patch",
+      "rule_id": "sdl12-framebuffer-api",
+      "severity": "medium",
+      "title": "SDL 1.2 framebuffer presentation"
+    },
+    {
+      "category": "rendering",
+      "excerpt": "SDL_BlitSurface(screenBuffer, NULL, screen, NULL);",
+      "guidance": "Legacy SDL video paths often require mode, pitch, and pixel-format checks.",
+      "line": 327,
+      "match": "SDL_BlitSurface",
+      "path": "patches/wolf4sdl-z6s-native-video.patch",
+      "rule_id": "sdl12-framebuffer-api",
+      "severity": "medium",
+      "title": "SDL 1.2 framebuffer presentation"
+    },
+    {
+      "category": "rendering",
+      "excerpt": "SDL_Flip(screen);",
+      "guidance": "Legacy SDL video paths often require mode, pitch, and pixel-format checks.",
+      "line": 328,
+      "match": "SDL_Flip",
+      "path": "patches/wolf4sdl-z6s-native-video.patch",
+      "rule_id": "sdl12-framebuffer-api",
+      "severity": "medium",
+      "title": "SDL 1.2 framebuffer presentation"
+    },
+    {
+      "category": "rendering",
+      "excerpt": "SDL_BlitSurface(screenBuffer, NULL, screen, NULL);",
+      "guidance": "Legacy SDL video paths often require mode, pitch, and pixel-format checks.",
+      "line": 83,
+      "match": "SDL_BlitSurface",
+      "path": "patches/wolf4sdl-z6s.patch",
+      "rule_id": "sdl12-framebuffer-api",
+      "severity": "medium",
+      "title": "SDL 1.2 framebuffer presentation"
+    },
+    {
+      "category": "rendering",
+      "excerpt": "SDL_Flip(screen);",
+      "guidance": "Legacy SDL video paths often require mode, pitch, and pixel-format checks.",
+      "line": 87,
+      "match": "SDL_Flip",
+      "path": "patches/wolf4sdl-z6s.patch",
+      "rule_id": "sdl12-framebuffer-api",
+      "severity": "medium",
+      "title": "SDL 1.2 framebuffer presentation"
+    },
+    {
+      "category": "rendering",
+      "excerpt": "SDL_BlitSurface(source, NULL, screen, NULL);",
+      "guidance": "Legacy SDL video paths often require mode, pitch, and pixel-format checks.",
+      "line": 93,
+      "match": "SDL_BlitSurface",
+      "path": "patches/wolf4sdl-z6s.patch",
+      "rule_id": "sdl12-framebuffer-api",
+      "severity": "medium",
+      "title": "SDL 1.2 framebuffer presentation"
+    },
+    {
+      "category": "rendering",
+      "excerpt": "SDL_Flip(screen);",
+      "guidance": "Legacy SDL video paths often require mode, pitch, and pixel-format checks.",
+      "line": 97,
+      "match": "SDL_Flip",
+      "path": "patches/wolf4sdl-z6s.patch",
+      "rule_id": "sdl12-framebuffer-api",
+      "severity": "medium",
+      "title": "SDL 1.2 framebuffer presentation"
+    },
+    {
+      "category": "rendering",
+      "excerpt": "SDL_Flip(screen);",
+      "guidance": "Legacy SDL video paths often require mode, pitch, and pixel-format checks.",
+      "line": 107,
+      "match": "SDL_Flip",
+      "path": "patches/wolf4sdl-z6s.patch",
+      "rule_id": "sdl12-framebuffer-api",
+      "severity": "medium",
+      "title": "SDL 1.2 framebuffer presentation"
+    },
+    {
+      "category": "rendering",
+      "excerpt": "SDL_BlitSurface(source, NULL, screen, NULL);",
+      "guidance": "Legacy SDL video paths often require mode, pitch, and pixel-format checks.",
+      "line": 113,
+      "match": "SDL_BlitSurface",
+      "path": "patches/wolf4sdl-z6s.patch",
+      "rule_id": "sdl12-framebuffer-api",
+      "severity": "medium",
+      "title": "SDL 1.2 framebuffer presentation"
+    },
+    {
+      "category": "rendering",
+      "excerpt": "SDL_Flip(screen);",
+      "guidance": "Legacy SDL video paths often require mode, pitch, and pixel-format checks.",
+      "line": 117,
+      "match": "SDL_Flip",
+      "path": "patches/wolf4sdl-z6s.patch",
+      "rule_id": "sdl12-framebuffer-api",
+      "severity": "medium",
+      "title": "SDL 1.2 framebuffer presentation"
+    },
+    {
+      "category": "configuration",
+      "excerpt": "+        const char *value = getenv(\"Z6S_FORCE_OPAQUE\");",
+      "guidance": "Record the variable in the target profile and user documentation.",
+      "line": 137,
+      "match": "getenv(",
+      "path": "patches/wolf4sdl-z6s.patch",
+      "rule_id": "environment-configuration",
+      "severity": "low",
+      "title": "Environment-driven target switch"
+    },
+    {
+      "category": "rendering",
+      "excerpt": "SDL_BlitSurface(curSurface, NULL, screen, NULL);",
+      "guidance": "Legacy SDL video paths often require mode, pitch, and pixel-format checks.",
+      "line": 162,
+      "match": "SDL_BlitSurface",
+      "path": "patches/wolf4sdl-z6s.patch",
+      "rule_id": "sdl12-framebuffer-api",
+      "severity": "medium",
+      "title": "SDL 1.2 framebuffer presentation"
+    },
+    {
+      "category": "rendering",
+      "excerpt": "SDL_Flip(screen);",
+      "guidance": "Legacy SDL video paths often require mode, pitch, and pixel-format checks.",
+      "line": 166,
+      "match": "SDL_Flip",
+      "path": "patches/wolf4sdl-z6s.patch",
+      "rule_id": "sdl12-framebuffer-api",
+      "severity": "medium",
+      "title": "SDL 1.2 framebuffer presentation"
+    },
+    {
+      "category": "rendering",
+      "excerpt": "SDL_BlitSurface(curSurface, NULL, screen, NULL);",
+      "guidance": "Legacy SDL video paths often require mode, pitch, and pixel-format checks.",
+      "line": 172,
+      "match": "SDL_BlitSurface",
+      "path": "patches/wolf4sdl-z6s.patch",
+      "rule_id": "sdl12-framebuffer-api",
+      "severity": "medium",
+      "title": "SDL 1.2 framebuffer presentation"
+    },
+    {
+      "category": "rendering",
+      "excerpt": "SDL_Flip(screen);",
+      "guidance": "Legacy SDL video paths often require mode, pitch, and pixel-format checks.",
+      "line": 176,
+      "match": "SDL_Flip",
+      "path": "patches/wolf4sdl-z6s.patch",
+      "rule_id": "sdl12-framebuffer-api",
+      "severity": "medium",
+      "title": "SDL 1.2 framebuffer presentation"
+    },
+    {
+      "category": "configuration",
+      "excerpt": "+    const char *z6sForceAudio = getenv(\"Z6S_FORCE_AUDIO\");",
+      "guidance": "Record the variable in the target profile and user documentation.",
+      "line": 204,
+      "match": "getenv(",
+      "path": "patches/wolf4sdl-z6s.patch",
+      "rule_id": "environment-configuration",
+      "severity": "low",
+      "title": "Environment-driven target switch"
+    },
+    {
+      "category": "configuration",
+      "excerpt": "+        const char *demoMode = getenv(\"Z6S_DEMO_MODE\");",
+      "guidance": "Record the variable in the target profile and user documentation.",
+      "line": 223,
+      "match": "getenv(",
+      "path": "patches/wolf4sdl-z6s.patch",
+      "rule_id": "environment-configuration",
+      "severity": "low",
+      "title": "Environment-driven target switch"
+    },
+    {
+      "category": "configuration",
+      "excerpt": "+        const char *z6sDemoMode = getenv(\"Z6S_DEMO_MODE\");",
+      "guidance": "Record the variable in the target profile and user documentation.",
+      "line": 256,
+      "match": "getenv(",
+      "path": "patches/wolf4sdl-z6s.patch",
+      "rule_id": "environment-configuration",
+      "severity": "low",
+      "title": "Environment-driven target switch"
+    },
+    {
+      "category": "abi",
+      "excerpt": "#define SYS_fork      2",
+      "guidance": "This code is architecture- and kernel-ABI-specific.",
+      "line": 19,
+      "match": "SYS_fork",
+      "path": "port/z6s/autostart/libwolf_autostart.c",
+      "rule_id": "inline-arm-syscall",
+      "severity": "critical",
+      "title": "ARM syscall or inline assembly"
+    },
+    {
+      "category": "abi",
+      "excerpt": "#define SYS_write     4",
+      "guidance": "This code is architecture- and kernel-ABI-specific.",
+      "line": 20,
+      "match": "SYS_write",
+      "path": "port/z6s/autostart/libwolf_autostart.c",
+      "rule_id": "inline-arm-syscall",
+      "severity": "critical",
+      "title": "ARM syscall or inline assembly"
+    },
+    {
+      "category": "abi",
+      "excerpt": "#define SYS_open      5",
+      "guidance": "This code is architecture- and kernel-ABI-specific.",
+      "line": 21,
+      "match": "SYS_open",
+      "path": "port/z6s/autostart/libwolf_autostart.c",
+      "rule_id": "inline-arm-syscall",
+      "severity": "critical",
+      "title": "ARM syscall or inline assembly"
+    },
+    {
+      "category": "abi",
+      "excerpt": "#define SYS_execve   11",
+      "guidance": "This code is architecture- and kernel-ABI-specific.",
+      "line": 23,
+      "match": "SYS_execve",
+      "path": "port/z6s/autostart/libwolf_autostart.c",
+      "rule_id": "inline-arm-syscall",
+      "severity": "critical",
+      "title": "ARM syscall or inline assembly"
+    },
+    {
+      "category": "abi",
+      "excerpt": "#define SYS_nanosleep 162",
+      "guidance": "This code is architecture- and kernel-ABI-specific.",
+      "line": 25,
+      "match": "SYS_nanosleep",
+      "path": "port/z6s/autostart/libwolf_autostart.c",
+      "rule_id": "inline-arm-syscall",
+      "severity": "critical",
+      "title": "ARM syscall or inline assembly"
+    },
+    {
+      "category": "abi",
+      "excerpt": "register long r7 __asm__(\"r7\") = number;",
+      "guidance": "This code is architecture- and kernel-ABI-specific.",
+      "line": 46,
+      "match": "__asm__",
+      "path": "port/z6s/autostart/libwolf_autostart.c",
+      "rule_id": "inline-arm-syscall",
+      "severity": "critical",
+      "title": "ARM syscall or inline assembly"
+    },
+    {
+      "category": "abi",
+      "excerpt": "register long r0 __asm__(\"r0\");",
+      "guidance": "This code is architecture- and kernel-ABI-specific.",
+      "line": 47,
+      "match": "__asm__",
+      "path": "port/z6s/autostart/libwolf_autostart.c",
+      "rule_id": "inline-arm-syscall",
+      "severity": "critical",
+      "title": "ARM syscall or inline assembly"
+    },
+    {
+      "category": "abi",
+      "excerpt": "__asm__ volatile(\"svc 0\" : \"=r\"(r0) : \"r\"(r7) : \"memory\");",
+      "guidance": "This code is architecture- and kernel-ABI-specific.",
+      "line": 48,
+      "match": "__asm__",
+      "path": "port/z6s/autostart/libwolf_autostart.c",
+      "rule_id": "inline-arm-syscall",
+      "severity": "critical",
+      "title": "ARM syscall or inline assembly"
+    },
+    {
+      "category": "abi",
+      "excerpt": "register long r7 __asm__(\"r7\") = number;",
+      "guidance": "This code is architecture- and kernel-ABI-specific.",
+      "line": 54,
+      "match": "__asm__",
+      "path": "port/z6s/autostart/libwolf_autostart.c",
+      "rule_id": "inline-arm-syscall",
+      "severity": "critical",
+      "title": "ARM syscall or inline assembly"
+    },
+    {
+      "category": "abi",
+      "excerpt": "register long r0 __asm__(\"r0\") = a0;",
+      "guidance": "This code is architecture- and kernel-ABI-specific.",
+      "line": 55,
+      "match": "__asm__",
+      "path": "port/z6s/autostart/libwolf_autostart.c",
+      "rule_id": "inline-arm-syscall",
+      "severity": "critical",
+      "title": "ARM syscall or inline assembly"
+    },
+    {
+      "category": "abi",
+      "excerpt": "__asm__ volatile(\"svc 0\" : \"+r\"(r0) : \"r\"(r7) : \"memory\");",
+      "guidance": "This code is architecture- and kernel-ABI-specific.",
+      "line": 56,
+      "match": "__asm__",
+      "path": "port/z6s/autostart/libwolf_autostart.c",
+      "rule_id": "inline-arm-syscall",
+      "severity": "critical",
+      "title": "ARM syscall or inline assembly"
+    },
+    {
+      "category": "abi",
+      "excerpt": "register long r7 __asm__(\"r7\") = number;",
+      "guidance": "This code is architecture- and kernel-ABI-specific.",
+      "line": 62,
+      "match": "__asm__",
+      "path": "port/z6s/autostart/libwolf_autostart.c",
+      "rule_id": "inline-arm-syscall",
+      "severity": "critical",
+      "title": "ARM syscall or inline assembly"
+    },
+    {
+      "category": "abi",
+      "excerpt": "register long r0 __asm__(\"r0\") = a0;",
+      "guidance": "This code is architecture- and kernel-ABI-specific.",
+      "line": 63,
+      "match": "__asm__",
+      "path": "port/z6s/autostart/libwolf_autostart.c",
+      "rule_id": "inline-arm-syscall",
+      "severity": "critical",
+      "title": "ARM syscall or inline assembly"
+    },
+    {
+      "category": "abi",
+      "excerpt": "register long r1 __asm__(\"r1\") = a1;",
+      "guidance": "This code is architecture- and kernel-ABI-specific.",
+      "line": 64,
+      "match": "__asm__",
+      "path": "port/z6s/autostart/libwolf_autostart.c",
+      "rule_id": "inline-arm-syscall",
+      "severity": "critical",
+      "title": "ARM syscall or inline assembly"
+    },
+    {
+      "category": "abi",
+      "excerpt": "__asm__ volatile(\"svc 0\" : \"+r\"(r0) : \"r\"(r1), \"r\"(r7) : \"memory\");",
+      "guidance": "This code is architecture- and kernel-ABI-specific.",
+      "line": 65,
+      "match": "__asm__",
+      "path": "port/z6s/autostart/libwolf_autostart.c",
+      "rule_id": "inline-arm-syscall",
+      "severity": "critical",
+      "title": "ARM syscall or inline assembly"
+    },
+    {
+      "category": "abi",
+      "excerpt": "register long r7 __asm__(\"r7\") = number;",
+      "guidance": "This code is architecture- and kernel-ABI-specific.",
+      "line": 71,
+      "match": "__asm__",
+      "path": "port/z6s/autostart/libwolf_autostart.c",
+      "rule_id": "inline-arm-syscall",
+      "severity": "critical",
+      "title": "ARM syscall or inline assembly"
+    },
+    {
+      "category": "abi",
+      "excerpt": "register long r0 __asm__(\"r0\") = a0;",
+      "guidance": "This code is architecture- and kernel-ABI-specific.",
+      "line": 72,
+      "match": "__asm__",
+      "path": "port/z6s/autostart/libwolf_autostart.c",
+      "rule_id": "inline-arm-syscall",
+      "severity": "critical",
+      "title": "ARM syscall or inline assembly"
+    },
+    {
+      "category": "abi",
+      "excerpt": "register long r1 __asm__(\"r1\") = a1;",
+      "guidance": "This code is architecture- and kernel-ABI-specific.",
+      "line": 73,
+      "match": "__asm__",
+      "path": "port/z6s/autostart/libwolf_autostart.c",
+      "rule_id": "inline-arm-syscall",
+      "severity": "critical",
+      "title": "ARM syscall or inline assembly"
+    },
+    {
+      "category": "abi",
+      "excerpt": "register long r2 __asm__(\"r2\") = a2;",
+      "guidance": "This code is architecture- and kernel-ABI-specific.",
+      "line": 74,
+      "match": "__asm__",
+      "path": "port/z6s/autostart/libwolf_autostart.c",
+      "rule_id": "inline-arm-syscall",
+      "severity": "critical",
+      "title": "ARM syscall or inline assembly"
+    },
+    {
+      "category": "abi",
+      "excerpt": "__asm__ volatile(\"svc 0\" : \"+r\"(r0)",
+      "guidance": "This code is architecture- and kernel-ABI-specific.",
+      "line": 75,
+      "match": "__asm__",
+      "path": "port/z6s/autostart/libwolf_autostart.c",
+      "rule_id": "inline-arm-syscall",
+      "severity": "critical",
+      "title": "ARM syscall or inline assembly"
+    },
+    {
+      "category": "filesystem",
+      "excerpt": "static const char path[] = \"/mnt/extsd/wolf3d/autostart.log\";",
+      "guidance": "The deployment assumes a firmware-specific mount point.",
+      "line": 89,
+      "match": "/mnt/extsd/wolf3d/autostart.log",
+      "path": "port/z6s/autostart/libwolf_autostart.c",
+      "rule_id": "mount-layout",
+      "severity": "medium",
+      "title": "Fixed mount layout"
+    },
+    {
+      "category": "abi",
+      "excerpt": "long fd = z6s_syscall3(SYS_open, (long) path,",
+      "guidance": "This code is architecture- and kernel-ABI-specific.",
+      "line": 90,
+      "match": "SYS_open",
+      "path": "port/z6s/autostart/libwolf_autostart.c",
+      "rule_id": "inline-arm-syscall",
+      "severity": "critical",
+      "title": "ARM syscall or inline assembly"
+    },
+    {
+      "category": "abi",
+      "excerpt": "z6s_syscall3(SYS_write, fd, (long) text, (long) z6s_strlen(text));",
+      "guidance": "This code is architecture- and kernel-ABI-specific.",
+      "line": 93,
+      "match": "SYS_write",
+      "path": "port/z6s/autostart/libwolf_autostart.c",
+      "rule_id": "inline-arm-syscall",
+      "severity": "critical",
+      "title": "ARM syscall or inline assembly"
+    },
+    {
+      "category": "abi",
+      "excerpt": "z6s_syscall3(SYS_write, fd, (long) \"\\n\", 1);",
+      "guidance": "This code is architecture- and kernel-ABI-specific.",
+      "line": 94,
+      "match": "SYS_write",
+      "path": "port/z6s/autostart/libwolf_autostart.c",
+      "rule_id": "inline-arm-syscall",
+      "severity": "critical",
+      "title": "ARM syscall or inline assembly"
+    },
+    {
+      "category": "filesystem",
+      "excerpt": "static char busybox[] = \"/mnt/extsd/busybox\";",
+      "guidance": "The deployment assumes a firmware-specific mount point.",
+      "line": 114,
+      "match": "/mnt/extsd/busybox",
+      "path": "port/z6s/autostart/libwolf_autostart.c",
+      "rule_id": "mount-layout",
+      "severity": "medium",
+      "title": "Fixed mount layout"
+    },
+    {
+      "category": "filesystem",
+      "excerpt": "static char script[] = \"/mnt/extsd/wolf3d/run_wolf3d.sh\";",
+      "guidance": "The deployment assumes a firmware-specific mount point.",
+      "line": 117,
+      "match": "/mnt/extsd/wolf3d/run_wolf3d.sh",
+      "path": "port/z6s/autostart/libwolf_autostart.c",
+      "rule_id": "mount-layout",
+      "severity": "medium",
+      "title": "Fixed mount layout"
+    },
+    {
+      "category": "filesystem",
+      "excerpt": "\"PATH=/bin:/sbin:/usr/bin:/usr/sbin:/mnt/extsd\";",
+      "guidance": "The deployment assumes a firmware-specific mount point.",
+      "line": 119,
+      "match": "/mnt/extsd",
+      "path": "port/z6s/autostart/libwolf_autostart.c",
+      "rule_id": "mount-layout",
+      "severity": "medium",
+      "title": "Fixed mount layout"
+    },
+    {
+      "category": "filesystem",
+      "excerpt": "static char env_home[] = \"HOME=/mnt/extsd/wolf3d\";",
+      "guidance": "The deployment assumes a firmware-specific mount point.",
+      "line": 120,
+      "match": "/mnt/extsd/wolf3d",
+      "path": "port/z6s/autostart/libwolf_autostart.c",
+      "rule_id": "mount-layout",
+      "severity": "medium",
+      "title": "Fixed mount layout"
+    },
+    {
+      "category": "abi",
+      "excerpt": "long pid = z6s_syscall0(SYS_fork);",
+      "guidance": "This code is architecture- and kernel-ABI-specific.",
+      "line": 127,
+      "match": "SYS_fork",
+      "path": "port/z6s/autostart/libwolf_autostart.c",
+      "rule_id": "inline-arm-syscall",
+      "severity": "critical",
+      "title": "ARM syscall or inline assembly"
+    },
+    {
+      "category": "abi",
+      "excerpt": "z6s_syscall2(SYS_nanosleep, (long) &delay, 0);",
+      "guidance": "This code is architecture- and kernel-ABI-specific.",
+      "line": 138,
+      "match": "SYS_nanosleep",
+      "path": "port/z6s/autostart/libwolf_autostart.c",
+      "rule_id": "inline-arm-syscall",
+      "severity": "critical",
+      "title": "ARM syscall or inline assembly"
+    },
+    {
+      "category": "abi",
+      "excerpt": "z6s_syscall3(SYS_execve, (long) busybox, (long) argv, (long) envp);",
+      "guidance": "This code is architecture- and kernel-ABI-specific.",
+      "line": 139,
+      "match": "SYS_execve",
+      "path": "port/z6s/autostart/libwolf_autostart.c",
+      "rule_id": "inline-arm-syscall",
+      "severity": "critical",
+      "title": "ARM syscall or inline assembly"
+    },
+    {
+      "category": "filesystem",
+      "excerpt": "FILE *fp = fopen(\"/mnt/extsd/wolf3d/audio.log\", \"a\");",
+      "guidance": "The deployment assumes a firmware-specific mount point.",
+      "line": 63,
+      "match": "/mnt/extsd/wolf3d/audio.log",
+      "path": "port/z6s/src/sdl_mixer_z6s.cpp",
+      "rule_id": "mount-layout",
+      "severity": "medium",
+      "title": "Fixed mount layout"
+    },
+    {
+      "category": "audio",
+      "excerpt": "g_pcm = pcm_open(0, 0, PCM_OUT, &config);",
+      "guidance": "PCM assumptions require target-specific validation and recovery.",
+      "line": 360,
+      "match": "pcm_open",
+      "path": "port/z6s/src/sdl_mixer_z6s.cpp",
+      "rule_id": "direct-alsa-pcm",
+      "severity": "high",
+      "title": "Direct ALSA/tinyalsa integration"
+    },
+    {
+      "category": "hardware-boundary",
+      "excerpt": "set_error(\"cannot open /dev/snd/pcmC0D0p: %s\",",
+      "guidance": "Bind this path to a target profile or document why it is invariant.",
+      "line": 363,
+      "match": "/dev/snd/pcmC0D0p",
+      "path": "port/z6s/src/sdl_mixer_z6s.cpp",
+      "rule_id": "absolute-kernel-path",
+      "severity": "high",
+      "title": "Absolute kernel interface path"
+    },
+    {
+      "category": "audio",
+      "excerpt": "set_error(\"cannot open /dev/snd/pcmC0D0p: %s\",",
+      "guidance": "PCM assumptions require target-specific validation and recovery.",
+      "line": 363,
+      "match": "/dev/snd/",
+      "path": "port/z6s/src/sdl_mixer_z6s.cpp",
+      "rule_id": "direct-alsa-pcm",
+      "severity": "high",
+      "title": "Direct ALSA/tinyalsa integration"
+    },
+    {
+      "category": "audio",
+      "excerpt": "g_pcm ? pcm_get_error(g_pcm) : \"pcm_open returned null\");",
+      "guidance": "PCM assumptions require target-specific validation and recovery.",
+      "line": 364,
+      "match": "pcm_open",
+      "path": "port/z6s/src/sdl_mixer_z6s.cpp",
+      "rule_id": "direct-alsa-pcm",
+      "severity": "high",
+      "title": "Direct ALSA/tinyalsa integration"
+    },
+    {
+      "category": "audio",
+      "excerpt": "if(pcm_prepare(g_pcm) < 0)",
+      "guidance": "PCM assumptions require target-specific validation and recovery.",
+      "line": 375,
+      "match": "pcm_prepare",
+      "path": "port/z6s/src/sdl_mixer_z6s.cpp",
+      "rule_id": "direct-alsa-pcm",
+      "severity": "high",
+      "title": "Direct ALSA/tinyalsa integration"
+    },
+    {
+      "category": "hardware-boundary",
+      "excerpt": "audio_log(\"ALSA opened /dev/snd/pcmC0D0p rate=%d channels=2 period_frames=%d\",",
+      "guidance": "Bind this path to a target profile or document why it is invariant.",
+      "line": 394,
+      "match": "/dev/snd/pcmC0D0p",
+      "path": "port/z6s/src/sdl_mixer_z6s.cpp",
+      "rule_id": "absolute-kernel-path",
+      "severity": "high",
+      "title": "Absolute kernel interface path"
+    },
+    {
+      "category": "audio",
+      "excerpt": "audio_log(\"ALSA opened /dev/snd/pcmC0D0p rate=%d channels=2 period_frames=%d\",",
+      "guidance": "PCM assumptions require target-specific validation and recovery.",
+      "line": 394,
+      "match": "/dev/snd/",
+      "path": "port/z6s/src/sdl_mixer_z6s.cpp",
+      "rule_id": "direct-alsa-pcm",
+      "severity": "high",
+      "title": "Direct ALSA/tinyalsa integration"
+    },
+    {
+      "category": "audio",
+      "excerpt": "int written = pcm_writei(g_pcm, g_period, (unsigned int) g_period_frames);",
+      "guidance": "PCM assumptions require target-specific validation and recovery.",
+      "line": 466,
+      "match": "pcm_writei",
+      "path": "port/z6s/src/sdl_mixer_z6s.cpp",
+      "rule_id": "direct-alsa-pcm",
+      "severity": "high",
+      "title": "Direct ALSA/tinyalsa integration"
+    },
+    {
+      "category": "audio",
+      "excerpt": "if(written < 0 && !g_write_error_logged && pcm_prepare(g_pcm) == 0)",
+      "guidance": "PCM assumptions require target-specific validation and recovery.",
+      "line": 467,
+      "match": "pcm_prepare",
+      "path": "port/z6s/src/sdl_mixer_z6s.cpp",
+      "rule_id": "direct-alsa-pcm",
+      "severity": "high",
+      "title": "Direct ALSA/tinyalsa integration"
+    },
+    {
+      "category": "audio",
+      "excerpt": "written = pcm_writei(g_pcm, g_period,",
+      "guidance": "PCM assumptions require target-specific validation and recovery.",
+      "line": 468,
+      "match": "pcm_writei",
+      "path": "port/z6s/src/sdl_mixer_z6s.cpp",
+      "rule_id": "direct-alsa-pcm",
+      "severity": "high",
+      "title": "Direct ALSA/tinyalsa integration"
+    },
+    {
+      "category": "audio",
+      "excerpt": "audio_log(\"pcm_writei failed after recovery: %s; disabling audio\",",
+      "guidance": "PCM assumptions require target-specific validation and recovery.",
+      "line": 475,
+      "match": "pcm_writei",
+      "path": "port/z6s/src/sdl_mixer_z6s.cpp",
+      "rule_id": "direct-alsa-pcm",
+      "severity": "high",
+      "title": "Direct ALSA/tinyalsa integration"
+    },
+    {
+      "category": "input",
+      "excerpt": "#include <linux/input.h>",
+      "guidance": "This is a deliberate Linux hardware adapter and must remain isolated.",
+      "line": 4,
+      "match": "linux/input.h",
+      "path": "port/z6s/src/z6s_input.cpp",
+      "rule_id": "direct-linux-input",
+      "severity": "high",
+      "title": "Direct Linux evdev integration"
+    },
+    {
+      "category": "filesystem",
+      "excerpt": "FILE *fp = fopen(\"/mnt/extsd/wolf3d/input.log\", \"a\");",
+      "guidance": "The deployment assumes a firmware-specific mount point.",
+      "line": 65,
+      "match": "/mnt/extsd/wolf3d/input.log",
+      "path": "port/z6s/src/z6s_input.cpp",
+      "rule_id": "mount-layout",
+      "severity": "medium",
+      "title": "Fixed mount layout"
+    },
+    {
+      "category": "hardware-boundary",
+      "excerpt": "snprintf(path, sizeof(path), \"/dev/input/event%d\", n);",
+      "guidance": "Bind this path to a target profile or document why it is invariant.",
+      "line": 91,
+      "match": "/dev/input/event",
+      "path": "port/z6s/src/z6s_input.cpp",
+      "rule_id": "absolute-kernel-path",
+      "severity": "high",
+      "title": "Absolute kernel interface path"
+    },
+    {
+      "category": "input",
+      "excerpt": "snprintf(path, sizeof(path), \"/dev/input/event%d\", n);",
+      "guidance": "This is a deliberate Linux hardware adapter and must remain isolated.",
+      "line": 91,
+      "match": "/dev/input/",
+      "path": "port/z6s/src/z6s_input.cpp",
+      "rule_id": "direct-linux-input",
+      "severity": "high",
+      "title": "Direct Linux evdev integration"
+    },
+    {
+      "category": "input",
+      "excerpt": "ioctl(fd, EVIOCGBIT(0, sizeof(evbits)), evbits);",
+      "guidance": "This is a deliberate Linux hardware adapter and must remain isolated.",
+      "line": 103,
+      "match": "EVIOCGBIT",
+      "path": "port/z6s/src/z6s_input.cpp",
+      "rule_id": "direct-linux-input",
+      "severity": "high",
+      "title": "Direct Linux evdev integration"
+    },
+    {
+      "category": "input",
+      "excerpt": "ioctl(fd, EVIOCGBIT(EV_KEY, sizeof(keybits)), keybits);",
+      "guidance": "This is a deliberate Linux hardware adapter and must remain isolated.",
+      "line": 105,
+      "match": "EVIOCGBIT",
+      "path": "port/z6s/src/z6s_input.cpp",
+      "rule_id": "direct-linux-input",
+      "severity": "high",
+      "title": "Direct Linux evdev integration"
+    },
+    {
+      "category": "input",
+      "excerpt": "ioctl(fd, EVIOCGBIT(EV_ABS, sizeof(absbits)), absbits);",
+      "guidance": "This is a deliberate Linux hardware adapter and must remain isolated.",
+      "line": 107,
+      "match": "EVIOCGBIT",
+      "path": "port/z6s/src/z6s_input.cpp",
+      "rule_id": "direct-linux-input",
+      "severity": "high",
+      "title": "Direct Linux evdev integration"
+    },
+    {
+      "category": "input",
+      "excerpt": "(bit_is_set(ABS_MT_POSITION_X, absbits) ||",
+      "guidance": "This is a deliberate Linux hardware adapter and must remain isolated.",
+      "line": 114,
+      "match": "ABS_MT_POSITION",
+      "path": "port/z6s/src/z6s_input.cpp",
+      "rule_id": "direct-linux-input",
+      "severity": "high",
+      "title": "Direct Linux evdev integration"
+    },
+    {
+      "category": "configuration",
+      "excerpt": "const char *touchEnabled = getenv(\"Z6S_TOUCH_INPUT\");",
+      "guidance": "Record the variable in the target profile and user documentation.",
+      "line": 118,
+      "match": "getenv(",
+      "path": "port/z6s/src/z6s_input.cpp",
+      "rule_id": "environment-configuration",
+      "severity": "low",
+      "title": "Environment-driven target switch"
+    },
+    {
+      "category": "input",
+      "excerpt": "d.xcode = bit_is_set(ABS_MT_POSITION_X, absbits) ?",
+      "guidance": "This is a deliberate Linux hardware adapter and must remain isolated.",
+      "line": 142,
+      "match": "ABS_MT_POSITION",
+      "path": "port/z6s/src/z6s_input.cpp",
+      "rule_id": "direct-linux-input",
+      "severity": "high",
+      "title": "Direct Linux evdev integration"
+    },
+    {
+      "category": "input",
+      "excerpt": "ABS_MT_POSITION_X : ABS_X;",
+      "guidance": "This is a deliberate Linux hardware adapter and must remain isolated.",
+      "line": 143,
+      "match": "ABS_MT_POSITION",
+      "path": "port/z6s/src/z6s_input.cpp",
+      "rule_id": "direct-linux-input",
+      "severity": "high",
+      "title": "Direct Linux evdev integration"
+    },
+    {
+      "category": "input",
+      "excerpt": "d.ycode = bit_is_set(ABS_MT_POSITION_Y, absbits) ?",
+      "guidance": "This is a deliberate Linux hardware adapter and must remain isolated.",
+      "line": 144,
+      "match": "ABS_MT_POSITION",
+      "path": "port/z6s/src/z6s_input.cpp",
+      "rule_id": "direct-linux-input",
+      "severity": "high",
+      "title": "Direct Linux evdev integration"
+    },
+    {
+      "category": "input",
+      "excerpt": "ABS_MT_POSITION_Y : ABS_Y;",
+      "guidance": "This is a deliberate Linux hardware adapter and must remain isolated.",
+      "line": 145,
+      "match": "ABS_MT_POSITION",
+      "path": "port/z6s/src/z6s_input.cpp",
+      "rule_id": "direct-linux-input",
+      "severity": "high",
+      "title": "Direct Linux evdev integration"
+    },
+    {
+      "category": "input",
+      "excerpt": "if(ioctl(fd, EVIOCGABS(d.xcode), &d.xi) < 0)",
+      "guidance": "This is a deliberate Linux hardware adapter and must remain isolated.",
+      "line": 146,
+      "match": "EVIOCGABS",
+      "path": "port/z6s/src/z6s_input.cpp",
+      "rule_id": "direct-linux-input",
+      "severity": "high",
+      "title": "Direct Linux evdev integration"
+    },
+    {
+      "category": "input",
+      "excerpt": "if(ioctl(fd, EVIOCGABS(d.ycode), &d.yi) < 0)",
+      "guidance": "This is a deliberate Linux hardware adapter and must remain isolated.",
+      "line": 150,
+      "match": "EVIOCGABS",
+      "path": "port/z6s/src/z6s_input.cpp",
+      "rule_id": "direct-linux-input",
+      "severity": "high",
+      "title": "Direct Linux evdev integration"
+    },
+    {
+      "category": "configuration",
+      "excerpt": "if(getenv(\"Z6S_TOUCH_SWAP_XY\")) { int t = x; x = y; y = t; }",
+      "guidance": "Record the variable in the target profile and user documentation.",
+      "line": 264,
+      "match": "getenv(",
+      "path": "port/z6s/src/z6s_input.cpp",
+      "rule_id": "environment-configuration",
+      "severity": "low",
+      "title": "Environment-driven target switch"
+    },
+    {
+      "category": "configuration",
+      "excerpt": "if(getenv(\"Z6S_TOUCH_INVERT_X\")) x = 319 - x;",
+      "guidance": "Record the variable in the target profile and user documentation.",
+      "line": 265,
+      "match": "getenv(",
+      "path": "port/z6s/src/z6s_input.cpp",
+      "rule_id": "environment-configuration",
+      "severity": "low",
+      "title": "Environment-driven target switch"
+    },
+    {
+      "category": "configuration",
+      "excerpt": "if(getenv(\"Z6S_TOUCH_INVERT_Y\")) y = 199 - y;",
+      "guidance": "Record the variable in the target profile and user documentation.",
+      "line": 266,
+      "match": "getenv(",
+      "path": "port/z6s/src/z6s_input.cpp",
+      "rule_id": "environment-configuration",
+      "severity": "low",
+      "title": "Environment-driven target switch"
+    },
+    {
+      "category": "hardware-boundary",
+      "excerpt": "JOBS=\"${JOBS:-$(nproc 2>/dev/null || echo 2)}\"",
+      "guidance": "Bind this path to a target profile or document why it is invariant.",
+      "line": 10,
+      "match": "/dev/null",
+      "path": "scripts/build_z6s.sh",
+      "rule_id": "absolute-kernel-path",
+      "severity": "high",
+      "title": "Absolute kernel interface path"
+    },
+    {
+      "category": "hardware-boundary",
+      "excerpt": "command -v \"$tool\" >/dev/null || {",
+      "guidance": "Bind this path to a target profile or document why it is invariant.",
+      "line": 37,
+      "match": "/dev/null",
+      "path": "scripts/build_z6s.sh",
+      "rule_id": "absolute-kernel-path",
+      "severity": "high",
+      "title": "Absolute kernel interface path"
+    },
+    {
+      "category": "build",
+      "excerpt": "ARCH_FLAGS=\"-march=armv5te -mtune=arm926ej-s -mfloat-abi=soft\"",
+      "guidance": "The build deliberately targets an old ABI and language mode.",
+      "line": 43,
+      "match": "-march=armv5te",
+      "path": "scripts/build_z6s.sh",
+      "rule_id": "legacy-compiler-contract",
+      "severity": "medium",
+      "title": "Legacy ABI/compiler contract"
+    },
+    {
+      "category": "hardware-boundary",
+      "excerpt": "[ \"$(cat \"$SDL_BUILD/.z6s-config-tag\" 2>/dev/null || true)\" != \"$SDL_CONFIG_TAG\" ]; then",
+      "guidance": "Bind this path to a target profile or document why it is invariant.",
+      "line": 68,
+      "match": "/dev/null",
+      "path": "scripts/build_z6s.sh",
+      "rule_id": "absolute-kernel-path",
+      "severity": "high",
+      "title": "Absolute kernel interface path"
+    },
+    {
+      "category": "build",
+      "excerpt": "\"${CROSS}g++\" $COMMON_FLAGS -std=gnu++98 -fno-exceptions \\",
+      "guidance": "The build deliberately targets an old ABI and language mode.",
+      "line": 140,
+      "match": "-std=gnu++98",
+      "path": "scripts/build_z6s.sh",
+      "rule_id": "legacy-compiler-contract",
+      "severity": "medium",
+      "title": "Legacy ABI/compiler contract"
+    },
+    {
+      "category": "build",
+      "excerpt": "-fno-rtti \"${INCLUDES[@]}\" \"${DEFINES[@]}\" -c \"$src\" -o \"$out\"",
+      "guidance": "The build deliberately targets an old ABI and language mode.",
+      "line": 141,
+      "match": "-fno-rtti",
+      "path": "scripts/build_z6s.sh",
+      "rule_id": "legacy-compiler-contract",
+      "severity": "medium",
+      "title": "Legacy ABI/compiler contract"
+    },
+    {
+      "category": "rendering",
+      "excerpt": "--resf 320 200 --bits 32 --nodblbuf --joystick -1 \\",
+      "guidance": "Treat logical and native dimensions as separate target constraints.",
+      "line": 39,
+      "match": "320 200",
+      "path": "scripts/test_qemu.sh",
+      "rule_id": "fixed-render-dimensions",
+      "severity": "low",
+      "title": "Fixed logical or native dimensions"
+    },
+    {
+      "category": "filesystem",
+      "excerpt": "ROOT=/mnt/extsd/wolf3d",
+      "guidance": "The deployment assumes a firmware-specific mount point.",
+      "line": 3,
+      "match": "/mnt/extsd/wolf3d",
+      "path": "sdcard/wolf3d/disable_autostart.sh",
+      "rule_id": "mount-layout",
+      "severity": "medium",
+      "title": "Fixed mount layout"
+    },
+    {
+      "category": "filesystem",
+      "excerpt": "BUSYBOX=/mnt/extsd/busybox",
+      "guidance": "The deployment assumes a firmware-specific mount point.",
+      "line": 4,
+      "match": "/mnt/extsd/busybox",
+      "path": "sdcard/wolf3d/disable_autostart.sh",
+      "rule_id": "mount-layout",
+      "severity": "medium",
+      "title": "Fixed mount layout"
+    },
+    {
+      "category": "filesystem",
+      "excerpt": "\"$BUSYBOX\" cp \"$ROOT/EasyUI.safe.cfg\" /mnt/extsd/EasyUI.cfg",
+      "guidance": "The deployment assumes a firmware-specific mount point.",
+      "line": 7,
+      "match": "/mnt/extsd/EasyUI.cfg",
+      "path": "sdcard/wolf3d/disable_autostart.sh",
+      "rule_id": "mount-layout",
+      "severity": "medium",
+      "title": "Fixed mount layout"
+    },
+    {
+      "category": "hardware-boundary",
+      "excerpt": "\"$BUSYBOX\" killall wolf3d-z6s-wl1 2>/dev/null || true",
+      "guidance": "Bind this path to a target profile or document why it is invariant.",
+      "line": 8,
+      "match": "/dev/null",
+      "path": "sdcard/wolf3d/disable_autostart.sh",
+      "rule_id": "absolute-kernel-path",
+      "severity": "high",
+      "title": "Absolute kernel interface path"
+    },
+    {
+      "category": "hardware-boundary",
+      "excerpt": "\"$BUSYBOX\" killall wolf3d-z6s-wl6 2>/dev/null || true",
+      "guidance": "Bind this path to a target profile or document why it is invariant.",
+      "line": 9,
+      "match": "/dev/null",
+      "path": "sdcard/wolf3d/disable_autostart.sh",
+      "rule_id": "absolute-kernel-path",
+      "severity": "high",
+      "title": "Absolute kernel interface path"
+    },
+    {
+      "category": "hardware-boundary",
+      "excerpt": "for pid in $(\"$BUSYBOX\" pidof zkgui 2>/dev/null); do",
+      "guidance": "Bind this path to a target profile or document why it is invariant.",
+      "line": 10,
+      "match": "/dev/null",
+      "path": "sdcard/wolf3d/disable_autostart.sh",
+      "rule_id": "absolute-kernel-path",
+      "severity": "high",
+      "title": "Absolute kernel interface path"
+    },
+    {
+      "category": "hardware-boundary",
+      "excerpt": "\"$BUSYBOX\" kill -CONT \"$pid\" 2>/dev/null || true",
+      "guidance": "Bind this path to a target profile or document why it is invariant.",
+      "line": 11,
+      "match": "/dev/null",
+      "path": "sdcard/wolf3d/disable_autostart.sh",
+      "rule_id": "absolute-kernel-path",
+      "severity": "high",
+      "title": "Absolute kernel interface path"
+    },
+    {
+      "category": "runtime-integration",
+      "excerpt": "\"$BUSYBOX\" kill -CONT \"$pid\" 2>/dev/null || true",
+      "guidance": "The launcher temporarily owns hardware also used by the vendor HMI.",
+      "line": 11,
+      "match": "kill -CONT",
+      "path": "sdcard/wolf3d/disable_autostart.sh",
+      "rule_id": "process-control",
+      "severity": "high",
+      "title": "Vendor process suspension"
+    },
+    {
+      "category": "filesystem",
+      "excerpt": "ROOT=/mnt/extsd/wolf3d",
+      "guidance": "The deployment assumes a firmware-specific mount point.",
+      "line": 3,
+      "match": "/mnt/extsd/wolf3d",
+      "path": "sdcard/wolf3d/enable_autostart.sh",
+      "rule_id": "mount-layout",
+      "severity": "medium",
+      "title": "Fixed mount layout"
+    },
+    {
+      "category": "filesystem",
+      "excerpt": "BUSYBOX=/mnt/extsd/busybox",
+      "guidance": "The deployment assumes a firmware-specific mount point.",
+      "line": 4,
+      "match": "/mnt/extsd/busybox",
+      "path": "sdcard/wolf3d/enable_autostart.sh",
+      "rule_id": "mount-layout",
+      "severity": "medium",
+      "title": "Fixed mount layout"
+    },
+    {
+      "category": "filesystem",
+      "excerpt": "\"$BUSYBOX\" cp \"$ROOT/EasyUI.wolf3d_autostart.cfg\" /mnt/extsd/EasyUI.cfg",
+      "guidance": "The deployment assumes a firmware-specific mount point.",
+      "line": 7,
+      "match": "/mnt/extsd/EasyUI.cfg",
+      "path": "sdcard/wolf3d/enable_autostart.sh",
+      "rule_id": "mount-layout",
+      "severity": "medium",
+      "title": "Fixed mount layout"
+    },
+    {
+      "category": "filesystem",
+      "excerpt": "ROOT=/mnt/extsd/wolf3d",
+      "guidance": "The deployment assumes a firmware-specific mount point.",
+      "line": 4,
+      "match": "/mnt/extsd/wolf3d",
+      "path": "sdcard/wolf3d/run_wolf3d.sh",
+      "rule_id": "mount-layout",
+      "severity": "medium",
+      "title": "Fixed mount layout"
+    },
+    {
+      "category": "filesystem",
+      "excerpt": "BUSYBOX=/mnt/extsd/busybox",
+      "guidance": "The deployment assumes a firmware-specific mount point.",
+      "line": 5,
+      "match": "/mnt/extsd/busybox",
+      "path": "sdcard/wolf3d/run_wolf3d.sh",
+      "rule_id": "mount-layout",
+      "severity": "medium",
+      "title": "Fixed mount layout"
+    },
+    {
+      "category": "hardware-boundary",
+      "excerpt": "if ! \"$BUSYBOX\" pidof zkgui >/dev/null 2>&1; then",
+      "guidance": "Bind this path to a target profile or document why it is invariant.",
+      "line": 19,
+      "match": "/dev/null",
+      "path": "sdcard/wolf3d/run_wolf3d.sh",
+      "rule_id": "absolute-kernel-path",
+      "severity": "high",
+      "title": "Absolute kernel interface path"
+    },
+    {
+      "category": "hardware-boundary",
+      "excerpt": "for pid in $(\"$BUSYBOX\" pidof zkgui 2>/dev/null); do",
+      "guidance": "Bind this path to a target profile or document why it is invariant.",
+      "line": 28,
+      "match": "/dev/null",
+      "path": "sdcard/wolf3d/run_wolf3d.sh",
+      "rule_id": "absolute-kernel-path",
+      "severity": "high",
+      "title": "Absolute kernel interface path"
+    },
+    {
+      "category": "runtime-integration",
+      "excerpt": "\"$BUSYBOX\" kill -STOP \"$pid\" >> \"$LOG\" 2>&1 || true",
+      "guidance": "The launcher temporarily owns hardware also used by the vendor HMI.",
+      "line": 30,
+      "match": "kill -STOP",
+      "path": "sdcard/wolf3d/run_wolf3d.sh",
+      "rule_id": "process-control",
+      "severity": "high",
+      "title": "Vendor process suspension"
+    },
+    {
+      "category": "hardware-boundary",
+      "excerpt": "for pid in $(\"$BUSYBOX\" pidof zkgui 2>/dev/null); do",
+      "guidance": "Bind this path to a target profile or document why it is invariant.",
+      "line": 36,
+      "match": "/dev/null",
+      "path": "sdcard/wolf3d/run_wolf3d.sh",
+      "rule_id": "absolute-kernel-path",
+      "severity": "high",
+      "title": "Absolute kernel interface path"
+    },
+    {
+      "category": "runtime-integration",
+      "excerpt": "\"$BUSYBOX\" kill -CONT \"$pid\" >> \"$LOG\" 2>&1 || true",
+      "guidance": "The launcher temporarily owns hardware also used by the vendor HMI.",
+      "line": 38,
+      "match": "kill -CONT",
+      "path": "sdcard/wolf3d/run_wolf3d.sh",
+      "rule_id": "process-control",
+      "severity": "high",
+      "title": "Vendor process suspension"
+    },
+    {
+      "category": "hardware-boundary",
+      "excerpt": "for gov in /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor; do",
+      "guidance": "Bind this path to a target profile or document why it is invariant.",
+      "line": 45,
+      "match": "/sys/devices/system/cpu/cpu*/cpufreq/scaling_governor",
+      "path": "sdcard/wolf3d/run_wolf3d.sh",
+      "rule_id": "absolute-kernel-path",
+      "severity": "high",
+      "title": "Absolute kernel interface path"
+    },
+    {
+      "category": "hardware-boundary",
+      "excerpt": "old=$(\"$BUSYBOX\" cat \"$gov\" 2>/dev/null || echo unknown)",
+      "guidance": "Bind this path to a target profile or document why it is invariant.",
+      "line": 47,
+      "match": "/dev/null",
+      "path": "sdcard/wolf3d/run_wolf3d.sh",
+      "rule_id": "absolute-kernel-path",
+      "severity": "high",
+      "title": "Absolute kernel interface path"
+    },
+    {
+      "category": "hardware-boundary",
+      "excerpt": "date >> \"$LOG\" 2>/dev/null || true",
+      "guidance": "Bind this path to a target profile or document why it is invariant.",
+      "line": 74,
+      "match": "/dev/null",
+      "path": "sdcard/wolf3d/run_wolf3d.sh",
+      "rule_id": "absolute-kernel-path",
+      "severity": "high",
+      "title": "Absolute kernel interface path"
+    },
+    {
+      "category": "hardware-boundary",
+      "excerpt": "\"$BUSYBOX\" chmod 666 /dev/fb0 /dev/input/event* >> \"$LOG\" 2>&1 || true",
+      "guidance": "Bind this path to a target profile or document why it is invariant.",
+      "line": 102,
+      "match": "/dev/fb0",
+      "path": "sdcard/wolf3d/run_wolf3d.sh",
+      "rule_id": "absolute-kernel-path",
+      "severity": "high",
+      "title": "Absolute kernel interface path"
+    },
+    {
+      "category": "input",
+      "excerpt": "\"$BUSYBOX\" chmod 666 /dev/fb0 /dev/input/event* >> \"$LOG\" 2>&1 || true",
+      "guidance": "This is a deliberate Linux hardware adapter and must remain isolated.",
+      "line": 102,
+      "match": "/dev/input/",
+      "path": "sdcard/wolf3d/run_wolf3d.sh",
+      "rule_id": "direct-linux-input",
+      "severity": "high",
+      "title": "Direct Linux evdev integration"
+    },
+    {
+      "category": "hardware-boundary",
+      "excerpt": "FB_SIZE=$(\"$BUSYBOX\" cat /sys/class/graphics/fb0/virtual_size 2>/dev/null || echo unknown)",
+      "guidance": "Bind this path to a target profile or document why it is invariant.",
+      "line": 103,
+      "match": "/sys/class/graphics/fb0/virtual_size",
+      "path": "sdcard/wolf3d/run_wolf3d.sh",
+      "rule_id": "absolute-kernel-path",
+      "severity": "high",
+      "title": "Absolute kernel interface path"
+    },
+    {
+      "category": "hardware-boundary",
+      "excerpt": "FB_BPP=$(\"$BUSYBOX\" cat /sys/class/graphics/fb0/bits_per_pixel 2>/dev/null || echo unknown)",
+      "guidance": "Bind this path to a target profile or document why it is invariant.",
+      "line": 104,
+      "match": "/sys/class/graphics/fb0/bits_per_pixel",
+      "path": "sdcard/wolf3d/run_wolf3d.sh",
+      "rule_id": "absolute-kernel-path",
+      "severity": "high",
+      "title": "Absolute kernel interface path"
+    },
+    {
+      "category": "rendering",
+      "excerpt": "export SDL_VIDEODRIVER=fbcon",
+      "guidance": "Legacy SDL video paths often require mode, pitch, and pixel-format checks.",
+      "line": 109,
+      "match": "SDL_VIDEODRIVER=fbcon",
+      "path": "sdcard/wolf3d/run_wolf3d.sh",
+      "rule_id": "sdl12-framebuffer-api",
+      "severity": "medium",
+      "title": "SDL 1.2 framebuffer presentation"
+    },
+    {
+      "category": "hardware-boundary",
+      "excerpt": "export SDL_FBDEV=/dev/fb0",
+      "guidance": "Bind this path to a target profile or document why it is invariant.",
+      "line": 110,
+      "match": "/dev/fb0",
+      "path": "sdcard/wolf3d/run_wolf3d.sh",
+      "rule_id": "absolute-kernel-path",
+      "severity": "high",
+      "title": "Absolute kernel interface path"
+    },
+    {
+      "category": "configuration",
+      "excerpt": "export Z6S_FORCE_OPAQUE=1",
+      "guidance": "Record the variable in the target profile and user documentation.",
+      "line": 115,
+      "match": "export Z6S_FORCE_OPAQUE=",
+      "path": "sdcard/wolf3d/run_wolf3d.sh",
+      "rule_id": "environment-configuration",
+      "severity": "low",
+      "title": "Environment-driven target switch"
+    },
+    {
+      "category": "configuration",
+      "excerpt": "export Z6S_NATIVE_WIDTH=480",
+      "guidance": "Record the variable in the target profile and user documentation.",
+      "line": 116,
+      "match": "export Z6S_NATIVE_WIDTH=",
+      "path": "sdcard/wolf3d/run_wolf3d.sh",
+      "rule_id": "environment-configuration",
+      "severity": "low",
+      "title": "Environment-driven target switch"
+    },
+    {
+      "category": "rendering",
+      "excerpt": "export Z6S_NATIVE_WIDTH=480",
+      "guidance": "Treat logical and native dimensions as separate target constraints.",
+      "line": 116,
+      "match": "Z6S_NATIVE_WIDTH",
+      "path": "sdcard/wolf3d/run_wolf3d.sh",
+      "rule_id": "fixed-render-dimensions",
+      "severity": "low",
+      "title": "Fixed logical or native dimensions"
+    },
+    {
+      "category": "configuration",
+      "excerpt": "export Z6S_NATIVE_HEIGHT=272",
+      "guidance": "Record the variable in the target profile and user documentation.",
+      "line": 117,
+      "match": "export Z6S_NATIVE_HEIGHT=",
+      "path": "sdcard/wolf3d/run_wolf3d.sh",
+      "rule_id": "environment-configuration",
+      "severity": "low",
+      "title": "Environment-driven target switch"
+    },
+    {
+      "category": "rendering",
+      "excerpt": "export Z6S_NATIVE_HEIGHT=272",
+      "guidance": "Treat logical and native dimensions as separate target constraints.",
+      "line": 117,
+      "match": "Z6S_NATIVE_HEIGHT",
+      "path": "sdcard/wolf3d/run_wolf3d.sh",
+      "rule_id": "fixed-render-dimensions",
+      "severity": "low",
+      "title": "Fixed logical or native dimensions"
+    },
+    {
+      "category": "configuration",
+      "excerpt": "export Z6S_METRICS_LOG=$ROOT/performance.log",
+      "guidance": "Record the variable in the target profile and user documentation.",
+      "line": 118,
+      "match": "export Z6S_METRICS_LOG=",
+      "path": "sdcard/wolf3d/run_wolf3d.sh",
+      "rule_id": "environment-configuration",
+      "severity": "low",
+      "title": "Environment-driven target switch"
+    },
+    {
+      "category": "configuration",
+      "excerpt": "export Z6S_FORCE_AUDIO=1",
+      "guidance": "Record the variable in the target profile and user documentation.",
+      "line": 119,
+      "match": "export Z6S_FORCE_AUDIO=",
+      "path": "sdcard/wolf3d/run_wolf3d.sh",
+      "rule_id": "environment-configuration",
+      "severity": "low",
+      "title": "Environment-driven target switch"
+    },
+    {
+      "category": "hardware-boundary",
+      "excerpt": "export Z6S_ALSA_PCM=/dev/snd/pcmC0D0p",
+      "guidance": "Bind this path to a target profile or document why it is invariant.",
+      "line": 120,
+      "match": "/dev/snd/pcmC0D0p",
+      "path": "sdcard/wolf3d/run_wolf3d.sh",
+      "rule_id": "absolute-kernel-path",
+      "severity": "high",
+      "title": "Absolute kernel interface path"
+    },
+    {
+      "category": "audio",
+      "excerpt": "export Z6S_ALSA_PCM=/dev/snd/pcmC0D0p",
+      "guidance": "PCM assumptions require target-specific validation and recovery.",
+      "line": 120,
+      "match": "/dev/snd/",
+      "path": "sdcard/wolf3d/run_wolf3d.sh",
+      "rule_id": "direct-alsa-pcm",
+      "severity": "high",
+      "title": "Direct ALSA/tinyalsa integration"
+    },
+    {
+      "category": "configuration",
+      "excerpt": "export Z6S_ALSA_PCM=/dev/snd/pcmC0D0p",
+      "guidance": "Record the variable in the target profile and user documentation.",
+      "line": 120,
+      "match": "export Z6S_ALSA_PCM=",
+      "path": "sdcard/wolf3d/run_wolf3d.sh",
+      "rule_id": "environment-configuration",
+      "severity": "low",
+      "title": "Environment-driven target switch"
+    },
+    {
+      "category": "configuration",
+      "excerpt": "export Z6S_TOUCH_INPUT=${Z6S_TOUCH_INPUT:-1}",
+      "guidance": "Record the variable in the target profile and user documentation.",
+      "line": 121,
+      "match": "export Z6S_TOUCH_INPUT=",
+      "path": "sdcard/wolf3d/run_wolf3d.sh",
+      "rule_id": "environment-configuration",
+      "severity": "low",
+      "title": "Environment-driven target switch"
+    },
+    {
+      "category": "hardware-boundary",
+      "excerpt": "if \"$BUSYBOX\" grep -q 'Handlers=.*kbd' /proc/bus/input/devices 2>/dev/null; then",
+      "guidance": "Bind this path to a target profile or document why it is invariant.",
+      "line": 124,
+      "match": "/proc/bus/input/devices",
+      "path": "sdcard/wolf3d/run_wolf3d.sh",
+      "rule_id": "absolute-kernel-path",
+      "severity": "high",
+      "title": "Absolute kernel interface path"
+    },
+    {
+      "category": "configuration",
+      "excerpt": "export Z6S_DEMO_MODE=0",
+      "guidance": "Record the variable in the target profile and user documentation.",
+      "line": 125,
+      "match": "export Z6S_DEMO_MODE=",
+      "path": "sdcard/wolf3d/run_wolf3d.sh",
+      "rule_id": "environment-configuration",
+      "severity": "low",
+      "title": "Environment-driven target switch"
+    },
+    {
+      "category": "configuration",
+      "excerpt": "export Z6S_DEMO_MODE=1",
+      "guidance": "Record the variable in the target profile and user documentation.",
+      "line": 128,
+      "match": "export Z6S_DEMO_MODE=",
+      "path": "sdcard/wolf3d/run_wolf3d.sh",
+      "rule_id": "environment-configuration",
+      "severity": "low",
+      "title": "Environment-driven target switch"
+    },
+    {
+      "category": "rendering",
+      "excerpt": "log \"Starting Wolf3D $EDITION: 320x200 logical -> 480x272 native, 32 bpp, 11025 Hz\"",
+      "guidance": "Treat logical and native dimensions as separate target constraints.",
+      "line": 131,
+      "match": "320x200",
+      "path": "sdcard/wolf3d/run_wolf3d.sh",
+      "rule_id": "fixed-render-dimensions",
+      "severity": "low",
+      "title": "Fixed logical or native dimensions"
+    },
+    {
+      "category": "rendering",
+      "excerpt": "\"$BIN\" --resf 320 200 --bits 32 --samplerate 11025 \\",
+      "guidance": "Treat logical and native dimensions as separate target constraints.",
+      "line": 132,
+      "match": "320 200",
+      "path": "sdcard/wolf3d/run_wolf3d.sh",
+      "rule_id": "fixed-render-dimensions",
+      "severity": "low",
+      "title": "Fixed logical or native dimensions"
+    },
+    {
+      "category": "filesystem",
+      "excerpt": "ROOT=/mnt/extsd/wolf3d",
+      "guidance": "The deployment assumes a firmware-specific mount point.",
+      "line": 3,
+      "match": "/mnt/extsd/wolf3d",
+      "path": "sdcard/wolf3d/test_once.sh",
+      "rule_id": "mount-layout",
+      "severity": "medium",
+      "title": "Fixed mount layout"
+    },
+    {
+      "category": "filesystem",
+      "excerpt": "BUSYBOX=/mnt/extsd/busybox",
+      "guidance": "The deployment assumes a firmware-specific mount point.",
+      "line": 4,
+      "match": "/mnt/extsd/busybox",
+      "path": "sdcard/wolf3d/test_once.sh",
+      "rule_id": "mount-layout",
+      "severity": "medium",
+      "title": "Fixed mount layout"
+    },
+    {
+      "category": "filesystem",
+      "excerpt": "echo \"One-shot test complete. See /mnt/extsd/wolf3d/wolf3d.log.\"",
+      "guidance": "The deployment assumes a firmware-specific mount point.",
+      "line": 9,
+      "match": "/mnt/extsd/wolf3d/wolf3d.log.",
+      "path": "sdcard/wolf3d/test_once.sh",
+      "rule_id": "mount-layout",
+      "severity": "medium",
+      "title": "Fixed mount layout"
+    }
+  ],
+  "generated_at": "2026-07-18T20:15:49Z",
+  "generator": "tools/retroport.py",
+  "interpretation_contract": {
+    "ai_role": "Explain, prioritize, and propose changes with citations.",
+    "facts": "Only fields in this report are deterministic evidence.",
+    "human_role": "Approve architecture, patches, hardware tests, and release."
+  },
+  "patches": [
+    {
+      "additions": 10,
+      "deletions": 0,
+      "file_count": 1,
+      "files": [
+        "src/video/fbcon/SDL_fbevents.c"
+      ],
+      "hunks": 2,
+      "path": "patches/sdl12-z6s.patch",
+      "sha256": "dfe61dd8f870bcbee07683b8bddd83dc9c71a21bcaf677d9752164cbb060e7fa"
+    },
+    {
+      "additions": 5,
+      "deletions": 1,
+      "file_count": 1,
+      "files": [
+        "src/pcm.c"
+      ],
+      "hunks": 1,
+      "path": "patches/tinyalsa-no-plugins.patch",
+      "sha256": "33de0033fd76c5a5d33f2be1f54f6a39e89483a4139db70c110bfa3d6ca05169"
+    },
+    {
+      "additions": 195,
+      "deletions": 18,
+      "file_count": 4,
+      "files": [
+        "id_vh.cpp",
+        "id_vl.cpp",
+        "id_vl.h",
+        "wl_draw.cpp"
+      ],
+      "hunks": 14,
+      "path": "patches/wolf4sdl-z6s-native-video.patch",
+      "sha256": "f905c05886dfc07cbd71c35b3609d0b036d329329befccb527c27c4398d3cdf6"
+    },
+    {
+      "additions": 189,
+      "deletions": 1,
+      "file_count": 7,
+      "files": [
+        "id_in.cpp",
+        "id_sd.cpp",
+        "id_vh.cpp",
+        "id_vl.cpp",
+        "id_vl.h",
+        "wl_main.cpp",
+        "wl_menu.cpp"
+      ],
+      "hunks": 19,
+      "path": "patches/wolf4sdl-z6s.patch",
+      "sha256": "a7c7b0de6c0eaedc7f8bc90c2c4ef770624b0862485199158eca253bbe3455f1"
+    }
+  ],
+  "project": {
+    "case_study": "Wolfenstein 3D on NOVA3D Z6S",
+    "name": "RetroPort AI",
+    "target": "Linux ARMv5TE soft-float embedded framebuffer device"
+  },
+  "release_check": {
+    "files_checked": 64,
+    "mode": "git-tracked",
+    "passed": true,
+    "violations": []
+  },
+  "schema_version": 1,
+  "source_metrics": {
+    "bytes": 70100,
+    "files": 18,
+    "files_by_extension": {
+      ".c": 1,
+      ".cpp": 2,
+      ".h": 2,
+      ".patch": 4,
+      ".sh": 9
+    },
+    "lines": 2381,
+    "nonblank_lines": 2163,
+    "roots": [
+      "patches",
+      "port",
+      "scripts",
+      "sdcard"
+    ]
+  }
+}

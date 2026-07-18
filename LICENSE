@@ -5,7 +5,8 @@ The original RetroPort AI tooling, documentation, Z6S integration code, and
 patches in this repository are distributed under the GNU General Public
 License, version 2 only (GPL-2.0-only).
 
-The full license text is available from the Free Software Foundation at:
+The full license text is included in `COPYING` and is also available from the
+Free Software Foundation at:
 https://www.gnu.org/licenses/old-licenses/gpl-2.0.txt
 
 This license does not grant rights to Wolfenstein 3D game data, trademarks,
@@ -16,4 +17,3 @@ THIRD_PARTY_NOTICES.md.
 This program is distributed in the hope that it will be useful, but WITHOUT
 ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
 FOR A PARTICULAR PURPOSE. See the GNU General Public License for details.
-

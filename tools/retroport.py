@@ -354,7 +354,7 @@ def markdown_report(report: dict[str, Any]) -> str:
     lines = [
         "# RetroPort AI evidence report",
         "",
-        f"Generated: `{report['generated_at']}`  ",
+        f"Generated: `{report['generated_at']}`",
         f"Target: {report['project'].get('target') or 'not specified'}",
         "",
         "## Deterministic scope",

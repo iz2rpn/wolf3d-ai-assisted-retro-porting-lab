@@ -1,59 +1,57 @@
-# 2. Architettura del port
+# 2. Target port architecture
 
-## Flusso di avvio
+## Boot flow
 
-1. EasyUI legge `/mnt/extsd/EasyUI.cfg`.
-2. Carica `libwolf_autostart.so` come libreria di startup.
-3. Il proxy carica l’originale `/res/lib/libzkgui.so` e inoltra la chiamata
-   `onEasyUIInit`, quindi non salta l’inizializzazione hardware del produttore.
-4. Un processo figlio attende otto secondi ed esegue `run_wolf3d.sh` con
-   BusyBox.
-5. Lo script sospende `zkgui` con `SIGSTOP`, imposta la CPU su `performance` e
-   avvia Wolf3D.
-6. All’uscita ripristina il governor e invia `SIGCONT` all’HMI.
+1. EasyUI reads `/mnt/extsd/EasyUI.cfg`.
+2. It loads `libwolf_autostart.so` as a startup library.
+3. The proxy loads the original `/res/lib/libzkgui.so` and forwards
+   `onEasyUIInit`, preserving vendor hardware initialization.
+4. A child waits eight seconds and starts `run_wolf3d.sh` with BusyBox.
+5. The launcher pauses `zkgui`, temporarily selects the performance governor,
+   detects data/input policy, and starts Wolf4SDL.
+6. On exit it restores the previous governor and resumes the HMI.
 
-Il firmware interno non viene modificato. Se la SD viene rimossa a display
-spento, torna il normale avvio interno.
+Internal firmware is not modified. Removing the SD while powered off restores
+the appliance's normal internal boot path.
 
-## Albero importante
+## Source layout
 
 ```text
 reconstructed_wolf3d/
-├── docs/                       guida del port
-├── patches/                    modifiche riproducibili agli upstream
-├── port/z6s/
-│   ├── autostart/              proxy EasyUI senza libc
-│   ├── include/SDL_mixer.h     API minima richiesta da Wolf4SDL
-│   └── src/
-│       ├── sdl_mixer_z6s.cpp   mixer + tinyalsa sincrono
-│       └── z6s_input.cpp       tastiera e touch evdev
-├── scripts/
-│   ├── fetch_sources.sh        clone, commit pin e patch
-│   └── build_z6s.sh            cross-build completo
-├── sdcard/                     contenuto da copiare sulla SD
-└── third_party/
-    ├── id-wolf3d/              sorgente DOS ufficiale, riferimento
-    ├── wolf4sdl/               motore effettivamente compilato
-    ├── SDL-1.2.15/             framebuffer Linux
-    └── tinyalsa/               accesso PCM minimale
+|-- .codex/skills/retroport-ai/  GPT-5.6/Codex workflow
+|-- docs/                        target engineering notes
+|-- patches/                     reproducible upstream adaptations
+|-- port/z6s/
+|   |-- autostart/               libc-free EasyUI proxy
+|   |-- include/SDL_mixer.h      minimal required mixer API
+|   `-- src/
+|       |-- sdl_mixer_z6s.cpp    synchronous mixer and tinyalsa pump
+|       `-- z6s_input.cpp        evdev keyboard and touch
+|-- scripts/                     fetch, build, verify, and QEMU checks
+|-- tools/retroport.py           deterministic evidence tool
+|-- sdcard/                      public launcher/config skeleton only
+`-- third_party/                 ignored reconstructed upstream trees
 ```
 
-## Perché Wolf4SDL e non il sorgente DOS direttamente
+## Why Wolf4SDL
 
-Il repository id conserva il codice originale DOS, con assembly x86, VGA,
-interrupt e Sound Blaster. È prezioso per studiare il motore, ma non è una base
-direttamente eseguibile su ARM/Linux. Wolf4SDL ha già sostituito quei livelli
-con C/C++ e SDL, lasciandoci concentrare sulle quattro interfacce specifiche
-del dispositivo: video, input, audio e avvio.
+The id Software source preserves the original DOS implementation, including x86
+assembly, VGA, interrupts, and Sound Blaster code. It is invaluable reference
+material but not a direct ARM/Linux base. Wolf4SDL already replaces those
+interfaces with portable C/C++ and SDL, keeping the Z6S changes focused on
+video, input, audio, and boot.
 
-## Commit fissati
+## Fixed upstream revisions
 
-| Progetto | Commit |
+| Project | Commit |
 |---|---|
 | Wolf4SDL | `3d41ccce8f8fecbed83aa9d8d42734c2c7e62374` |
 | id Software wolf3d | `05167784ef009d0d0daefe8d012b027f39dc8541` |
 | SDL 1.2 | `457d4e55ffe1b6ad4c4fa4559dbda8360bf8253d` |
 | tinyalsa | `e43025bbf702eb7dd8edd48c1eb50530c60f1de8` |
 
-Per ricreare `third_party` da zero si usa `scripts/fetch_sources.sh`. Lo script
-si rifiuta di sovrascrivere un checkout posto su un commit diverso.
+Run `scripts/fetch_sources.sh` to recreate `third_party`. It refuses to overwrite
+a checkout on an unexpected commit. Run `scripts/verify_patches.sh` to confirm
+the patch stack reproduces the expected semantic modifications.
+
+For the product-level architecture, see [../ARCHITECTURE.md](../ARCHITECTURE.md).

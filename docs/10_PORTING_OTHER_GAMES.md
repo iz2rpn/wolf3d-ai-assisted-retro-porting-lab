@@ -1,88 +1,84 @@
-# 10. Metodo per compilare altri giochi open source
+# 10. Porting other open-source games
 
-## 1. Separare motore e dati
+## 1. Separate engine from assets
 
-Prima di compilare, identificare:
+Identify the code license, asset license and format, runtime dependencies, and
+supported architectures before compiling. An open-source engine does not make
+ROMs, WADs, PAKs, or commercial data redistributable. Prefer fully libre assets
+or data the user supplies locally.
 
-- licenza del codice;
-- licenza e formato degli asset;
-- dipendenze grafiche/audio/input;
-- architetture già supportate.
+## 2. Find an existing portable substrate
 
-Un motore open source non rende automaticamente liberi ROM, WAD, PAK o dati
-commerciali. Preferire giochi con shareware ufficiale o asset liberi.
+Directly porting the DOS Wolf3D source would require replacing x86 assembly,
+VGA, interrupts, and Sound Blaster access. Wolf4SDL had already isolated those
+layers. For another game, prefer an existing software-rendered Linux/SDL port
+over a modern OpenGL-only engine.
 
-## 2. Cercare un port Linux/SDL esistente
-
-Portare il codice DOS originale di Wolf3D avrebbe richiesto riscrivere VGA,
-assembly x86 e interrupt. Wolf4SDL aveva già isolato la piattaforma. Per un
-nuovo gioco cercare una base SDL 1.2, framebuffer Linux o software renderer,
-evitando motori che richiedono OpenGL ES moderno.
-
-## 3. Definire il contratto del target
-
-Riutilizzare questa scheda:
+## 3. Write the target contract
 
 ```text
 CPU: ARMv5TE, soft-float
 OS: Linux 3.10.65
-libc app standalone: irrilevante se link statico
+standalone ABI: static executable
 video: /dev/fb0, 480x272x32
 input: evdev
 audio: ALSA pcmC0D0p
-budget consigliato: 320x200, 11/22 kHz, pochi thread
+starting budget: 320x200, 11/22 kHz, few or no threads
 ```
 
-## 4. Costruire prima un binario statico minimo
+Use `retroport.toml` and `tools/retroport.py analyze` to turn this contract into
+versioned evidence rather than leaving it in chat history.
 
-Compilare un `--help` o una schermata piena, verificare con `readelf`, poi
-aggiungere dati, input e audio. Se si aggiungono tutte le periferiche insieme,
-un blocco nero non dice quale sottosistema è guasto.
+## 4. Build the smallest static executable first
 
-## 5. Creare quattro adapter piccoli
+Start with `--help` or one full-screen frame. Inspect the ABI with `readelf`,
+then add assets, input, and audio one subsystem at a time. A black screen after
+four simultaneous changes provides little diagnostic value.
 
-Mantenere separati:
+## 5. Keep four small adapters
 
-1. `platform_video` — modalità, pitch, pixel format, present;
-2. `platform_input` — evdev e mapping;
-3. `platform_audio` — formato PCM e pump;
-4. `platform_boot` — launcher e recupero.
+1. `platform_video`: mode, pitch, format, and present;
+2. `platform_input`: evdev discovery and mapping;
+3. `platform_audio`: PCM format and pump;
+4. `platform_boot`: launcher, cleanup, and recovery.
 
-Il motore deve conoscere il meno possibile del dispositivo. Le macro target
-vanno limitate ai punti d’integrazione, come `Z6S_TARGET` in questo progetto.
+The engine should know as little as possible about the appliance. Limit target
+macros to integration points.
 
-## 6. Rendere ogni modifica riproducibile
+## 6. Make changes reconstructable
 
-- fissare commit, non soltanto branch;
-- salvare patch applicabili con `git apply`;
-- mettere flag e lista sorgenti in uno script;
-- verificare ABI automaticamente;
-- annotare test riusciti e test ancora hardware.
+- pin exact commits, not branches;
+- store patches that apply to a clean tree;
+- version compiler flags and source lists;
+- automate ABI checks;
+- distinguish QEMU, physical, and still-unknown results;
+- run a release guard against the Git index.
 
-## 7. Ottimizzare in ordine
+## 7. Optimize in evidence order
 
-1. ridurre risoluzione e profondità solo se necessaria;
-2. ridurre sample rate e canali;
-3. rimuovere backend inutili al link;
-4. preferire main loop semplice a thread su firmware ridotti;
-5. misurare CPU/RAM;
-6. solo dopo intervenire sugli algoritmi del gioco.
+1. establish a baseline;
+2. reduce logical resolution only when it matters;
+3. reduce sample rate/channels if audio is measured as costly;
+4. link out unused platform backends;
+5. avoid threads on fragile firmware unless justified;
+6. measure CPU/RAM/timing again;
+7. optimize engine algorithms last.
 
-## 8. Packaging sempre recuperabile
+## 8. Keep deployment reversible
 
-Non sostituire librerie in `/res` o `/bin`. Usare la SD, una configurazione
-esterna e uno script di stop. Ogni port dovrebbe poter essere disabilitato via
-ADB e semplicemente rimuovendo la SD a dispositivo spento.
+Do not replace internal `/res` or `/bin` files. Prefer external storage, a safe
+configuration, stop scripts, and removal after power-off. Every port should have
+an ADB recovery path and a documented rollback.
 
-## Checklist finale
+## Checklist
 
-- [ ] ELF ARMv5 soft-float corretto
-- [ ] niente dipendenze dinamiche non disponibili
-- [ ] dati legalmente posseduti e profilo corretto
-- [ ] avvio QEMU o test `--help`
-- [ ] framebuffer visibile e pitch rispettato
-- [ ] tastiera rilevata in `/proc/bus/input/devices`
-- [ ] touch disabilitabile
-- [ ] PCM apre senza underrun continuo
-- [ ] HMI e governor ripristinati in uscita
-- [ ] procedura di recupero provata
+- [ ] correct ARMv5 soft-float ELF
+- [ ] no unavailable dynamic dependencies
+- [ ] legally sourced, profile-compatible assets
+- [ ] QEMU or parser smoke test
+- [ ] visible framebuffer with correct pitch/format
+- [ ] keyboard capability visible to the kernel
+- [ ] touch can be disabled independently
+- [ ] PCM does not enter a repeated error loop
+- [ ] HMI and CPU governor restore on exit
+- [ ] release guard and recovery procedure pass
