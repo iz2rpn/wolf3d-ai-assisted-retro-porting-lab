@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "captured_at": "2026-07-18",
+  "state": "pre_retroport_ai_mvp",
+  "target": {
+    "cpu": "ARM926EJ-S",
+    "isa": "ARMv5TE",
+    "abi": "EABI5 soft-float",
+    "kernel": "Linux 3.10.65",
+    "display": "480x272x32",
+    "logical_render_size": "320x200",
+    "audio": "11025 Hz stereo"
+  },
+  "toolchain": {
+    "compiler_family": "arm-linux-gnueabi GCC",
+    "optimization": "-Os",
+    "linkage": "static",
+    "exact_compiler_version": "15.2.0"
+  },
+  "profiles": {
+    "wl1": {
+      "file_bytes": 1000384,
+      "text_bytes": 734604,
+      "rodata_bytes": 161466,
+      "bss_bytes": 275952,
+      "qemu_smoke_seconds": 20,
+      "qemu_result": "passed_by_expected_timeout"
+    },
+    "wl6": {
+      "file_bytes": 1000632,
+      "text_bytes": 735148,
+      "rodata_bytes": 161482,
+      "bss_bytes": 275856,
+      "qemu_smoke_seconds": 20,
+      "qemu_result": "passed_by_expected_timeout"
+    }
+  },
+  "physical_metrics": {
+    "fps": null,
+    "frame_time_ms": null,
+    "startup_time_ms": null,
+    "resident_memory_bytes": null,
+    "touch_latency_ms": null,
+    "dropped_frames": null,
+    "reason": "The current device build has not yet emitted repeatable timing and memory measurements."
+  },
+  "evidence": [
+    "arm-linux-gnueabi-size -A dist/z6s/wl1/wolf3d-z6s dist/z6s/wl6/wolf3d-z6s",
+    "arm-linux-gnueabi-readelf -h dist/z6s/wl6/wolf3d-z6s",
+    "scripts/test_qemu.sh"
+  ]
+}
