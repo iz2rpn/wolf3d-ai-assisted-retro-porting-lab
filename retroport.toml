@@ -1,0 +1,150 @@
+schema_version = 1
+
+[project]
+name = "RetroPort AI"
+case_study = "Wolfenstein 3D on NOVA3D Z6S"
+target = "Linux ARMv5TE soft-float embedded framebuffer device"
+source_roots = [
+  "port",
+  "scripts",
+  "patches",
+  "sdcard/wolf3d",
+]
+source_extensions = [".c", ".cc", ".cpp", ".h", ".hpp", ".sh", ".patch"]
+exclude_directories = [
+  ".git",
+  "build",
+  "dist",
+  "third_party",
+  "WOLF3D",
+  "__pycache__",
+]
+max_text_bytes = 1048576
+
+[release]
+required_files = [
+  "README.md",
+  "LICENSE",
+  "THIRD_PARTY_NOTICES.md",
+  "PROJECT_PLAN.md",
+]
+deny_globs = [
+  "*.WL1",
+  "*.WL6",
+  "WOLF3D.EXE",
+  "CONFIG.WL1",
+  "CONFIG.WL6",
+  "build/**",
+  "dist/**",
+  "third_party/**",
+  "WOLF3D/**",
+  "sdcard/busybox",
+  "sdcard/EasyUI.cfg",
+  "sdcard/gzui/**",
+  "sdcard/wolf3d/data/**",
+  "sdcard/wolf3d/libwolf_autostart.so",
+  "sdcard/wolf3d/wolf3d-z6s*",
+  "sdcard/wolf3d/MANIFEST.sha256",
+]
+
+[[release.deny_content]]
+id = "windows-user-path"
+regex = '(?i)[A-Z]:[\\/]Users[\\/][^\\/\s]+'
+message = "Private Windows user path appears in a tracked text file."
+
+[[release.deny_content]]
+id = "wsl-user-path"
+regex = '/mnt/[a-zA-Z]/Users/[^/\s]+'
+message = "Private WSL user path appears in a tracked text file."
+
+[[rules]]
+id = "absolute-kernel-path"
+title = "Absolute kernel interface path"
+category = "hardware-boundary"
+severity = "high"
+regex = '/(?:dev|sys|proc)/[A-Za-z0-9_.*?${}/-]+'
+message = "Bind this path to a target profile or document why it is invariant."
+
+[[rules]]
+id = "mount-layout"
+title = "Fixed mount layout"
+category = "filesystem"
+severity = "medium"
+regex = '/mnt/[A-Za-z0-9_.*?${}/-]+'
+message = "The deployment assumes a firmware-specific mount point."
+
+[[rules]]
+id = "direct-linux-input"
+title = "Direct Linux evdev integration"
+category = "input"
+severity = "high"
+regex = '(?:linux/input\.h|EVIOCGBIT|EVIOCGABS|ABS_MT_POSITION|/dev/input/)'
+message = "This is a deliberate Linux hardware adapter and must remain isolated."
+
+[[rules]]
+id = "direct-alsa-pcm"
+title = "Direct ALSA/tinyalsa integration"
+category = "audio"
+severity = "high"
+regex = '(?:pcm_open|pcm_writei|pcm_prepare|/dev/snd/)'
+message = "PCM assumptions require target-specific validation and recovery."
+
+[[rules]]
+id = "inline-arm-syscall"
+title = "ARM syscall or inline assembly"
+category = "abi"
+severity = "critical"
+regex = '(?:__asm__|\bSYS_(?:fork|execve|nanosleep|write|open)\b|\bsvc\s+0\b)'
+message = "This code is architecture- and kernel-ABI-specific."
+
+[[rules]]
+id = "sdl12-framebuffer-api"
+title = "SDL 1.2 framebuffer presentation"
+category = "rendering"
+severity = "medium"
+regex = '(?:SDL_SetVideoMode|SDL_Flip|SDL_BlitSurface|SDL_VIDEODRIVER=fbcon)'
+message = "Legacy SDL video paths often require mode, pitch, and pixel-format checks."
+
+[[rules]]
+id = "process-control"
+title = "Vendor process suspension"
+category = "runtime-integration"
+severity = "high"
+regex = '(?:kill\s+-(?:STOP|CONT)|SIGSTOP|SIGCONT)'
+message = "The launcher temporarily owns hardware also used by the vendor HMI."
+
+[[rules]]
+id = "environment-configuration"
+title = "Environment-driven target switch"
+category = "configuration"
+severity = "low"
+regex = '(?:getenv\(|export\s+Z6S_[A-Z0-9_]+=)'
+message = "Record the variable in the target profile and user documentation."
+
+[[rules]]
+id = "fixed-render-dimensions"
+title = "Fixed logical or native dimensions"
+category = "rendering"
+severity = "low"
+regex = '(?:320\s*[x×, ]\s*200|480\s*[x×, ]\s*272|Z6S_NATIVE_(?:WIDTH|HEIGHT))'
+message = "Treat logical and native dimensions as separate target constraints."
+
+[[rules]]
+id = "legacy-compiler-contract"
+title = "Legacy ABI/compiler contract"
+category = "build"
+severity = "medium"
+regex = '(?:-march=armv5te|-mfloat-abi=soft|-std=gnu\+\+98|-fno-exceptions|-fno-rtti)'
+message = "The build deliberately targets an old ABI and language mode."
+
+[benchmark]
+size_tools = ["arm-linux-gnueabi-size", "llvm-size", "size"]
+physical_metrics = [
+  "fps",
+  "frame_time_ms",
+  "startup_time_ms",
+  "resident_memory_bytes",
+  "touch_latency_ms",
+  "dropped_frames",
+]
+
